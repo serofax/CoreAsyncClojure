@@ -1,0 +1,28 @@
+-Einleitung (Tobi,Vince)
+-Grundlagen
+	-Blockierende nicht blockierende IO (Tobi)
+	-Asynchrone Programmierung im Vergleich
+		-Paradigmen
+			-JS (Tobi)
+			(-ClojureScript (Tobi))
+			-Java (Vince)
+			-Scala (Vince)
+			-Clojure (Zusammen)
+			(-C#)(Vince)	 
+			(-Future,Callback,Executionsservice,Threads, ...) (In Oben)
+			(-Vergleich)
+-Idee/Prinzip Core.Async
+	-Idee google go
+	-Blockieren und Parken
+	-Channels Puffer / dropping, sliding buffer / Synchron / Asynchron
+	-Go Blocks
+	-Filter Channel
+	-alt
+	-Vergleich zu anderen Paradigmen s.o.
+(-Komplexere Beispiele)
+-Fazit (Tobi)
+
+Frage:
+	Channel zu mehreren Clients / Netzwerk
+
+
