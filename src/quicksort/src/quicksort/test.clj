@@ -30,7 +30,7 @@ stop
                                         (async/>! (:outChannel newObj) v2)
                                         (recur v1 (async/<! (:inChannelRight newObj))))
       :else (do
-              (println "SEND EOS")
+              ;(println "SEND EOS")
               (async/>! (:outChannel newObj) :EOS))))
      newObj))
 
@@ -55,8 +55,6 @@ stop
 (defn logB [value]
   (/(Math/log value) (Math/log 2)))
 
-(quot 0 1)
-
 (defn roundUp [value]
   (if (zero? (mod value 1))
     value
@@ -66,44 +64,21 @@ stop
   (let [exitChannel (async/chan 100), endChannels (notelevel exitChannel (count l)), sortList (concat l (replicate (- (Math/pow 2(roundUp (logB (count l)))) (count l)) :EOS))]
     ;(println (count endChannels))
     ;(println sortList)
-    (loop [c endChannels, sorted sortList]
-      (if (not (zero? (count c)))
-         (do
-           ;(println "put" (first sorted) "in" (first c))
-           (async/>!! (first c) (first sorted))
-           (async/>!! (first c) :EOS)
-           (recur (rest c) (rest sorted))
-          )
-       )
-      )
+    (if (<= (count l)1)
+      l
+      (do
+        (doseq [[nextChannel nextElement] (map vector endChannels sortList)]
+          (async/>!! nextChannel nextElement)
+          (async/>!! nextChannel :EOS))
+          (take (count l) (iterate (fn[_](async/<!! exitChannel)) (async/<!! exitChannel)))))
+  ))
 
-    ;(map #((do (println %1 %2) (async/>!! %1 %2) (async/>!! %1 :EOS))) s sortList)
-
-    ;(println "inNoded" (async/<!! exitChannel) "moep")
-    ;(Thread/sleep 100)
-    (loop [result [], i 0]
-      (if (< i (count l))
-        (do
-          ;(println "result:" result i)
-          (recur (conj result (async/<!! exitChannel)) (inc i))
-          )
-
-        result
-        )
-      )
-    ))
-
-(quickSortWithNodes [9 7 5 1])
+(quickSortWithNodes [9])
 
 (defn randomSeqOneTo[n]
   (repeatedly #(inc(rand-int n))))
 
-(quickSortWithNodes (into [] (take 500 (randomSeqOneTo 10000))))
-
-
-
-
-
+(time (quickSortWithNodes (into [] (take 1000 (randomSeqOneTo 10000)))))
 
 (def exitChan (async/chan 100))
 (def node (sortNode exitChan))
