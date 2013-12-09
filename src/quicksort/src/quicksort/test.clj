@@ -66,11 +66,10 @@ stop
     ;(println sortList)
     (if (<= (count l)1)
       l
-      (do
-        (doseq [[nextChannel nextElement] (map vector endChannels sortList)]
-          (async/>!! nextChannel nextElement)
-          (async/>!! nextChannel :EOS))
-          (take (count l) (iterate (fn[_](async/<!! exitChannel)) (async/<!! exitChannel)))))
+      (doseq [[nextChannel nextElement] (map vector endChannels sortList)]
+        (async/>!! nextChannel nextElement)
+        (async/>!! nextChannel :EOS))
+        (take (count l) (iterate (fn[_](async/<!! exitChannel)) (async/<!! exitChannel))))
   ))
 
 (quickSortWithNodes [9])
