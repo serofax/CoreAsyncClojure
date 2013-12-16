@@ -1,0 +1,66 @@
+package de.thm.mni.vewg30.uitests.test4;
+
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.xml.stream.events.StartDocument;
+
+public class SimpleFrame {
+
+	/**
+	 * Works because we only have ONE eventhandler thread
+	 * 
+	 * @param event
+	 */
+	public static void alt(ActionEvent event, JButton button) {
+		switch (button.getText()) {
+		case "button1":
+			System.out.println("Button 1 pressed");
+			break;
+		case "button2":
+			System.out.println("Button 2 pressed");
+			break;
+		default:
+			break;
+		}
+	}
+
+	public static void main(String[] args) {
+		JFrame frame = new JFrame("Hello frame");
+		final JButton button1 = new JButton("button1");
+		final JButton button2 = new JButton("button2");
+		frame.setBounds(400, 400, 400, 400);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		// frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		frame.setLayout(new FlowLayout());
+		frame.add(button1);
+		frame.add(button2);
+		button1.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent event) {
+				alt(event, button1);
+				// eventhandler is blocked
+				new Thread(new Runnable() {
+					public void run() {
+						try {
+							Thread.sleep(10000);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+					}
+				}).start();
+			}
+		});
+		button2.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent event) {
+				alt(event, button2);
+			}
+		});
+
+		frame.setVisible(true);
+	}
+}

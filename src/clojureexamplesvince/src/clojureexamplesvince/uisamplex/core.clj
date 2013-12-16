@@ -1,5 +1,5 @@
 (ns clojureexamplesvince.uisamplex
-  (:require [clojure.core.async :as async :refer [<! <!! >!! >! chan close! timeout put! go alt! alts!]])
+  (:require [clojure.core.async :as async :refer [<! <!! >!! >! chan close! timeout put! go alt! alts! filter<]])
   (:import (javax.swing JFrame JButton)
            (java.awt FlowLayout)
            (java.awt.event ActionListener ActionEvent)))
@@ -17,7 +17,7 @@ stop
 
 
 ;Creates a jframe and button and use a channel to display clickevent
-(let [frame (new JFrame "Hello frame"),
+#_(let [frame (new JFrame "Hello frame"),
       button (new JButton "button")]
   (.setBounds frame 400 400 400 400)
   (.setDefaultCloseOperation frame (JFrame/DISPOSE_ON_CLOSE))
@@ -32,7 +32,7 @@ stop
 
 ;Similar like before. Now we have to buttons and we are listening with alts on events.
 
-(let [frame (new JFrame "Hello frame"),
+#_(let [frame (new JFrame "Hello frame"),
       button1 (new JButton "button 1"),
       button2 (new JButton "button 2")]
   (.setBounds frame 400 400 400 400)
@@ -50,9 +50,9 @@ stop
 
 
 
-;Similar like before. Now with alt!.
+;Now with alt!.
 
-(let [frame (new JFrame "Hello frame"),
+#_(let [frame (new JFrame "Hello frame"),
       button1 (new JButton "button 1"),
       button2 (new JButton "button 2")]
   (.setBounds frame 400 400 400 400)
@@ -69,9 +69,9 @@ stop
         eventchan2 ([value] (println "Button 2 pressed"))))))
   (.setVisible frame true))
 
-;now with a timeout
+;Now with a timeout
 
-(let [frame (new JFrame "Hello frame"),
+#_(let [frame (new JFrame "Hello frame"),
       button1 (new JButton "button 1"),
       button2 (new JButton "button 2")]
   (.setBounds frame 400 400 400 400)
@@ -90,7 +90,7 @@ stop
         (timeout 2000) ([_] (println "you are so slow"))))))
   (.setVisible frame true))
 
-(let [frame (new JFrame "Hello frame"),
+#_(let [frame (new JFrame "Hello frame"),
       button1 (new JButton "button 1"),
       button2 (new JButton "button 2")]
   (.setBounds frame 400 400 400 400)
@@ -109,8 +109,11 @@ stop
         (timeout 2000) ([_] (println "you are so slow"))))))
   (.setVisible frame true))
 
-(defn onlyIfCtrlIsPresses [in]
-  (async/filter< #(= (bit-and (.getModifiers %) (ActionEvent/CTRL_MASK)) (ActionEvent/CTRL_MASK) ) in))
+
+;Now we want to be notified from button 1 only if ctrl is pressed
+
+(defn onlyIfCtrlIsPressed [in]
+  (filter< #(= (bit-and (.getModifiers %) (ActionEvent/CTRL_MASK)) (ActionEvent/CTRL_MASK)) in))
 
 (let [frame (new JFrame "Hello frame"),
       button1 (new JButton "button 1"),
@@ -122,7 +125,7 @@ stop
   (.add frame button1)
   (.add frame button2)
   (go
-   (let [eventchan1 (onlyIfCtrlIsPresses(actionperformed-chan button1))
+   (let [eventchan1 (onlyIfCtrlIsPressed(actionperformed-chan button1))
          eventchan2 (actionperformed-chan button2)]
      (while true
        (alt!
