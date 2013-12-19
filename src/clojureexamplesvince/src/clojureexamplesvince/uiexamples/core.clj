@@ -1,10 +1,12 @@
-(ns clojureexamplesvince.uisamplex
+(ns clojureexamplesvince.uiexamples
   (:require [clojure.core.async :as async :refer [<! <!! >!! >! chan close! timeout put! go alt! alts! filter<]])
   (:import (javax.swing JFrame JButton)
            (java.awt FlowLayout)
            (java.awt.event ActionListener ActionEvent)))
 
 stop
+
+;(set! *warn-on-reflection* true)
 
 (defn actionperformed-chan [component]
   "Creates a actionlistener which puts events on a channel and bound the created actionlistener to a component."
@@ -17,7 +19,7 @@ stop
 
 
 ;Creates a jframe and button and use a channel to display clickevent
-#_(let [frame (new JFrame "Hello frame"),
+(let [frame (new JFrame "Hello frame"),
       button (new JButton "button")]
   (.setBounds frame 400 400 400 400)
   (.setDefaultCloseOperation frame (JFrame/DISPOSE_ON_CLOSE))
@@ -30,7 +32,7 @@ stop
 
 
 
-;Similar like before. Now we have to buttons and we are listening with alts on events.
+;Similar like the example before. Now we have to buttons and we are listening with alts on events.
 
 #_(let [frame (new JFrame "Hello frame"),
       button1 (new JButton "button 1"),

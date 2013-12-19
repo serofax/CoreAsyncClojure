@@ -82,7 +82,7 @@ stop
   (repeatedly #(inc(rand-int n))))
 
 (quickSortWithNodes (into [] (take 100 (randomSeqOneTo 10000))))
-(time (def ka (quickSortWithNodes (into [] (take 100000 (randomSeqOneTo 10000))))))
+(time (def ka (quickSortWithNodes (into [] (take 1000 (randomSeqOneTo 10000))))))
 
 (def exitChan (async/chan 100))
 (def node (sortNode exitChan))
