@@ -1,0 +1,15 @@
+ToDos core.async Deadline 12-24-2013:
+
+Tobi:
+
+Ein Beispiel für jeden API Befehl
+Finalisierung der JS/CLJ Beispiele für Prim- und Perfekte Zahle
+
+Vince:
+
+Beispiele Hoare Java / Clojure
+
+ToDos core.async Deadline 01-06-2014:
+
+- Wrap-Up Termin Montag A20 (9:00 Uhr ?)
+- Grundverständnis ClojureScript
