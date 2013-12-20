@@ -17,12 +17,18 @@
 (defn lazyPrimes[]
   (filter prime? (iterate inc 2)))
 
-(def c (chan))
+(defn chan-iterate[]
+  (let [result (chan)]
+    (go
+     (doseq [element (iterate inc 2)]
+       (>! result element)))
+    result))
 
-(onto-chan c (take 5 (lazyPrimes)))
+(defn chan-primes[]
+  (filter< prime? (chan-iterate)))
 
+
+(def c (chan-primes))
 
 
 (<!! c)
-
-(take 5 (lazyPrimes))
