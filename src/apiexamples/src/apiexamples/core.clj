@@ -108,8 +108,6 @@
    (Thread/sleep 100)
    (close! c)))))
 
-
-
 ; take
 (let [c (chan 12)]
   (dotimes[n 12]

@@ -1,12 +1,33 @@
 (ns prime.core)
+(require '[clojure.core.async :as async :refer [<! >! <!! >!! timeout chan alt! alts!! go thread filter< filter> put! close! buffer dropping-buffer sliding-buffer unblocking-buffer? go-loop]])
 
 (defn divides? [n m] (= (mod m n) 0))
 (defn dividers[n] (filter #(divides? % n) (range 1 n)))
 (defn prime?[n] (= (count (dividers n)) 1))
-(defn primes_seq[] (filter prime? (range)))
-(defn primes[n m] (filter prime? (range n m)))
+(defn lazyprimes[] (filter prime? (range)))
 
-(defn nextPrime[l] ())
+(defn nextPrime[p]
+  (loop [i 1]
+    (if (prime? (+ i p))
+      (+ i p)
+      (recur (inc i)))))
 
+; returns a channel containing n primes
+(defn asyncprimes[n]
+  (let [c (chan (buffer 100))]
+    (go-loop [d 0 lp 0]
+      (when (< d n)
+        (let[cp (nextPrime lp)]
+        (>! c cp)
+        (recur (inc d) cp)))
+        (close! c))
+  c))
 
-(time (primes 1 1000))
+(def primechannel (asyncprimes 200))
+
+(thread
+  (loop [val (<!! primechannel)]
+    (when (not= val nil)
+      (println val)
+      (recur (<!! primechannel))))
+    (println "END."))
