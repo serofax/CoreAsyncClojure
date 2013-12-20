@@ -20,7 +20,7 @@
         (let[cp (nextPrime lp)]
         (>! c cp)
         (recur (inc d) cp)))
-        (close! c))
+      (close! c))
   c))
 
 (def primechannel (asyncprimes 200))
