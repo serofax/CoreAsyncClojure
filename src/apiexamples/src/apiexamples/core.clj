@@ -1,5 +1,5 @@
 (ns apiexamples.core)
-(require '[clojure.core.async :as async :refer [<! >! <!! >!! timeout chan alt! alts!! go thread filter< filter> put! close! buffer dropping-buffer sliding-buffer unblocking-buffer?]])
+(require '[clojure.core.async :as async :refer [<! >! <!! >!! timeout chan alt! alts!! go thread filter< filter> put! close! buffer dropping-buffer sliding-buffer unblocking-buffer? take]])
 
 
 ; go, <!, >!
@@ -17,8 +17,7 @@
   (thread
     (>!! c "test"))
   (thread
-    (println
-      (<!! c))))
+    (println (<!! c))))
 
 ; put!
 (let [c (chan)]
@@ -32,12 +31,16 @@
     (println (<! c))))
 
 ; close!
-;(let [c (chan)]
-;  (thread
-;    (>!! c "test")
-;    (close! c)
-;    (println (<!! c))))
-
+(let [c (chan)]
+  (thread
+    (loop [val (<!! c)]
+      (when (not= val nil)
+        (println val)
+        (recur (<!! c))))
+      (println "stop."))
+  (go
+    (>! c 1)
+    (close! c)))
 
 ; buffer
 (let [c (chan (buffer 4))]
@@ -73,15 +76,14 @@
 
 
 ; unblocking-buffer?
-(let [c (chan (dropping-buffer 4))]
-  (unblocking-buffer? c))
+(let [b (buffer 2)]
+  (unblocking-buffer? b))
 
-(let [c (chan (sliding-buffer 4))]
-  (unblocking-buffer? c))
+(let [b (dropping-buffer 4)]
+  (unblocking-buffer? b))
 
-(let [c (chan)]
-  (unblocking-buffer? c))
-
+(let [b (sliding-buffer 4)]
+  (unblocking-buffer? b))
 
 ; filter<
 (let [c (chan)]
@@ -106,29 +108,23 @@
    (Thread/sleep 100)
    (close! c)))))
 
-; filter>
-(let [c (chan)]
-  (let [s (filter> string? c)]
-  (let [n (filter> number? c)]
-  (thread
-    (loop [val (<!! n)]
-      (when (not= val nil)
-        (println "t1" val)
-        (recur (<!! n))))
-      (println "t1 stop."))
-  (thread
-    (loop [val (<!! s)]
-      (when (not= val nil)
-        (println "t2" val)
-        (recur (<!! s))))
-      (println "t2 stop."))
-  (thread
-   (>!! c "abc")
-   (Thread/sleep 100)
-   (>!! c 123)
-   (Thread/sleep 100)
-   (close! c)))))
 
+
+; take
+(let [c (chan 12)]
+  (dotimes[n 12]
+    (go(>!! c n)))
+  (let [t (async/take 4 c)]
+  (thread
+    (loop [val (<!! t)]
+      (when (not= val nil)
+        (println val)
+        (recur (<!! t))))
+      (println "stop."))))
+
+
+; take!
+; filter>
 ; admix
 ; alt!
 ; alt!!
