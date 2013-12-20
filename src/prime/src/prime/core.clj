@@ -12,7 +12,7 @@
       (+ i p)
       (recur (inc i)))))
 
-; returns a channel containing n primes
+; returns a buffered channel containing n primes
 (defn asyncprimes[n]
   (let [c (chan (buffer 100))]
     (go-loop [d 0 lp 0]
