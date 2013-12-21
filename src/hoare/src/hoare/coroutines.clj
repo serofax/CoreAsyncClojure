@@ -6,6 +6,7 @@
 
 (defn copy [west east]
   "Writes all objects from channel west to channel east. Closes channel east if channel west was closed.
+  Channels already copy between two processes.
   Like core.async/pipe"
   (go-loop[input (<! west)]
           (when-not (nil? input)
@@ -28,38 +29,43 @@
     )
 
 
-(defn squash [west east]
+(defn squash [source]
   "Replacs every pair of consecutive asterisks \"**\" by an upward arrow
   "^". Assume that the final character input is not an asterisk.
-  Closes channel east if channel west was closed."
-  (go-loop [value (<! west), state :NOASTERIX]
+  Closes channel result if channel source is closed."
+  (let [result (chan)]
+   (go-loop [value (<! source), state :NOASTERIX]
     (cond
-     (nil? value) (close! east)
-     (and (not= value \*) (= state :NOASTERIX)) (do (>! east value) (recur (<! west) :NOASTERIX))
-     (and (not= value \*) (= state :ONEASTERIX)) (do (>! east \*)(>! east value) (recur (<! west) :NOASTERIX))
-     (and (= value \*) (= state :NOASTERIX)) (recur (<! west) :ONEASTERIX)
-     (and (= value \*) (= state :ONEASTERIX)) (do (>! east \^) (recur (<! west) :NOASTERIX)))))
+     (nil? value)(do
+                    (when (= state :ONEASTERIX)
+                      (>! result \*))
+                    (close! result))
+     (and (not= value \*) (= state :NOASTERIX)) (do (>! result value) (recur (<! source) :NOASTERIX))
+     (and (not= value \*) (= state :ONEASTERIX)) (do (>! result \*)(>! result value) (recur (<! source) :NOASTERIX))
+     (and (= value \*) (= state :NOASTERIX)) (recur (<! source) :ONEASTERIX)
+     (and (= value \*) (= state :ONEASTERIX)) (do (>! result \^) (recur (<! source) :NOASTERIX))))
+    result))
 
 
-#_(let [west (chan), east (chan)]
-  (squash west east)
-  (println-chan east)
-  (>!! west \*)
+#_(let [source (chan), out (squash source)]
+  (println-chan out)
+  (>!! source \*)
   (<!! (timeout 1000))
-  (>!! west \*)
+  (>!! source \*)
   (<!! (timeout 1000))
-  (>!! west \H)
-  (>!! west \e)
-  (>!! west \l)
-  (>!! west \l)
-  (>!! west \o)
-  (>!! west \*)
+  (>!! source \H)
+  (>!! source \e)
+  (>!! source \l)
+  (>!! source \l)
+  (>!! source \o)
+  (>!! source \*)
   (<!! (timeout 1000))
-  (>!! west \2)
-  (close! west)
+  (>!! source \2)
+  (>!! source \*)
+  (close! source)
   (<!! (timeout 1000))
-  (println "Channel west is closed:" (isChannelClosed? west))
-  (println "Channel east is closed:" (isChannelClosed? east)))
+  (println "Channel source is closed:" (isChannelClosed? source))
+  (println "Channel out is closed:" (isChannelClosed? out)))
 
 (defn disassemble[source]
   "Reads cardfiles with length 80 from source and prints every character to an outoutsteam. A Space will be placed at the end of a cardfile.
@@ -106,7 +112,7 @@
     result
     ))
 
-(let [characters (take (rand-int 126) (repeatedly #(rand-int 10))),
+#_(let [characters (take (rand-int 126) (repeatedly #(rand-int 10))),
       assemplerChannel (to-chan characters)]
   (println "Characters:" characters)
   (<!! (timeout 1000))
@@ -116,6 +122,62 @@
     (<!! (timeout 1000))
     (println "Channel assemplerChannel is closed:" (isChannelClosed? assemplerChannel))
     (println "Channel out is closed:" (isChannelClosed? out))))
+
+
+(defn reformat[source]
+  "Reads a sequence of cards of 80 characters each, and print the characters on a lineprinter at 125 characters per line."
+  (let [result (chan), connectorchannel (chan)]
+    (copy (disassemble source) connectorchannel)
+    (assemble connectorchannel)))
+
+(defn reformat2[source]
+  "Reads a sequence of cards of 80 characters each, and print the characters on a lineprinter at 125 characters per line.
+  Without copy because channels do the same"
+  (assemble (disassemble source)))
+
+; for reformat1
+#_(let [cardfile (apply str (take 80 (repeatedly #(rand-int 10)))),
+      reformatchannel (chan),
+      out (reformat reformatchannel) ]
+  (print-chan out)
+  (println "Cardfile:" cardfile)
+  (>!! reformatchannel cardfile)
+  (close! reformatchannel)
+  (<!! (timeout 1000))
+  (println "Channel reformatchannel is closed:" (isChannelClosed? reformatchannel))
+  (println "Channel out is closed:" (isChannelClosed? out)))
+
+;for reformat2
+#_(let [cardfile (apply str (take 80 (repeatedly #(rand-int 10)))),
+      reformatchannel (chan),
+      out (reformat2 reformatchannel) ]
+  (print-chan out)
+  (println "Cardfile:" cardfile)
+  (>!! reformatchannel cardfile)
+  (close! reformatchannel)
+  (<!! (timeout 1000))
+  (println "Channel reformatchannel is closed:" (isChannelClosed? reformatchannel))
+  (println "Channel out is closed:" (isChannelClosed? out)))
+
+(defn conwaysproblem [source]
+  "Replaces every ** in a cardfile with a ^ and assemble the characters to a 125 char long string"
+  (assemble (squash (disassemble source))))
+
+
+
+#_(let [cardfile "2904826572863778252*121375245405****8***8161003158101858872565**9*72140300182710",
+      source (chan),
+      out (conwaysproblem source) ]
+  (print-chan out)
+  (println "Cardfile:" cardfile)
+  (>!! source cardfile)
+  (close! source)
+  (<!! (timeout 1000))
+  (println "Channel source is closed:" (isChannelClosed? source))
+  (println "Channel out is closed:" (isChannelClosed? out)))
+
+
+
 
 
 

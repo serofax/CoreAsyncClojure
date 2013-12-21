@@ -4,7 +4,7 @@
 (defn println-chan[source]
   (go-loop[input (<! source)]
           (when-not (nil? input)
-            (println input " lenght:" (count input))
+            (println input)
             (recur (<! source)))
           (println "Channel was closed")))
 
