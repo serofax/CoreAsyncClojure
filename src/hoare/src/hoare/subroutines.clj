@@ -51,7 +51,7 @@ divisor, and returns their integer quotient and remainder."
     result))
 
 
-(let [source (chan),
+#_(let [source (chan),
       out (factorial source)]
   (println-chan out)
   (>!! source 10) ;3628800
