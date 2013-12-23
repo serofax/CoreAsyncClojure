@@ -1,6 +1,5 @@
 (ns apiexamples.core)
-(require '[clojure.core.async :as async :refer [<! >! <!! >!! timeout chan alt! alts!! go go-loop thread filter< filter> put! close! buffer dropping-buffer sliding-buffer unblocking-buffer? take take! thread-call]])
-
+(require '[clojure.core.async :as async :refer [<! >! <!! >!! timeout chan onto-chan alt! alts!! go go-loop thread filter< filter> put! close! buffer dropping-buffer sliding-buffer unblocking-buffer? take take! thread-call to-chan reduce unique pipe]])
 
 ; go, <!, >!
 ; parking
@@ -151,7 +150,6 @@
         (recur (inc i)))
       (close! c))
   c))
-
 (let [c (count 10)]
   (thread
     (loop [val (<!! c)]
@@ -159,6 +157,69 @@
         (println val)
         (recur (<!! c))))
       (println "END.")))
+
+; to-chan
+(defn read_chan[c]
+  (thread
+    (loop [val (<!! c)]
+      (when (not= val nil)
+        (println val)
+        (recur (<!! c))))
+      (println "END.")))
+(read_chan (to-chan {:a 1 :b 2 :c 3}))
+(read_chan (to-chan '(1, 2, 3)))
+(read_chan (to-chan [1 2 3]))
+(read_chan (to-chan #{1, 2, 3}))
+(read_chan (to-chan (range 1 4)))
+
+; onto-chan
+(defn read_chan[c]
+  (thread
+    (loop [val (<!! c)]
+      (when (not= val nil)
+        (println val)
+        (recur (<!! c))))
+      (println "END.")))
+(let [c (chan)]
+  (onto-chan c [1 2 3])
+  (read_chan c))
+
+; reduce
+(defn read_chan[c]
+  (thread
+    (loop [val (<!! c)]
+      (when (not= val nil)
+        (println val)
+        (recur (<!! c))))
+      (println "END.")))
+(let [c (to-chan (range 1 10))]
+  (read_chan
+    (reduce + 0 c)))
+
+; unique
+(defn read_chan[c]
+  (thread
+    (loop [val (<!! c)]
+      (when (not= val nil)
+        (println val)
+        (recur (<!! c))))
+      (println "END.")))
+(read_chan
+  (unique
+    (to-chan '(1, 1, 2, 2, 3, 3))))
+
+; pipe
+(defn read_chan[c]
+  (thread
+    (loop [val (<!! c)]
+      (when (not= val nil)
+        (println val)
+        (recur (<!! c))))
+      (println "END.")))
+(def a (to-chan (range 1 10)))
+(def b (chan))
+(pipe a b)
+(read_chan b)
 
 ; filter>
 ; admix
@@ -176,21 +237,16 @@
 ; merge
 ; mix
 ; mult
-; onto-chan
 ; partition
 ; partition-by
-; pipe
 ; pub
-; reduce
 ; remove<
 ; remove>
 ; solo-mode
 ; split
 ; sub
 ; tap
-; to-chan
 ; toggle
-; unique
 ; unmix
 ; unmix-all
 ; unsub
