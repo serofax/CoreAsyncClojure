@@ -38,7 +38,10 @@
 (defn room[maxphils philslinks]
   (go-loop [philsinside #{}]
            (println "In room there are" (count philsinside) "philosophers")
-           (let [observed (if (>= (count philsinside) maxphils)(vec philsinside) philslinks), [value source] (alts! observed)]
+           (let [observed (if (>= (count philsinside) maxphils)
+                            (vec philsinside)
+                            philslinks),
+                 [value source] (alts! observed)]
              (match (:state value)
                     :enters (recur (conj philsinside source))
                     :leaves (recur (disj philsinside source))))))
