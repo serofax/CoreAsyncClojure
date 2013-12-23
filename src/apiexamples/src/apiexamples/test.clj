@@ -1,21 +1,19 @@
 (ns apiexamples.test)
-(require '[clojure.core.async :as async :refer [<! >! <!! >!! timeout chan alt! alts!! go thread filter< filter> put! close! buffer dropping-buffer sliding-buffer unblocking-buffer?]])
+(require '[clojure.core.async :as async :refer [go-loop <! >! <!! >!! timeout chan alt! alts!! go thread filter< filter> put! close! buffer dropping-buffer sliding-buffer unblocking-buffer? take take! thread-call]])
 
+(defn count[n]
+  (let [c (chan (buffer 100))]
+    (go-loop [i 0]
+      (when (< i n)
+        (>! c i)
+        (recur (inc i)))
+      (close! c))
+  c))
 
-(def c (chan 10))
-
-(thread
- (>!! c 1)
- (>!! c 2)
- (>!! c 3)
- (>!! c 4)
- (>!! c 5)
- (>!! c 6)
- (>!! c 7)
- (>!! c 8)
- (>!! c 9)
- (>!! c 10))
-
-(def t (async/take 4 c))
-
-(go (println (<! t)))
+(let [c (count 10)]
+  (thread
+    (loop [val (<!! c)]
+      (when (not= val nil)
+        (println val)
+        (recur (<!! c))))
+      (println "END.")))

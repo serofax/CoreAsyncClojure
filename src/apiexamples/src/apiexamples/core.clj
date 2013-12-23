@@ -1,5 +1,5 @@
 (ns apiexamples.core)
-(require '[clojure.core.async :as async :refer [<! >! <!! >!! timeout chan alt! alts!! go thread filter< filter> put! close! buffer dropping-buffer sliding-buffer unblocking-buffer? take]])
+(require '[clojure.core.async :as async :refer [<! >! <!! >!! timeout chan alt! alts!! go go-loop thread filter< filter> put! close! buffer dropping-buffer sliding-buffer unblocking-buffer? take take! thread-call]])
 
 
 ; go, <!, >!
@@ -102,11 +102,11 @@
         (recur (<!! s))))
       (println "t2 stop."))
   (thread
-   (>!! c "abc")
-   (Thread/sleep 100)
-   (>!! c 123)
-   (Thread/sleep 100)
-   (close! c)))))
+    (>!! c "abc")
+    (Thread/sleep 100)
+    (>!! c 123)
+    (Thread/sleep 100)
+    (close! c)))))
 
 ; take
 (let [c (chan 12)]
@@ -120,8 +120,46 @@
         (recur (<!! t))))
       (println "stop."))))
 
-
 ; take!
+(defn callback[val] (println "callback: " val))
+(let [c (chan)]
+    (take! c callback)
+    (put! c "test"))
+
+; thread-call
+(defn long_calculation[x] (+ x 2))
+(def c (thread-call #(long_calculation 5)))
+(go
+  (println (<! c)))
+
+; timeout
+(let [c (timeout 4000)]
+  (put! c "test")
+  (thread
+  (loop [val (<!! c)]
+    (when (not= val nil)
+      (println val)
+      (recur (<!! c))))
+    (println "timeout")))
+
+; go-loop
+(defn count[n]
+  (let [c (chan (buffer 100))]
+    (go-loop [i 0]
+      (when (< i n)
+        (>! c i)
+        (recur (inc i)))
+      (close! c))
+  c))
+
+(let [c (count 10)]
+  (thread
+    (loop [val (<!! c)]
+      (when (not= val nil)
+        (println val)
+        (recur (<!! c))))
+      (println "END.")))
+
 ; filter>
 ; admix
 ; alt!
@@ -129,7 +167,6 @@
 ; alts!
 ; alts!!
 ; do-alts
-; go-loop
 ; into
 ; map
 ; map<
@@ -150,11 +187,7 @@
 ; solo-mode
 ; split
 ; sub
-; take
-; take!
 ; tap
-; thread-call
-; timeout
 ; to-chan
 ; toggle
 ; unique
