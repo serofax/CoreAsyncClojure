@@ -1,9 +1,9 @@
 (ns apiexamples.core)
-(require '[clojure.core.async :as async :refer [<! >! <!! >!! timeout chan onto-chan alt! alts!! go go-loop thread filter< filter> put! close! buffer dropping-buffer sliding-buffer unblocking-buffer? take take! thread-call to-chan reduce unique pipe into partition partition-by mult tap untap untap-all]])
+(require '[clojure.core.async :as async :refer [<! >! <!! >!! timeout chan onto-chan alt! alts!! go go-loop thread filter< filter> put! close! buffer dropping-buffer sliding-buffer unblocking-buffer? take take! thread-call to-chan reduce unique pipe into partition partition-by mult tap untap untap-all mix admix unmix unmix-all toggle solo-mode merge split remove< map pub sub unsub unsub-all]])
 
 ; output function used in further examples
-(defn read_chan
-  ([c] (read_chan "" c))
+(defn read-chan
+  ([c] (read-chan "" c))
   ([str c]
   (thread
     (loop [val (<!! c)]
@@ -42,7 +42,7 @@
 
 ; close!
 (let [c (chan)]
-  (read_chan c)
+  (read-chan c)
   (go
     (>! c 1)
     (close! c)))
@@ -59,7 +59,7 @@
   (dotimes[n 10]
     (>!! c n))
     (close! c)
-  (read_chan c))
+  (read-chan c))
 
 
 ; sliding-buffer
@@ -67,7 +67,7 @@
   (dotimes[n 10]
     (>!! c n))
     (close! c)
-  (read_chan c))
+  (read-chan c))
 
 
 ; unblocking-buffer?
@@ -79,33 +79,33 @@
   (println (unblocking-buffer? c)))
 
 ; filter<
-(let [c (chan)
+(let [c  (chan)
       c1 (filter< string? c)
       c2 (filter< number? c)]
   (thread
     (>!! c "abc")
     (>!! c 123))
-  (read_chan "c1: " c1)
-  (read_chan "c2: " c2))
+  (read-chan "c1: " c1)
+  (read-chan "c2: " c2))
 
 ; take
 (let [c (chan 12)
       t (async/take 4 c)]
   (onto-chan c (range 0 12))
-  (read_chan t))
+  (read-chan t))
 
 
 ; take!
-(defn callback[val] (println "callback: " val))
-(let [c (chan)]
-    (take! c callback)
-    (put! c "test"))
+(let [c (chan)
+      callback (fn[val] (println "callback: " val))]
+  (take! c callback)
+  (put! c "test"))
 
 ; thread-call
-(defn long_calculation[x] (+ x 2))
-(def c (thread-call #(long_calculation 5)))
-(go
-  (println (<! c)))
+(let [long_calculation (fn[x] (+ x 2))
+      c (thread-call #(long_calculation 5))]
+  (go
+    (println (<! c))))
 
 ; timeout
 (let [c (timeout 4000)]
@@ -118,35 +118,35 @@
     (println "timeout")))
 
 ; go-loop
-(defn count[n]
+(letfn [(count[n]
   (let [c (chan (buffer 100))]
     (go-loop [i 0]
       (when (< i n)
         (>! c i)
         (recur (inc i)))
       (close! c))
-  c))
-(read_chan (count 10))
+  c))]
+  (read-chan (count 10)))
 
 ; to-chan
-(read_chan (to-chan {:a 1 :b 2 :c 3}))
-(read_chan (to-chan '(1, 2, 3)))
-(read_chan (to-chan [1 2 3]))
-(read_chan (to-chan #{1, 2, 3}))
-(read_chan (to-chan (range 1 4)))
+(read-chan (to-chan {:a 1 :b 2 :c 3}))
+(read-chan (to-chan '(1, 2, 3)))
+(read-chan (to-chan [1 2 3]))
+(read-chan (to-chan #{1, 2, 3}))
+(read-chan (to-chan (range 1 4)))
 
 ; onto-chan
 (let [c (chan)]
   (onto-chan c [1 2 3])
-  (read_chan c))
+  (read-chan c))
 
 ; reduce
 (let [c (to-chan (range 1 10))]
-  (read_chan
+  (read-chan
     (reduce + 0 c)))
 
 ; unique
-(read_chan
+(read-chan
   (unique
     (to-chan '(1, 1, 2, 2, 3, 3))))
 
@@ -154,26 +154,55 @@
 (let [a (to-chan (range 1 10))
       b (chan)]
   (pipe a b)
-  (read_chan b))
+  (read-chan b))
 
 ; into
 (let [c (chan 6)
       results (into [4 5 6] c)]
   (onto-chan c [1 2 3])
   (close! c)
-  (read_chan results))
+  (read-chan results))
 
 ; partition
 (let [c (chan 10)
       results (partition 2 c)]
   (onto-chan c (range 0 10))
-  (read_chan results))
+  (read-chan results))
 
 ; partition-by
 (let [c (chan 10)
       results (partition-by #(< 4 %) c)]
   (onto-chan c (range 0 10))
-  (read_chan results))
+  (read-chan results))
+
+; merge
+(let [c1 (chan 5)
+      c2 (chan 5)
+      c (merge [c1 c2] 10)]
+  (onto-chan c1 (range 0 5))
+  (onto-chan c2 (range 5 10))
+  (read-chan c))
+
+; split
+(let [c (chan 10)
+      v (split even? c)]
+  (onto-chan c (range 0 10))
+  (read-chan "even:" (v 0))
+  (read-chan "odd: " (v 1)))
+
+; remove<
+(let [c (chan 10)
+      results (remove< odd? c)]
+  (onto-chan c (range 0 10))
+  (read-chan results))
+
+; map
+(let [c1 (chan)
+      c2 (chan)
+      c (map + [c1 c2])]
+  (put! c1 5)
+  (put! c2 3)
+  (read-chan c))
 
 ; mult, tap
 (let [c (chan)
@@ -183,8 +212,8 @@
   (tap m c1)
   (tap m c2)
   (put! c "test")
-  (read_chan "c1:" c1)
-  (read_chan "c2:" c2))
+  (read-chan "c1:" c1)
+  (read-chan "c2:" c2))
 
 ; untap
 (let [c (chan)
@@ -195,8 +224,8 @@
   (tap m c2)
   (untap m c1)
   (put! c "test")
-  (read_chan "c1:" c1)
-  (read_chan "c2:" c2))
+  (read-chan "c1:" c1)
+  (read-chan "c2:" c2))
 
 ; untap-all
 (let [c (chan)
@@ -207,36 +236,120 @@
   (tap m c2)
   (untap-all m)
   (put! c "test")
-  (read_chan "c1:" c1)
-  (read_chan "c2:" c2))
+  (read-chan "c1:" c1)
+  (read-chan "c2:" c2))
 
+; mix, admix
+(let [c (chan)
+      m (mix c)
+      c1 (chan)
+      c2 (chan)]
+  (admix m c1)
+  (admix m c2)
+  (onto-chan c1 (range 0 5))
+  (onto-chan c2 (range 5 10))
+  (read-chan c))
 
+; unmix
+(let [c (chan)
+      m (mix c)
+      c1 (chan)
+      c2 (chan)]
+  (admix m c1)
+  (admix m c2)
+  (unmix m c2)
+  (onto-chan c1 (range 0 5))
+  (onto-chan c2 (range 5 10))
+  (read-chan c))
+
+; unmix-all
+(let [c (chan)
+      m (mix c)
+      c1 (chan)
+      c2 (chan)]
+  (admix m c1)
+  (admix m c2)
+  (unmix-all m)
+  (onto-chan c1 (range 0 5))
+  (onto-chan c2 (range 5 10))
+  (read-chan c))
+
+; toggle
+; Attributes:
+;   :solo - when true, only this (ond other soloed) channel(s) will appear
+;        in the mix output channel. :mute and :pause states of soloed
+;        channels are ignored. If solo-mode is :mute, non-soloed
+;        channels are muted, if :pause, non-soloed channels are
+;        paused.
+;  :mute - muted channels will have their contents consumed but not included in the mix
+;  :pause - paused channels will not have their contents consumed (and thus also not included in the mix)
+(let [c (chan)
+      m (mix c)
+      c1 (chan)
+      c2 (chan)]
+  (admix m c1)
+  (admix m c2)
+  (toggle m
+    { c1 {:mute false}
+      c2 {:mute true} })
+  (onto-chan c1 (range 0 5))
+  (onto-chan c2 (range 5 10))
+  (read-chan c))
+
+; solo-mode
+(let [c (chan)
+      m (mix c)
+      c1 (chan)
+      c2 (chan)]
+  (admix m c1)
+  (admix m c2)
+  (solo-mode m :mute)
+  (toggle m
+    { c1 {:solo true}})
+  (onto-chan c1 (range 0 5))
+  (onto-chan c2 (range 5 10))
+  (read-chan c))
+
+; pub, sub
+(let [c (chan 10)
+      p (pub c even?)
+      c1 (chan 10)
+      c2 (chan 10)]
+  (sub p true c1)
+  (sub p false c2)
+  (onto-chan c (range 0 10))
+  (read-chan "c1:" c1))
+
+; unsub
+(let [c (chan 10)
+      p (pub c even?)
+      c1 (chan 10)
+      c2 (chan 10)]
+  (unsub p true c1)
+  (onto-chan c (range 0 10))
+  (read-chan "c1:" c1))
+
+; unsub-all
+(let [c (chan 10)
+      p (pub c even?)
+      c1 (chan 10)
+      c2 (chan 10)]
+  (unsub-all p)
+  (onto-chan c (range 0 10))
+  (read-chan "c1:" c1))
 
 ; filter>
-; admix
+; remove>
 ; alt!
 ; alt!!
 ; alts!
 ; alts!!
 ; do-alts
-; map
 ; map<
 ; map>
 ; mapcat<
 ; mapcat>
-; merge
-; mix
-; pub
-; remove<
-; remove>
-; solo-mode
-; split
-; sub
-; toggle
-; unmix
-; unmix-all
-; unsub
-; unsub-all
+
 
 
 
