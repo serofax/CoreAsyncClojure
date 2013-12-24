@@ -1,5 +1,16 @@
 (ns apiexamples.core)
-(require '[clojure.core.async :as async :refer [<! >! <!! >!! timeout chan onto-chan alt! alts!! go go-loop thread filter< filter> put! close! buffer dropping-buffer sliding-buffer unblocking-buffer? take take! thread-call to-chan reduce unique pipe]])
+(require '[clojure.core.async :as async :refer [<! >! <!! >!! timeout chan onto-chan alt! alts!! go go-loop thread filter< filter> put! close! buffer dropping-buffer sliding-buffer unblocking-buffer? take take! thread-call to-chan reduce unique pipe into partition partition-by mult tap untap untap-all]])
+
+; output function used in further examples
+(defn read_chan
+  ([c] (read_chan "" c))
+  ([str c]
+  (thread
+    (loop [val (<!! c)]
+      (when (not= val nil)
+        (println str val)
+        (recur (<!! c))))
+      (println "END."))))
 
 ; go, <!, >!
 ; parking
@@ -31,12 +42,7 @@
 
 ; close!
 (let [c (chan)]
-  (thread
-    (loop [val (<!! c)]
-      (when (not= val nil)
-        (println val)
-        (recur (<!! c))))
-      (println "stop."))
+  (read_chan c)
   (go
     (>! c 1)
     (close! c)))
@@ -52,72 +58,42 @@
 (let [c (chan (dropping-buffer 4))]
   (dotimes[n 10]
     (>!! c n))
-  (thread
-  (loop [val (<!! c)]
-    (when (not= val nil)
-      (println "t2" val)
-      (recur (<!! c))))
-    (println "thread stop."))
-    (close! c))
+    (close! c)
+  (read_chan c))
 
 
 ; sliding-buffer
 (let [c (chan (sliding-buffer 4))]
   (dotimes[n 10]
     (>!! c n))
-  (thread
-  (loop [val (<!! c)]
-    (when (not= val nil)
-      (println "t2" val)
-      (recur (<!! c))))
-    (println "thread stop."))
-    (close! c))
+    (close! c)
+  (read_chan c))
 
 
 ; unblocking-buffer?
-(let [b (buffer 2)]
-  (unblocking-buffer? b))
-
-(let [b (dropping-buffer 4)]
-  (unblocking-buffer? b))
-
-(let [b (sliding-buffer 4)]
-  (unblocking-buffer? b))
+(let [a (buffer 2)
+      b (dropping-buffer 4)
+      c (sliding-buffer 4)]
+  (println (unblocking-buffer? a))
+  (println (unblocking-buffer? b))
+  (println (unblocking-buffer? c)))
 
 ; filter<
-(let [c (chan)]
-  (let [s (filter< string? c)]
-  (let [n (filter< number? c)]
-  (thread
-    (loop [val (<!! n)]
-      (when (not= val nil)
-        (println "t1" val)
-        (recur (<!! n))))
-      (println "t1 stop."))
-  (thread
-    (loop [val (<!! s)]
-      (when (not= val nil)
-        (println "t2" val)
-        (recur (<!! s))))
-      (println "t2 stop."))
+(let [c (chan)
+      c1 (filter< string? c)
+      c2 (filter< number? c)]
   (thread
     (>!! c "abc")
-    (Thread/sleep 100)
-    (>!! c 123)
-    (Thread/sleep 100)
-    (close! c)))))
+    (>!! c 123))
+  (read_chan "c1: " c1)
+  (read_chan "c2: " c2))
 
 ; take
-(let [c (chan 12)]
-  (dotimes[n 12]
-    (go(>!! c n)))
-  (let [t (async/take 4 c)]
-  (thread
-    (loop [val (<!! t)]
-      (when (not= val nil)
-        (println val)
-        (recur (<!! t))))
-      (println "stop."))))
+(let [c (chan 12)
+      t (async/take 4 c)]
+  (onto-chan c (range 0 12))
+  (read_chan t))
+
 
 ; take!
 (defn callback[val] (println "callback: " val))
@@ -150,22 +126,9 @@
         (recur (inc i)))
       (close! c))
   c))
-(let [c (count 10)]
-  (thread
-    (loop [val (<!! c)]
-      (when (not= val nil)
-        (println val)
-        (recur (<!! c))))
-      (println "END.")))
+(read_chan (count 10))
 
 ; to-chan
-(defn read_chan[c]
-  (thread
-    (loop [val (<!! c)]
-      (when (not= val nil)
-        (println val)
-        (recur (<!! c))))
-      (println "END.")))
 (read_chan (to-chan {:a 1 :b 2 :c 3}))
 (read_chan (to-chan '(1, 2, 3)))
 (read_chan (to-chan [1 2 3]))
@@ -173,53 +136,81 @@
 (read_chan (to-chan (range 1 4)))
 
 ; onto-chan
-(defn read_chan[c]
-  (thread
-    (loop [val (<!! c)]
-      (when (not= val nil)
-        (println val)
-        (recur (<!! c))))
-      (println "END.")))
 (let [c (chan)]
   (onto-chan c [1 2 3])
   (read_chan c))
 
 ; reduce
-(defn read_chan[c]
-  (thread
-    (loop [val (<!! c)]
-      (when (not= val nil)
-        (println val)
-        (recur (<!! c))))
-      (println "END.")))
 (let [c (to-chan (range 1 10))]
   (read_chan
     (reduce + 0 c)))
 
 ; unique
-(defn read_chan[c]
-  (thread
-    (loop [val (<!! c)]
-      (when (not= val nil)
-        (println val)
-        (recur (<!! c))))
-      (println "END.")))
 (read_chan
   (unique
     (to-chan '(1, 1, 2, 2, 3, 3))))
 
 ; pipe
-(defn read_chan[c]
-  (thread
-    (loop [val (<!! c)]
-      (when (not= val nil)
-        (println val)
-        (recur (<!! c))))
-      (println "END.")))
-(def a (to-chan (range 1 10)))
-(def b (chan))
-(pipe a b)
-(read_chan b)
+(let [a (to-chan (range 1 10))
+      b (chan)]
+  (pipe a b)
+  (read_chan b))
+
+; into
+(let [c (chan 6)
+      results (into [4 5 6] c)]
+  (onto-chan c [1 2 3])
+  (close! c)
+  (read_chan results))
+
+; partition
+(let [c (chan 10)
+      results (partition 2 c)]
+  (onto-chan c (range 0 10))
+  (read_chan results))
+
+; partition-by
+(let [c (chan 10)
+      results (partition-by #(< 4 %) c)]
+  (onto-chan c (range 0 10))
+  (read_chan results))
+
+; mult, tap
+(let [c (chan)
+      m (mult c)
+      c1 (chan)
+      c2 (chan)]
+  (tap m c1)
+  (tap m c2)
+  (put! c "test")
+  (read_chan "c1:" c1)
+  (read_chan "c2:" c2))
+
+; untap
+(let [c (chan)
+      m (mult c)
+      c1 (chan)
+      c2 (chan)]
+  (tap m c1)
+  (tap m c2)
+  (untap m c1)
+  (put! c "test")
+  (read_chan "c1:" c1)
+  (read_chan "c2:" c2))
+
+; untap-all
+(let [c (chan)
+      m (mult c)
+      c1 (chan)
+      c2 (chan)]
+  (tap m c1)
+  (tap m c2)
+  (untap-all m)
+  (put! c "test")
+  (read_chan "c1:" c1)
+  (read_chan "c2:" c2))
+
+
 
 ; filter>
 ; admix
@@ -228,7 +219,6 @@
 ; alts!
 ; alts!!
 ; do-alts
-; into
 ; map
 ; map<
 ; map>
@@ -236,23 +226,18 @@
 ; mapcat>
 ; merge
 ; mix
-; mult
-; partition
-; partition-by
 ; pub
 ; remove<
 ; remove>
 ; solo-mode
 ; split
 ; sub
-; tap
 ; toggle
 ; unmix
 ; unmix-all
 ; unsub
 ; unsub-all
-; untap
-; untap-all
+
 
 
 
