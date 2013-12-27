@@ -338,12 +338,29 @@
   (onto-chan c (range 0 10))
   (read-chan "c1:" c1))
 
+; alts!!
+(let [n 10
+      cs (repeatedly n chan)]
+  (doseq [c cs]
+    (put! c "test"))
+  (thread
+    (dotimes [i n]
+      (let [[v c] (alts!! cs)]
+        (println "read: " v "from: " c)))))
+
+; alts!
+(let [n 10
+      cs (repeatedly n chan)]
+  (doseq [c cs]
+    (put! c "test"))
+  (dotimes [i n]
+    (let [[v c] (alts! cs)]
+      (println "read: " v "from: " c))))
+
 ; filter>
 ; remove>
 ; alt!
 ; alt!!
-; alts!
-; alts!!
 ; do-alts
 ; map<
 ; map>
