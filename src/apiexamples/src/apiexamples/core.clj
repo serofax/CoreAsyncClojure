@@ -1,5 +1,5 @@
 (ns apiexamples.core)
-(require '[clojure.core.async :as async :refer [<! >! <!! >!! timeout chan onto-chan alt! alts!! go go-loop thread filter< filter> put! close! buffer dropping-buffer sliding-buffer unblocking-buffer? take take! thread-call to-chan reduce unique pipe into partition partition-by mult tap untap untap-all mix admix unmix unmix-all toggle solo-mode merge split remove< map pub sub unsub unsub-all]])
+(require '[clojure.core.async :as async :refer [<! >! <!! >!! timeout chan onto-chan alt! alts!! go go-loop thread filter< filter> put! close! buffer dropping-buffer sliding-buffer unblocking-buffer? take take! thread-call to-chan reduce unique pipe into partition partition-by mult tap untap untap-all mix admix unmix unmix-all toggle solo-mode merge split remove< remove> map map< mapcat< pub sub unsub unsub-all]])
 
 ; output function used in further examples
 (defn read-chan
@@ -87,6 +87,14 @@
     (>!! c 123))
   (read-chan "c1: " c1)
   (read-chan "c2: " c2))
+
+; filter>
+(let [out (chan)
+      c (filter> string? out)]
+  (thread
+    (>!! c "abc")
+    (>!! c 123))
+  (read-chan out))
 
 ; take
 (let [c (chan 12)
@@ -196,6 +204,12 @@
   (onto-chan c (range 0 10))
   (read-chan results))
 
+; remove>
+(let [results (chan 10)
+      c (remove> odd? results)]
+  (onto-chan c (range 0 10))
+  (read-chan results))
+
 ; map
 (let [c1 (chan)
       c2 (chan)
@@ -203,6 +217,35 @@
   (put! c1 5)
   (put! c2 3)
   (read-chan c))
+
+; map<
+(let [c (chan)
+      results (map< inc c)]
+  (put! c 1)
+  (put! c 2)
+  (read-chan results))
+
+; map>
+(let [results (chan)
+      c (map> inc results)]
+  (put! c 1)
+  (put! c 2)
+  (close! c)
+  (read-chan results))
+
+; mapcat<
+(let [c (chan)
+      results (mapcat< #(conj % 5) c)]
+  (put! c [1 2 3 4])
+  (close! c)
+  (read-chan results))
+
+; mapcat>
+(let [results (chan)
+      c (mapcat> #(conj % 5) results)]
+  (put! c [1 2 3 4])
+  (close! c)
+  (read-chan results))
 
 ; mult, tap
 (let [c (chan)
@@ -357,15 +400,10 @@
     (let [[v c] (alts! cs)]
       (println "read: " v "from: " c))))
 
-; filter>
-; remove>
 ; alt!
 ; alt!!
 ; do-alts
-; map<
-; map>
-; mapcat<
-; mapcat>
+
 
 
 

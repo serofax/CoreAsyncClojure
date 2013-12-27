@@ -1,10 +1,17 @@
 (ns apiexamples.test)
-(require '[clojure.core.async :as async :refer [<! >! <!! >!! timeout partition chan alt! alts! alts!! into go thread filter< filter> put! close! buffer dropping-buffer sliding-buffer unblocking-buffer? take take! thread-call onto-chan to-chan go-loop split mult tap put!]])
+(require '[clojure.core.async :as async :refer [<! >! <!! >!! timeout partition chan alt! alts! alts!! into go thread filter< filter> put! close! buffer dropping-buffer sliding-buffer unblocking-buffer? take take! thread-call onto-chan to-chan go-loop split mult tap put! map map< map> mapcat< mapcat>]])
 
-(let [n 10
-      cs (repeatedly n chan)]
-  (doseq [c cs]
-    (put! c "test"))
-  (dotimes [i n]
-    (go (let [[v c] (alts! cs)]
-      (println "read: " v "from: " c)))))
+(defn read-chan
+  ([c] (read-chan "" c))
+  ([str c]
+  (thread
+    (loop [val (<!! c)]
+      (when (not= val nil)
+        (println str val)
+        (recur (<!! c))))
+      (println "END."))))
+
+(let [results (chan 10)
+      c (remove> odd? results)]
+  (onto-chan c (range 0 10))
+  (read-chan results))
