@@ -1,5 +1,5 @@
 (ns apiexamples.core)
-(require '[clojure.core.async :as async :refer [<! >! <!! >!! timeout chan onto-chan alt! alts!! go go-loop thread filter< filter> put! close! buffer dropping-buffer sliding-buffer unblocking-buffer? take take! thread-call to-chan reduce unique pipe into partition partition-by mult tap untap untap-all mix admix unmix unmix-all toggle solo-mode merge split remove< remove> map map< mapcat< pub sub unsub unsub-all]])
+(require '[clojure.core.async :as async :refer [<! >! <!! >!! timeout chan onto-chan alt! alts! alts!! go go-loop thread filter< filter> put! close! buffer dropping-buffer sliding-buffer unblocking-buffer? take take! thread-call to-chan reduce unique pipe into partition partition-by mult tap untap untap-all mix admix unmix unmix-all toggle solo-mode merge split remove< remove> map map< mapcat< pub sub unsub unsub-all]])
 
 ; output function used in further examples
 (defn read-chan
@@ -382,7 +382,8 @@
   (read-chan "c1:" c1))
 
 ; alts!!
-(let [n 10
+; (read)
+(let [n 2
       cs (repeatedly n chan)]
   (doseq [c cs]
     (put! c "test"))
@@ -392,13 +393,18 @@
         (println "read: " v "from: " c)))))
 
 ; alts!
-(let [n 10
+; (read)
+(let [n 2
       cs (repeatedly n chan)]
   (doseq [c cs]
     (put! c "test"))
-  (dotimes [i n]
-    (let [[v c] (alts! cs)]
-      (println "read: " v "from: " c))))
+    (dotimes [i n]
+      (go (let [[v c] (alts!! cs)]
+        (println "read: " v "from: " c)))))
+
+; alts!
+; (write)
+; TODO
 
 ; alt!
 ; alt!!

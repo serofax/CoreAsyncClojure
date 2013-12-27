@@ -9,9 +9,8 @@
       (when (not= val nil)
         (println str val)
         (recur (<!! c))))
-      (println "END."))))
+      (prn "END."))))
 
-(let [results (chan 10)
-      c (remove> odd? results)]
-  (onto-chan c (range 0 10))
-  (read-chan results))
+(let [n 2
+      cs (vec (repeatedly n chan))
+      alters []])
