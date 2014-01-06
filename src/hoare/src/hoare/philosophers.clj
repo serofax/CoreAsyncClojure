@@ -23,19 +23,22 @@
    {:name name, :state state :roomlink roomlink}))
 
 
-;finished
 (defn fork[name]
+  "Construcs a fork with a name and two controllchannels for the right and the left philosoph.
+  The fork will waiting on both channels and then only on the channel which was faster at the first time.
+  After that the fork will waiting on both channels again."
   (let [rightphil (chan), leftphil (chan)]
     (go-loop [[value sourcephil] (alts! [rightphil leftphil])]
              #_(println name " -  is in use by" (:name value) "he sent" (:state value))
              (let [value2 (<! sourcephil)]
                #_(println name " -  is no more used by" (:name value2) "he sent" (:state value2)))
              (recur (alts! [rightphil leftphil])))
-    {:rightphil rightphil, :leftphil leftphil}
-    ))
+    {:rightphil rightphil, :leftphil leftphil}))
 
-;finished
 (defn room[maxphils philslinks]
+  "Contructs a room.
+  A room is a simple semaphore which only let access new philosphers if there is enough space there.
+  Every philosph has one controlchannel which are passed together through the parameter philslinks."
   (go-loop [philsinside #{}]
            (println "In room there are" (count philsinside) "philosophers")
            (let [observed (if (>= (count philsinside) maxphils)
@@ -46,8 +49,18 @@
                     :enters (recur (conj philsinside source))
                     :leaves (recur (disj philsinside source))))))
 
-;finished
 (defn phil[name, rightfork, leftfork]
+  "Cronstrucs a philosoph which has one controlline to stop him and one roomlink.
+  Every philosoph has a name and a right and left fork which are both the controllchannels of the forks.
+
+  Every philosph has these endless sequence.
+  1. Thinking (random 0-9999 ms)
+  2. Entering room
+  3. Take left fork
+  4. Take right fork
+  5. Eating (random 0-9999 ms)
+  6. Leaving room
+  \\(7. checking if there is something on the controlline and continue or abort the sequence\\)"
   (let [controlline (chan), room (chan)]
     (go
      (println name "wait")
@@ -73,7 +86,8 @@
     {:controlline controlline, :room room}))
 
 
-#_(def cancelchan (let [fork0 (fork "fork0"),
+(def cancelchan (chan))
+#_(let [fork0 (fork "fork0"),
       fork1 (fork "fork1"),
       fork2 (fork "fork2"),
       fork3 (fork "fork3"),
@@ -90,10 +104,10 @@
     (>!! (:controlline p) "start"))
   (let [cancel (chan)]
     (go
-      (<! cancel)
+      (<! cancelchan)
        (doseq [p phils]
-         (>!! (:controlline p) "stop")))
-                cancel)))
+         (>! (:controlline p) "stop")))
+                cancel))
 
 #_(>!! cancelchan "stop")
 
