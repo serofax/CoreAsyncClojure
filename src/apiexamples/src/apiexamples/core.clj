@@ -138,10 +138,10 @@
 
 ; to-chan
 #_(read-chan (to-chan {:a 1 :b 2 :c 3}))
-(read-chan (to-chan '(1, 2, 3)))
-(read-chan (to-chan [1 2 3]))
-(read-chan (to-chan #{1, 2, 3}))
-(read-chan (to-chan (range 1 4)))
+#_(read-chan (to-chan '(1, 2, 3)))
+#_(read-chan (to-chan [1 2 3]))
+#_(read-chan (to-chan #{1, 2, 3}))
+#_(read-chan (to-chan (range 1 4)))
 
 ; onto-chan
 #_(let [c (chan)]
@@ -382,7 +382,6 @@
   (read-chan "c1:" c1))
 
 ; alts!!
-; (read)
 #_(let [n 2
       cs (repeatedly n chan)]
   (doseq [c cs]
