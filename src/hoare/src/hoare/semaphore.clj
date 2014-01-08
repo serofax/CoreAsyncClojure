@@ -37,26 +37,26 @@
 
 (def controlline (chan 1000))
 
-(let [myUsers (repeatedly 2 chan)
-      ress (vec (take 1 (iterate inc 1)))
+#_(let [myUsers (repeatedly 200 chan)
+      ress (vec (take 100 (iterate inc 1)))
       sema (semaphore myUsers ress)]
   #_(<!! (timeout 1000))
   (doseq [[user i] (map vector myUsers (range 0 (count myUsers)))]
 
     (go-loop []
              (>! user :AQUIRE)
-             (println "user" i "wants a ressource")
+             #_(println "user" i "wants a ressource")
              (let [ress (<! user)]
-               (println "user" i "aquired ressource" ress)
+               #_(println "user" i "aquired ressource" ress)
                (<! (timeout (rand-int 10000)))
-               (println "user" i "wants to release ressource" ress)
+               #_(println "user" i "wants to release ressource" ress)
                (>! user :RELEASE))
              (alt!
               controlline ([_](println i "- stop received"))
               (timeout 1) ([_](recur))))))
 
 
-#_(doseq [i (range 0 2)]
+#_(doseq [i (range 0 200)]
   (>!! controlline "stop"))
 
 ;(vec (take 5 (iterate inc 1)))

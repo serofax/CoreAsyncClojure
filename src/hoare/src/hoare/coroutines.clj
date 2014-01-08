@@ -175,12 +175,3 @@
   (println "Channel source is closed:" (isChannelClosed? source))
   (println "Channel out is closed:" (isChannelClosed? out)))
 
-
-
-
-
-
-
-
-
-
