@@ -11,6 +11,3 @@
         (recur (<!! c))))
       (prn "END."))))
 
-(let [n 2
-      cs (vec (repeatedly n chan))
-      alters []])

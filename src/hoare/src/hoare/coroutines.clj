@@ -74,7 +74,7 @@
              (if-not (nil? file)
                (do
                  (dotimes [i 80]
-                   (>! result (.charAt file i)))
+                   (>! result (get file i)))
                  (>! result \space)
                  (recur (<! source)))
                (close! result)))
