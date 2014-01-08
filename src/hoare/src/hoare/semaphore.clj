@@ -11,6 +11,12 @@
 
 
 (defn semaphore [users ressourcesArr]
+  "Constructs a semaphore which administrate ressources \\(ressizrcesArr\\).
+  Every semaphore user must profide one controlchannel to the semaphore to give commands.
+  Only one user can handle on ressource at the same time.
+  Following commands are valid
+  :AQUIRE user wants a ressource. The semaphore will put one ressource on this channel if one is free.
+  :RELEASE user releases a ressource. The ressource is now free and can be used by other users."
   (go-loop[usersInQueue #{},
           freeRessources ressourcesArr,
           usedRessources {}]
@@ -27,21 +33,12 @@
                                #_(println "!RELEASE! VALUE:"  (get usedRessources user))
                                (>! (first usersInQueue) (get usedRessources user))
                                (recur (rest usersInQueue) freeRessources (assoc (dissoc usedRessources user) (first usersInQueue) (get usedRessources user) )))
-                             (recur usersInQueue (conj freeRessources (get usedRessources user)) (dissoc usedRessources user)))
-
-
-
-                  )
-
-           )
-          )
-
-  )
+                             (recur usersInQueue (conj freeRessources (get usedRessources user)) (dissoc usedRessources user)))))))
 
 (def controlline (chan 1000))
 
-#_(let [myUsers (repeatedly 100 chan)
-      ress (vec (take 20 (iterate inc 1)))
+(let [myUsers (repeatedly 2 chan)
+      ress (vec (take 1 (iterate inc 1)))
       sema (semaphore myUsers ress)]
   #_(<!! (timeout 1000))
   (doseq [[user i] (map vector myUsers (range 0 (count myUsers)))]
@@ -59,7 +56,7 @@
               (timeout 1) ([_](recur))))))
 
 
-#_(doseq [i (range 0 100)]
+#_(doseq [i (range 0 2)]
   (>!! controlline "stop"))
 
 ;(vec (take 5 (iterate inc 1)))

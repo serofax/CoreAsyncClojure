@@ -25,8 +25,7 @@
     (close! west)
     (<!! (timeout 1000))
     (println "Channel west is closed:" (isChannelClosed? west))
-    (println "Channel east is closed:" (isChannelClosed? east))
-    )
+    (println "Channel east is closed:" (isChannelClosed? east)))
 
 
 (defn squash [source]
@@ -69,7 +68,7 @@
 
 (defn disassemble[source]
   "Reads cardfiles with length 80 from source and prints every character to an outoutsteam. A Space will be placed at the end of a cardfile.
-  loses channel east if channel west was closed."
+  Closes the outchanel if the inputchannel was closed."
   (let [result (chan)]
     (go-loop [file (<! source)]
              (if-not (nil? file)
@@ -78,10 +77,8 @@
                    (>! result (get file i)))
                  (>! result \space)
                  (recur (<! source)))
-               (close! result))
-               )
-    result
-    ))
+               (close! result)))
+    result))
 
 
 #_(let [cardfile1 (apply str (take 80 (repeatedly #(rand-int 10)))),
@@ -99,6 +96,8 @@
   (println "Channel out is closed:" (isChannelClosed? out)))
 
 (defn assemble[source]
+  "Takes a source channel with characters and buffers the chars if there are 125 characters on the buffer. At the end the buffer will be written to the outputchannel.
+  If the sourcechannel is closed before 125 characters are received the missing spaces will be replaced with spaces and the outputchannel will be closed."
   (let [result (chan)]
     (go-loop [i 0 , value (<! source), line "", spaces? :NO]
              (if (<= i 125)
@@ -109,8 +108,7 @@
                  (>! result line)
                  (close! result))))
 
-    result
-    ))
+    result))
 
 #_(let [characters (take (rand-int 126) (repeatedly #(rand-int 10))),
       assemplerChannel (to-chan characters)]
@@ -125,8 +123,9 @@
 
 
 (defn reformat[source]
-  "Reads a sequence of cards of 80 characters each, and print the characters on a lineprinter at 125 characters per line."
-  (let [result (chan), connectorchannel (chan)]
+  "Reads a sequence of cards of 80 characters each, and print the characters on a lineprinter at 125 characters per line.
+  Classic version more hoare-like."
+  (let [connectorchannel (chan)]
     (copy (disassemble source) connectorchannel)
     (assemble connectorchannel)))
 
