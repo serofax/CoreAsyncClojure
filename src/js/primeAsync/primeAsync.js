@@ -60,11 +60,19 @@ function deliverPrimes(count, callback) {
 	}, 0);
 }
 
+
+calcPrimes(2000, function(p) {
+	console.log("Done calculation 2000.");
+});
+
 console.log('Before execution.');
 calcPrimes(4000, function(p) {
-	console.log("Done calculation.");
+	console.log("Done calculation 4000.");
 });
 console.log('After execution.');
 console.log('Some other code...');
+calcPrimes(100, function(p) {
+	console.log("Done calculation 100.");
+});
 
 
