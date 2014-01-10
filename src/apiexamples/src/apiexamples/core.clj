@@ -20,7 +20,6 @@
   (go
     (println (<! c))))
 
-
 ; thread, >!!, <!!
 ; blocking
 #_(let [c (chan)]
