@@ -9,7 +9,7 @@ function getDividers(n) {
 			dividers.push(i);
 		}
 	}
-	return dividers;	
+	return dividers;
 }
 
 function isPrime(n) {
@@ -23,7 +23,7 @@ function calcPrimes(count) {
 	var i=2;
 	while(primes.length < count) {
 		if(isPrime(i)) {
-			primes.push(i);	
+			primes.push(i);
 		}
 		i++;
 	}
@@ -32,6 +32,6 @@ function calcPrimes(count) {
 }
 
 console.log('Before execution.');
-var primes = calcPrimes(4000);
+var primes = calcPrimes(200);
 console.log('After execution.');
 console.log('Some other code...');

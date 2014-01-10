@@ -1,6 +1,6 @@
-(ns cljs-playground.core)
+(ns cljs-playground.core
+  (:require [cljs-playground.utils :refer [log]]))
 
-(let [div (.getElementById js/document "output")]
-  (set!
-    (.-innerHTML div)
-    "Hello World!"))
+(log "test")
+(log "abc")
+(log "Hello World")

@@ -22278,7 +22278,17 @@ cljs.core.special_symbol_QMARK_ = function special_symbol_QMARK_(x) {
   null, new cljs.core.Symbol(null, ".", ".", -1640531481, null), null, new cljs.core.Symbol(null, "ns", "ns", -1640528002, null), null, new cljs.core.Symbol(null, "do", "do", -1640528316, null), null, new cljs.core.Symbol(null, "fn*", "fn*", -1640430053, null), null, new cljs.core.Symbol(null, "throw", "throw", -1530191713, null), null, new cljs.core.Symbol(null, "letfn*", "letfn*", 1548249632, null), null, new cljs.core.Symbol(null, "js*", "js*", -1640426054, null), null, new cljs.core.Symbol(null, 
   "defrecord*", "defrecord*", 774272013, null), null, new cljs.core.Symbol(null, "let*", "let*", -1637213400, null), null, new cljs.core.Symbol(null, "loop*", "loop*", -1537374273, null), null, new cljs.core.Symbol(null, "try", "try", -1640416396, null), null, new cljs.core.Symbol(null, "if", "if", -1640528170, null), null, new cljs.core.Symbol(null, "def", "def", -1640432194, null), null], true), x)
 };
+goog.provide("cljs_playground.utils");
+goog.require("cljs.core");
+cljs_playground.utils.log = function log(s) {
+  var div = document.getElementById("output");
+  div.appendChild(document.createTextNode(s));
+  return div.appendChild(document.createElement("br"))
+};
 goog.provide("cljs_playground.core");
 goog.require("cljs.core");
-var div_5983 = document.getElementById("output");
-div_5983.innerHTML = "Hello World!";
+goog.require("cljs_playground.utils");
+goog.require("cljs_playground.utils");
+cljs_playground.utils.log.call(null, "test");
+cljs_playground.utils.log.call(null, "abc");
+cljs_playground.utils.log.call(null, "Hello World");

@@ -7,7 +7,8 @@
                  [org.clojure/clojurescript "0.0-2014"]
                  [compojure "1.1.5"]
                  [jayq "2.4.0"]
-                 [hiccup "1.0.4"]]
+                 [hiccup "1.0.4"]
+                 [org.clojure/core.async "0.1.256.0-1bf8cf-alpha"]]
 
   :plugins [[lein-cljsbuild "1.0.1"]]
   :cljsbuild {:builds [{:source-paths ["src-cljs"]
