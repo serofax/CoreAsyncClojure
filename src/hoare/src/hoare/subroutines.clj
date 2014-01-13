@@ -59,7 +59,3 @@ divisor, and returns their integer quotient and remainder."
   (<!! (timeout 1000))
   (println "Channel source is closed:" (isChannelClosed? source))
   (println "Channel out is closed:" (isChannelClosed? out)))
-
-
-
-

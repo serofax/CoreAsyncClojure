@@ -7,7 +7,7 @@ public class Philosoph implements Runnable {
 	private Fork rightFork;
 	private String name;
 
-	private boolean goOn = true;
+	private volatile boolean goOn = true;
 
 	public Philosoph(String name,Room room, Fork leftFork, Fork rightFork) {
 		this.name = name;

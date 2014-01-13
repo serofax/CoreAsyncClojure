@@ -109,7 +109,7 @@
          (>! (:controlline p) "stop")))
                 cancel))
 
-#_(>!! cancelchan "stop")
+(>!! cancelchan "stop")
 
 
 
