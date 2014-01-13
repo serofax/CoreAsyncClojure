@@ -8,7 +8,7 @@
   (let[pcl (filter< #(= % id) c)]
     (go-loop [val (<! pcl)]
       (when-not (= val nil)
-        (log (str "Process" id))
+        (log (str "Process " id))
         (recur (<! pcl)))
       (log (str "Process " id " terminated.")))))
 
@@ -22,6 +22,5 @@
         (>! c i)))))
 
 (schedule c 2)
-
 (process 1 c)
 (process 2 c)
