@@ -12,16 +12,16 @@
         (recur (<! pcl)))
       (log (str "Process " id " terminated.")))))
 
-(def c (timeout 10000))
+(def c (timeout 10000)) ; Processes will be terminated after 10secs
 
-(go
-  (while true
-    (<! (timeout (rand-int 1000)))
-    (>! c 1)))
-(go
-  (while true
-    (<! (timeout (rand-int 1000)))
-    (>! c 2)))
+(defn schedule[c n]
+  (dotimes [i n]
+    (go
+      (while true
+        (<! (timeout (rand-int 1000)))
+        (>! c i)))))
+
+(schedule c 2)
 
 (process 1 c)
 (process 2 c)
