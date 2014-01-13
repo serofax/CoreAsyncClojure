@@ -5,7 +5,7 @@
   (let[pcl (filter< #(= % id) c)]
     (go-loop [val (<! pcl)]
       (when-not (= val nil)
-        (println "Process" id)
+        (println "Process " id)
         (recur (<! pcl)))
       (println "Process " id " terminated."))))
 
