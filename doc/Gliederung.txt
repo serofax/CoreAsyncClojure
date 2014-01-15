@@ -3,18 +3,15 @@
 	- Blockierende nicht blockierende IO (Tobi)
 	- Communicating Sequential Processes (Vince)
 	- Asynchrone Programmierung im Vergleich
-		-Paradigmen
+		-Technologien
 			-JS / CPS (Tobi)
-			(-ClojureScript (Tobi))
-			-Java (Vince)
-			-Clojure (Zusammen)	 
-			(-Future, Callback, ExecutionService, Threads, ...) (siehe Oben)
-			(-Vergleich)
+			-ClojureScript (Tobi)
+			-Java / JCSP / Future, Callback, ExecutionService, Threads, ... (Vince)	 
 
 -Idee/Prinzip Core.Async
-	- Idee google go
-	- API Beispiele
-	- Vergleich zu anderen Paradigmen s.o.
+	- Idee google go (Tobi)
+	- API Beispiele (Tobi)
+	- Vergleich zu anderen Paradigmen s.o. (Vincent)
 (-Komplexere Beispiele)
 -Fazit (Tobi)
 

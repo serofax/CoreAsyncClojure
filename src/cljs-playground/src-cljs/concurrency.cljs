@@ -22,5 +22,6 @@
         (>! c i)))))
 
 (schedule c 2)
+(process 0 c)
 (process 1 c)
-(process 2 c)
+
