@@ -1,0 +1,65 @@
+\include{settings}
+%cannot be in another file
+\usepackage{glossaries}
+\makeglossaries
+\input{Worttrennungen}
+\input{Glossareintraege}
+
+
+
+
+\begin{document}
+% Titelseite einfügen
+\begin{titlepage}
+\input{chapter/Titlepage}
+\end{titlepage}
+
+% Leere Seite nach Titelseite
+\emptypage
+\newpage
+%\cleardoublepage
+
+% Inhaltsverzeichnis
+\pagenumbering{Roman}
+\setcounter{page}{1}
+\phantomsection
+\addcontentsline{toc}{chapter}{Inhaltsverzeichnis}
+\tableofcontents
+\newpage
+\cleardoublepage
+%\emptypage
+%\newpage
+% Sichern der aktuellen Seitenzahl des Vorspanns
+\newcounter{last_roman}
+\setcounter{last_roman}{\value{page}}
+
+% Kapitel
+\pagenumbering{arabic}
+\input{chapter/01_Einleitung}
+\cleardoublepage
+\input{chapter/02_Grundlagen}
+\cleardoublepage
+\input{chapter/07_Fazit}
+\cleardoublepage
+
+% Schluss
+\pagenumbering{Roman}
+\setcounter{page}{\value{last_roman}}
+\input{chapter/Abkuerzungsverzeichnis}
+\cleardoublepage
+\input{chapter/Glossar}
+\cleardoublepage
+\input{chapter/Abbildungsverzeichnis}
+\cleardoublepage
+\input{chapter/Tabellenverzeichnis}
+\cleardoublepage
+\input{chapter/Listingverzeichnis}
+\cleardoublepage
+\input{chapter/Literaturverzeichnis}
+\cleardoublepage
+\input{chapter/Anhang}
+\cleardoublepage 
+\input{chapter/Versicherung}
+
+
+\end{document}

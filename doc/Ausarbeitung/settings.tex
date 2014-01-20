@@ -1,0 +1,199 @@
+% Dokumentenart festlegen
+%Schriftgröße 12pt, A4, mit titelseite,doppelseitig,aber halbseiten überspringen,doppelseiten leer(ohne header)
+%\documentclass[12pt,a4paper,titlepage,parskip=half,twoside,cleardoublepage=plain]{scrreprt}
+\documentclass[12pt,a4paper,titlepage,parskip=half,cleardoublepage=plain]{scrreprt}
+\usepackage[left=35mm,right=20mm,head=15mm,bottom=15mm,includefoot]{geometry}
+%\usepackage{geometry}
+
+% Dokumenteninformationen
+\title{TEMPLATE}
+
+%export author and title to use later
+\makeatletter
+\let\thetitle\@title
+\let\theauthor\@author
+\makeatother
+
+
+
+
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+%\usepackage[scaled]{uarial}
+
+
+%use serif font
+\renewcommand*\familydefault{\rmdefault}
+%use san serif font
+%\renewcommand*\familydefault{\sfdefault}
+
+% Farben festlegen
+\usepackage{xcolor}
+\definecolor{black}{rgb}{0.0,0.0,0.0}
+
+% Packet für bessere Listen vorallem Kompakte
+\usepackage{paralist}
+
+
+% Bilder einfügen
+\usepackage{graphicx}
+
+% Bilder fest positionieren
+\usepackage{float}
+
+% Fußnotenzähler durchgängig
+\usepackage{chngcntr}
+%\counterwithout{footnote}{chapter}
+
+\usepackage{perpage} %the perpage package
+\MakePerPage{footnote} %the perpage package command
+
+
+
+% Deutsche Übersetzungen automatisch eingefügter Worte
+\usepackage[ngerman]{babel}
+
+% Acronyme bzw. Abkürzungen
+\usepackage[printonlyused]{acronym}
+
+%\usepackage{relsize}
+%\usepackage{xcolor}
+%\renewcommand{\bflabel}[1]{#1\hfill}
+\renewcommand{\bflabel}[1]{\normalfont{\normalsize{#1}}\hfill}
+% kursiv long
+\renewcommand*{\acffont}[1]{{\color{black}\itshape{#1}}}
+\renewcommand*{\acfsfont}[1]{\textnormal{#1}}
+
+% Subfigure
+\usepackage{subfigure}
+
+% Advanced tables
+\usepackage{tabularx}
+
+%\usepackage[perpage]{footmisc}
+
+%package for odd pages check
+\usepackage{changepage}
+\strictpagecheck
+
+
+\definecolor{listing_bg}{rgb}	{0.98,0.98,0.98}
+
+% Listing package (Code,...)
+\usepackage{listings}
+\lstloadlanguages{Java}
+\lstset{
+	basicstyle			= \footnotesize,
+	frame						= trLB, 							% Rahmen (right, bottom, left, top; uppercase: double frame)
+	breaklines			= true, 							% Zeilenumbruch
+	numbers					= left, 							% Zeilennummernformatierung: Schriftausrichtung
+	numberstyle			= \tiny, 							% Zeilennummernformatierung: Schriftgroesse
+	backgroundcolor	= \color{listing_bg}, % Hintergrundfarbe
+	tabsize					= 2, 									% col1 = n+1, col2 = 2n+1
+	extendedchars		= true 								% Sonderzeichen
+}
+
+%booleans und vergleiche
+\usepackage{ifthen}
+
+
+% Eigene Befehle
+\newcommand{\template}{\textit{template}}
+
+
+
+
+\newboolean{commentenabled} %Deklaration
+\setboolean{commentenabled}{true} %Enable or disable comments
+
+\newcommand{\comment}[1]{\ifthenelse{\boolean{commentenabled}}{{\color{red}\Huge \bf --------------------\\#1\\--------------------\\}}{}}
+\newcommand{\emptypage}{\newpage \thispagestyle{empty} \quad}
+\newcommand{\subsubref}[1]{\ref{#1} \textit{\nameref{#1}}}
+
+\newcommand{\cancel}[2]{{\color{red}\sout{#1}{\textbf{#2}}}}
+
+\newcommand{\hierweiter}[0]{\comment{Hier Weiter}}
+
+
+% Abkürzungen
+\newcommand{\bzw}{\mbox{bzw.}}
+
+
+% Meta Information festlegen IMPORT LAST
+\usepackage[
+    pdftitle={TEMPLATE},
+    pdfsubject={\thetitle},
+    pdfauthor={\theauthor},
+    pdfkeywords={\thetitle, TEMPLATE}
+]{hyperref}
+
+%  Grafiken richtig verlinken
+\usepackage[all]{hypcap}
+
+
+
+
+
+% Links richtig färben
+\hypersetup{
+	linkcolor		= black,	% red 		Color for normal internal links. 
+	anchorcolor		= black,	% black 	Color for anchor text. 
+	citecolor		= black,	% green 	Color for bibliographical citations in text. 
+	filecolor		= black,	% magenta	Color for URLs which open local files. 
+	menucolor		= black,	% red 		Color for Acrobat menu items. 
+	urlcolor		= black,	% cyan 		Color for linked URLs.
+	colorlinks		= true		% Use colored text instead of a frame around it.
+	}
+	
+\usepackage{textcomp}
+
+% Dicke horizontale Linien mit \Xhline{2\arrayrulewidth}
+\usepackage{makecell}
+
+\usepackage{fancyhdr}
+
+\fancypagestyle{basicstyle}{%
+  \fancyhf{}
+  \fancyhead[LE,RO]{\nouppercase\rightmark}
+  \fancyfoot[LE,RO]{\thepage}
+  \renewcommand{\headrulewidth}{0.4pt}
+  \renewcommand{\footrulewidth}{0pt}}
+\pagestyle{basicstyle}
+
+\newcommand\footnoteref[1]{\protected@xdef\@thefnmark{\ref{#1}}\@footnotemark}
+
+\usepackage{ulem}
+
+% Rotieren der Tabellen
+\usepackage{rotating}
+% Trennung von Wörtern verhindern
+\usepackage{hyphenat}
+%Mathematiksymbole
+\usepackage{amsmath}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%\usepackage{lineno}
+%\linenumbers
+
+
+
+
+%\usepackage[3-6]{pagesel}
+
+
+
+	
