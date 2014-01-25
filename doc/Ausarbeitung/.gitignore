@@ -1,0 +1,11 @@
+# Tex helper files
+*.aux
+*.toc
+*.pdf
+*.out
+*.lot
+*.lol
+*.log
+*.ist
+*.glo
+*.div

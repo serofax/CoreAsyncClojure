@@ -1,12 +1,11 @@
 % Dokumentenart festlegen
-%Schriftgröße 12pt, A4, mit titelseite,doppelseitig,aber halbseiten überspringen,doppelseiten leer(ohne header)
-%\documentclass[12pt,a4paper,titlepage,parskip=half,twoside,cleardoublepage=plain]{scrreprt}
-\documentclass[12pt,a4paper,titlepage,parskip=half,cleardoublepage=plain]{scrreprt}
-\usepackage[left=35mm,right=20mm,head=15mm,bottom=15mm,includefoot]{geometry}
-%\usepackage{geometry}
+%Schriftgröße 12pt, A4, mit titelseite,aber halbseiten überspringen,doppelseiten leer(ohne header)
+\documentclass[12pt,a4paper,titlepage,parskip=half,listof=totoc]{scrreprt}
+
 
 % Dokumenteninformationen
 \title{TEMPLATE}
+\author{Vincent Elliott Wagner, Tobias Schwalm}
 
 %export author and title to use later
 \makeatletter
@@ -20,6 +19,7 @@
 
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
+\usepackage{lmodern}
 
 %\usepackage[scaled]{uarial}
 
@@ -75,8 +75,8 @@
 %\usepackage[perpage]{footmisc}
 
 %package for odd pages check
-\usepackage{changepage}
-\strictpagecheck
+%\usepackage{changepage}
+%\strictpagecheck
 
 
 \definecolor{listing_bg}{rgb}	{0.98,0.98,0.98}
@@ -100,10 +100,8 @@
 
 
 % Eigene Befehle
+
 \newcommand{\template}{\textit{template}}
-
-
-
 
 \newboolean{commentenabled} %Deklaration
 \setboolean{commentenabled}{true} %Enable or disable comments
@@ -126,14 +124,11 @@
     pdftitle={TEMPLATE},
     pdfsubject={\thetitle},
     pdfauthor={\theauthor},
-    pdfkeywords={\thetitle, TEMPLATE}
+    pdfkeywords={\thetitle , TEMPLATE}
 ]{hyperref}
 
 %  Grafiken richtig verlinken
 \usepackage[all]{hypcap}
-
-
-
 
 
 % Links richtig färben
@@ -147,6 +142,7 @@
 	colorlinks		= true		% Use colored text instead of a frame around it.
 	}
 	
+%More Text Symbols bullets ...	
 \usepackage{textcomp}
 
 % Dicke horizontale Linien mit \Xhline{2\arrayrulewidth}
@@ -156,22 +152,23 @@
 
 \fancypagestyle{basicstyle}{%
   \fancyhf{}
-  \fancyhead[LE,RO]{\nouppercase\rightmark}
-  \fancyfoot[LE,RO]{\thepage}
+%  \fancyhead[LE,RO]{\nouppercase\rightmark}
+%  \fancyfoot[LE,RO]{\thepage}
   \renewcommand{\headrulewidth}{0.4pt}
   \renewcommand{\footrulewidth}{0pt}}
 \pagestyle{basicstyle}
 
 \newcommand\footnoteref[1]{\protected@xdef\@thefnmark{\ref{#1}}\@footnotemark}
 
-\usepackage{ulem}
+%Unterstreichen von allem möglichen
+%\usepackage{ulem}
 
 % Rotieren der Tabellen
-\usepackage{rotating}
+%\usepackage{rotating}
 % Trennung von Wörtern verhindern
-\usepackage{hyphenat}
+%\usepackage{hyphenat}
 %Mathematiksymbole
-\usepackage{amsmath}
+%\usepackage{amsmath}
 
 
 
