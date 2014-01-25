@@ -11,3 +11,10 @@
 *.div
 *.gls
 *.glg
+*.xml
+*.blb
+*.blg
+*.lof
+*.bbl
+*.gz
+CoreAsync-blx.bib

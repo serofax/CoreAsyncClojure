@@ -57,6 +57,58 @@
 
 % Acronyme bzw. Abkürzungen
 \usepackage[printonlyused]{acronym}
+\makeatletter
+\def\uplabel#1{{\normalfont{\textsf{#1}}\dotfill}}
+\renewenvironment{acronym}[1][1]{%
+   \providecommand*{\acro}{\AC@acro}%
+   \providecommand*{\acroplural}{\AC@acroplural}%
+   \long\def\acroextra##1{##1}%
+   \def\@tempa{1}\def\@tempb{#1}%
+   \ifx\@tempa\@tempb%
+      \global\expandafter\let\csname ac@des@mark\endcsname\AC@used%
+      \ifAC@nolist%
+      \else%
+         \begin{list}{}%
+                {\settowidth{\labelwidth}{\normalfont{\textsf{#1}}\hspace*{2.5cm}}% change according to your needs
+                \setlength{\leftmargin}{\labelwidth}%
+                \addtolength{\leftmargin}{\labelsep}%
+                \renewcommand{\makelabel}{\uplabel}}
+      \fi%
+   \else%
+      \begin{AC@deflist}{#1}%
+   \fi%
+  }%
+  {%
+   \ifx\AC@populated\AC@used\else%
+      \ifAC@nolist%
+      \else%
+          \item[]\relax%
+      \fi%
+   \fi%
+   \expandafter\ifx\csname ac@des@mark\endcsname\AC@used%
+      \ifAC@nolist%
+      \else%
+        \end{list}%
+      \fi%
+   \else%
+      \end{AC@deflist}%
+   \fi}%
+\renewenvironment{AC@deflist}[1]%
+        {\ifAC@nolist%
+         \else%
+            \raggedright\begin{list}{}%
+                {\settowidth{\labelwidth}{\normalfont{\textsf{#1}}\hspace*{2.5cm}}% change according to your needs
+                \setlength{\leftmargin}{\labelwidth}%
+                \addtolength{\leftmargin}{\labelsep}%
+                \renewcommand{\makelabel}{\uplabel}}%
+          \fi}%
+        {\ifAC@nolist%
+         \else%
+            \end{list}%
+         \fi}%
+ \makeatother
+
+
 
 %\usepackage{relsize}
 %\usepackage{xcolor}
@@ -95,6 +147,13 @@
 	extendedchars		= true 								% Sonderzeichen
 }
 
+% Verhindere unterstreichen von Titeln im Literaturverzeichnis
+\usepackage[normalem]{ulem}
+
+% Verwende biblatex um zusätzliche Zitatfunktionen zu ermöglichen
+\usepackage[style=alphabetic,hyperref=true,backend=bibtex8]{biblatex}
+\bibliography{chapter/Literaturverzeichnis}{\addcontentsline{toc}{chapter}{Literaturverzeichnis}}
+
 %booleans und vergleiche
 \usepackage{ifthen}
 
@@ -117,6 +176,8 @@
 
 % Abkürzungen
 \newcommand{\bzw}{\mbox{bzw.}}
+\newcommand{\CA}{\textit{core.async}}
+
 
 
 % Meta Information festlegen IMPORT LAST
@@ -166,9 +227,9 @@
 % Rotieren der Tabellen
 %\usepackage{rotating}
 % Trennung von Wörtern verhindern
-%\usepackage{hyphenat}
+\usepackage{hyphenat}
 %Mathematiksymbole
-%\usepackage{amsmath}
+\usepackage{amsmath}
 
 
 

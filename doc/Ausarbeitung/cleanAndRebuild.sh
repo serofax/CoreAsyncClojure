@@ -19,7 +19,7 @@ rm *.out
 pdflatex CoreAsync
 pdflatex CoreAsync
 pdflatex CoreAsync
-#bibtex CoreAsync
+bibtex CoreAsync
 makeglossaries CoreAsync
 pdflatex CoreAsync
 pdflatex CoreAsync
