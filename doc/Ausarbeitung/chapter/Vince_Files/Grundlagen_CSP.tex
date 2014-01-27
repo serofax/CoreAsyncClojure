@@ -1,1 +1,44 @@
 \section{\acl{CSP}}
+\acf{CSP} ist eine von \textit{C.A.R. Hoare} in seinem Paper\footcite{CSP} \textit{Communication Sequential Processes} 1978 erstmals vorgestellte mathematische Beschreibung von gleichzeitigen Prozessen und deren Kommunikation untereinander.
+
+
+Die verwendeten Symbole werden von \textit{C.A.R. Hoare} in seinem Buch\footcite[Glossary of Symbols]{CSPBOOK} beschrieben und können da nachgeschlagen werden.
+\subsection[Bestandteile von \acs{CSP}]{Bestandteile von \acs{CSP}\footnote{Siehe \cite[Kapitel 1.1]{CSPBOOK}}}
+\textit{C.A.R. Hoare} verwendet in seinem Buch\footcite{CSPBOOK} gerne einen Schokoladenautomat als Beispiel für einfache Konstrukte. Dieses Beispiel wurde übernommen und sprachlich abgeändert.
+\subsubsection{Events}
+Events sind Aktionen, die auftreten können. Zwischen eingehenden und ausgehenden Events wird nicht unterschieden. In Hoares-Notation werden Events mit Kleinbuchstaben geschrieben.
+Zum Beispiel bei einem einfachen Schokoladenautomaten gäbe es folgende Events:
+
+\begin{addmargin}[1cm]{0cm}
+münze - Das Einwerfen einer Münze in den Automaten.\\
+schokolade - Das Entnehmen der Schokolade aus dem Auswurf des Automaten.
+\end{addmargin}
+
+\subsubsection{Prozesse}
+Ein Prozess definiert sich durch eine Kombination aus verschiedenen Events, die sequentiell ausgeführt werden. In unserem Beispiel existiert nur ein Prozess und zwar der Schokoladenautomat \textit{SA}, der durch die Großbuchstaben auch als solcher erkenntlich ist. Ein weiterer Prozess der im weiteren Verlauf benötigt ist, ist der \textit{STOP}-Prozess. Dieser Prozess beschreibt, dass die Schokoladenmaschine nicht mehr funktioniert.
+
+\subsubsection{Verkettung}
+Um Events, Prozesse und andere Konstrukte sequentiell auszuführen kann $ (\text{münze} \rightarrow (schokolade \rightarrow STOP)) $ geschrieben werden. Diese Ausführung beschreibt einen Schokoladenautomaten, der eine Münze annimmt und Schokolade auswirft und dann nicht mehr funktioniert. Folgendes hätte auch geschrieben werden können $ SA = (\text{münze} \rightarrow schokolade \rightarrow STOP) $. Die Klammern können somit weggelassen werden und der Prozess kann benannt werden.
+
+\subsubsection{Rekursion}
+Um nicht den gesamten Ablauf einen Prozesses modellieren zu müssen gibt es Rekursion. Der nicht terminierende Automat \textit{SA} würde wie folgt aussehen:
+\begin{addmargin}[1cm]{0cm}
+$SA = (\text{münze} \rightarrow schokolade \rightarrow SA)$
+\end{addmargin}
+
+\subsection{Brainstorming}
+
+Hoare:
+
+Problem:
+Programme sind sequentiell strukturiert und deterministisch.
+
+Es gibt Alternativen wie: oop, coroutinen, monitore, actors.
+
+Es wir vermutet das Multicore (multi prozessor) 'powerful' sind als monoprozessor
+
+Problem: Synchronisation, Kommunikation,
+
+Vergleich von CSP zum Actor-System ist auf wikipedia
+
+
