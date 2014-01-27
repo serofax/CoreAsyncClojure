@@ -1,12 +1,15 @@
 % Dokumentenart festlegen
-%Schriftgröße 12pt, A4, mit titelseite,doppelseitig,aber halbseiten überspringen,doppelseiten leer(ohne header)
-%\documentclass[12pt,a4paper,titlepage,parskip=half,twoside,cleardoublepage=plain]{scrreprt}
-\documentclass[12pt,a4paper,titlepage,parskip=half,cleardoublepage=plain]{scrreprt}
-\usepackage[left=35mm,right=20mm,head=15mm,bottom=15mm,includefoot]{geometry}
-%\usepackage{geometry}
+%Schriftgröße 12pt, A4, mit titelseite,aber halbseiten überspringen,doppelseiten leer(ohne header)
+\documentclass[12pt,a4paper,titlepage,parskip=half,listof=totoc]{scrreprt}
+
 
 % Dokumenteninformationen
+<<<<<<< HEAD
 \title{Programmieren in Clojure - core.async}
+=======
+\title{TEMPLATE}
+\author{Vincent Elliott Wagner, Tobias Schwalm}
+>>>>>>> 03d87c0c7534f0eac927f9236c933d19a5ae6ac3
 
 %export author and title to use later
 \makeatletter
@@ -20,6 +23,7 @@
 
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
+\usepackage{lmodern}
 
 %\usepackage[scaled]{uarial}
 
@@ -57,6 +61,58 @@
 
 % Acronyme bzw. Abkürzungen
 \usepackage[printonlyused]{acronym}
+\makeatletter
+\def\uplabel#1{{\normalfont{\textsf{#1}}\dotfill}}
+\renewenvironment{acronym}[1][1]{%
+   \providecommand*{\acro}{\AC@acro}%
+   \providecommand*{\acroplural}{\AC@acroplural}%
+   \long\def\acroextra##1{##1}%
+   \def\@tempa{1}\def\@tempb{#1}%
+   \ifx\@tempa\@tempb%
+      \global\expandafter\let\csname ac@des@mark\endcsname\AC@used%
+      \ifAC@nolist%
+      \else%
+         \begin{list}{}%
+                {\settowidth{\labelwidth}{\normalfont{\textsf{#1}}\hspace*{2.5cm}}% change according to your needs
+                \setlength{\leftmargin}{\labelwidth}%
+                \addtolength{\leftmargin}{\labelsep}%
+                \renewcommand{\makelabel}{\uplabel}}
+      \fi%
+   \else%
+      \begin{AC@deflist}{#1}%
+   \fi%
+  }%
+  {%
+   \ifx\AC@populated\AC@used\else%
+      \ifAC@nolist%
+      \else%
+          \item[]\relax%
+      \fi%
+   \fi%
+   \expandafter\ifx\csname ac@des@mark\endcsname\AC@used%
+      \ifAC@nolist%
+      \else%
+        \end{list}%
+      \fi%
+   \else%
+      \end{AC@deflist}%
+   \fi}%
+\renewenvironment{AC@deflist}[1]%
+        {\ifAC@nolist%
+         \else%
+            \raggedright\begin{list}{}%
+                {\settowidth{\labelwidth}{\normalfont{\textsf{#1}}\hspace*{2.5cm}}% change according to your needs
+                \setlength{\leftmargin}{\labelwidth}%
+                \addtolength{\leftmargin}{\labelsep}%
+                \renewcommand{\makelabel}{\uplabel}}%
+          \fi}%
+        {\ifAC@nolist%
+         \else%
+            \end{list}%
+         \fi}%
+ \makeatother
+
+
 
 %\usepackage{relsize}
 %\usepackage{xcolor}
@@ -75,8 +131,8 @@
 %\usepackage[perpage]{footmisc}
 
 %package for odd pages check
-\usepackage{changepage}
-\strictpagecheck
+%\usepackage{changepage}
+%\strictpagecheck
 
 
 \definecolor{listing_bg}{rgb}	{0.98,0.98,0.98}
@@ -95,15 +151,20 @@
 	extendedchars		= true 								% Sonderzeichen
 }
 
+% Verhindere unterstreichen von Titeln im Literaturverzeichnis
+\usepackage[normalem]{ulem}
+
+% Verwende biblatex um zusätzliche Zitatfunktionen zu ermöglichen
+\usepackage[style=alphabetic,hyperref=true,backend=bibtex8]{biblatex}
+\bibliography{chapter/Literaturverzeichnis}{\addcontentsline{toc}{chapter}{Literaturverzeichnis}}
+
 %booleans und vergleiche
 \usepackage{ifthen}
 
 
 % Eigene Befehle
+
 \newcommand{\template}{\textit{template}}
-
-
-
 
 \newboolean{commentenabled} %Deklaration
 \setboolean{commentenabled}{true} %Enable or disable comments
@@ -119,6 +180,8 @@
 
 % Abkürzungen
 \newcommand{\bzw}{\mbox{bzw.}}
+\newcommand{\CA}{\textit{core.async}}
+
 
 
 % Meta Information festlegen IMPORT LAST
@@ -126,14 +189,11 @@
     pdftitle={TEMPLATE},
     pdfsubject={\thetitle},
     pdfauthor={\theauthor},
-    pdfkeywords={\thetitle, TEMPLATE}
+    pdfkeywords={\thetitle , TEMPLATE}
 ]{hyperref}
 
 %  Grafiken richtig verlinken
 \usepackage[all]{hypcap}
-
-
-
 
 
 % Links richtig färben
@@ -147,6 +207,7 @@
 	colorlinks		= true		% Use colored text instead of a frame around it.
 	}
 	
+%More Text Symbols bullets ...	
 \usepackage{textcomp}
 
 % Dicke horizontale Linien mit \Xhline{2\arrayrulewidth}
@@ -156,18 +217,19 @@
 
 \fancypagestyle{basicstyle}{%
   \fancyhf{}
-  \fancyhead[LE,RO]{\nouppercase\rightmark}
-  \fancyfoot[LE,RO]{\thepage}
+%  \fancyhead[LE,RO]{\nouppercase\rightmark}
+%  \fancyfoot[LE,RO]{\thepage}
   \renewcommand{\headrulewidth}{0.4pt}
   \renewcommand{\footrulewidth}{0pt}}
 \pagestyle{basicstyle}
 
 \newcommand\footnoteref[1]{\protected@xdef\@thefnmark{\ref{#1}}\@footnotemark}
 
-\usepackage{ulem}
+%Unterstreichen von allem möglichen
+%\usepackage{ulem}
 
 % Rotieren der Tabellen
-\usepackage{rotating}
+%\usepackage{rotating}
 % Trennung von Wörtern verhindern
 \usepackage{hyphenat}
 %Mathematiksymbole

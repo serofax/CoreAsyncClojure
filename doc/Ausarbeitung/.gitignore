@@ -1,0 +1,20 @@
+# Tex helper files
+*.aux
+*.toc
+*.pdf
+*.out
+*.lot
+*.lol
+*.log
+*.ist
+*.glo
+*.div
+*.gls
+*.glg
+*.xml
+*.blb
+*.blg
+*.lof
+*.bbl
+*.gz
+CoreAsync-blx.bib
