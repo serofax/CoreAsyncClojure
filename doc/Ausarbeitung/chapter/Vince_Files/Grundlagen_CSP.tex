@@ -1,12 +1,15 @@
 \section{\acl{CSP}}
 \acf{CSP} ist eine von \textit{C.A.R. Hoare} in seinem Paper\footcite{CSP} \textit{Communication Sequential Processes} 1978 erstmals vorgestellte mathematische Beschreibung von gleichzeitigen Prozessen und deren Kommunikation untereinander.
 
+Als Begründung, warum er ein solches System definiert hat, gibt Hoare an, dass in Zukunft neue Algorithmen benötigt werden, die parallel ausgeführt werden und miteinander kommunizieren und synchronisieren können, um die Effizient zu steigern. Die damalige Synchronisation über \textit{shared Storage} hat ihm nicht gefallen, da sie zu fehleranfällig und zu komplex war.\footcite[Introduction]{CSP}
 
 Die verwendeten Symbole werden von \textit{C.A.R. Hoare} in seinem Buch\footcite[Glossary of Symbols]{CSPBOOK} beschrieben und können da nachgeschlagen werden.
-\subsection[Bestandteile von \acs{CSP}]{Bestandteile von \acs{CSP}\footnote{Siehe \cite[Kapitel 1.1]{CSPBOOK}}}
-\textit{C.A.R. Hoare} verwendet in seinem Buch\footcite{CSPBOOK} gerne einen Schokoladenautomat als Beispiel für einfache Konstrukte. Dieses Beispiel wurde übernommen und sprachlich abgeändert.
+\subsection[Operatoren und Konstrukte \acs{CSP}]{Operatoren und Konstrukte \acs{CSP}\footnote{Siehe \cite[Kapitel 1.1]{CSPBOOK}}}
+
+Hoare definiert sehr viele Operatoren und Konstrukte, die wichtigen von ihren werden nun erläutert. Für Beispiele, wird das von Hoare gerne in seinem Buch\footcite{CSPBOOK} verwendete Beispiel eines Schokoladenautomaten verwendet, jedoch wurden die Begriffe ins Deutsche übersetzt.
+
 \subsubsection{Events}
-Events sind Aktionen, die auftreten können. Zwischen eingehenden und ausgehenden Events wird nicht unterschieden. In Hoares-Notation werden Events mit Kleinbuchstaben geschrieben.
+Events sind Aktionen, die auftreten können. Zwischen eingehenden und ausgehenden Events wird nicht unterschieden. In Hoares Notation werden Events in Kleinbuchstaben geschrieben.
 Zum Beispiel bei einem einfachen Schokoladenautomaten gäbe es folgende Events:
 
 \begin{addmargin}[1cm]{0cm}
@@ -14,17 +17,75 @@ münze - Das Einwerfen einer Münze in den Automaten.\\
 schokolade - Das Entnehmen der Schokolade aus dem Auswurf des Automaten.
 \end{addmargin}
 
+Um den Bezug zu \CA\ herzustellen, erweitern wir die Events um Channels, womit sich Hoare erst in einem späteren Kapitel\footcite[4.2]{CSPBOOK} im Buch befasst. Stellen wir uns nun den Münzeinwurf (\textit{in}) und den Auswurf (\textit{out}) des Automaten als Channel vor. Die Events aus Sicht des Prozesses sehen nun wie folgt aus:
+
+\begin{addmargin}[1cm]{0cm}
+in.münze - Das Entnehmen einer Münze aus dem Münzeinwurf.\\
+out.schokolade - Das Hineinlegen einer Schokolade in den Auswurf.
+\end{addmargin}
+
+Um Variablen ins Spiel zu bringen gibt es den ?-Operator und den !-Operator. Da das Beispiel dafür ungeeignet ist, wird ein Neues definiert. Nun gibt es einen Automaten (\textit{COPY}), der aus seinem in-Channel liest und den Wert in seinen out-Channel schreibt. Folgende Events gäbe es:
+
+\begin{addmargin}[1cm]{0cm}
+in?x - Das Entnehmen von Irgendwas aus dem in-channel und das Speichern in der Variable x.\\
+out!x - Das Hineinlegen von dem Wert in der Variable x auf den out-channel.
+\end{addmargin}
+
+Alle weiteren Konstrukte werden anhand von Channels erklärt.
+
 \subsubsection{Prozesse}
-Ein Prozess definiert sich durch eine Kombination aus verschiedenen Events, die sequentiell ausgeführt werden. In unserem Beispiel existiert nur ein Prozess und zwar der Schokoladenautomat \textit{SA}, der durch die Großbuchstaben auch als solcher erkenntlich ist. Ein weiterer Prozess der im weiteren Verlauf benötigt ist, ist der \textit{STOP}-Prozess. Dieser Prozess beschreibt, dass die Schokoladenmaschine nicht mehr funktioniert.
+Ein Prozess definiert sich durch eine Kombination aus verschiedenen Events, die sequentiell hintereinander ausgeführt werden. In unserem ersten Beispiel existiert nur ein Prozess und zwar der Schokoladenautomat \textit{SA}, der durch die Großbuchstaben auch als solches erkenntlich ist. Um einen Automaten terminierbar darzustellen kann nicht einfach nach einem Event nichts mehr folgen, da das die Notation nicht vorsieht. Nach einem Event muss immer ein Prozess oder ein weiteres Event kommen. Deswegen wird hierzu ein Prozess \textit{STOP} definiert, der nach der eigentlichen Ausführung kommt. Er symbolisiert, dass der Schokoladenautomat nicht mehr funktioniert.
 
 \subsubsection{Verkettung}
-Um Events, Prozesse und andere Konstrukte sequentiell auszuführen kann $ (\text{münze} \rightarrow (schokolade \rightarrow STOP)) $ geschrieben werden. Diese Ausführung beschreibt einen Schokoladenautomaten, der eine Münze annimmt und Schokolade auswirft und dann nicht mehr funktioniert. Folgendes hätte auch geschrieben werden können $ SA = (\text{münze} \rightarrow schokolade \rightarrow STOP) $. Die Klammern können somit weggelassen werden und der Prozess kann benannt werden.
+Um Events, Prozesse und andere Konstrukte sequentiell auszuführen kann $ (\text{in.münze} \rightarrow (out.schokolade \rightarrow STOP)) $ geschrieben werden. Diese Ausführung beschreibt einen Schokoladenautomaten, der eine Münze annimmt und Schokolade auswirft und dann nicht mehr funktioniert. Folgendes hätte auch geschrieben werden können $ SA = (\text{in.münze} \rightarrow \text{out.schokolade} \rightarrow STOP) $. Die Klammern können somit weggelassen werden und der Prozess kann benannt werden.
 
 \subsubsection{Rekursion}
 Um nicht den gesamten Ablauf einen Prozesses modellieren zu müssen gibt es Rekursion. Der nicht terminierende Automat \textit{SA} würde wie folgt aussehen:
 \begin{addmargin}[1cm]{0cm}
-$SA = (\text{münze} \rightarrow schokolade \rightarrow SA)$
+$SA = (\text{in.münze} \rightarrow \text{out.schokolade} \rightarrow SA)$
 \end{addmargin}
+
+Das zweite Beispiel eines kopierenden Automaten (\textit{COPY}) sähe wie folgt aus:
+
+\begin{addmargin}[1cm]{0cm}
+$COPY = (\text{in?x} \rightarrow \text{out!x} \rightarrow COPY)$
+\end{addmargin}
+
+\subsubsection{Parallelität}
+Momentan kann die vorgestellte Notation nur einen Prozess ausführen. Jedoch ist das Kernelement von \ac{CSP} die parallele Ausführung von Prozessen. Bei der parallelen Ausführung werden Events, die in beiden Alphabeten vorkommen synchron ausgeführt und Events, die nur in einem Prozess vorkommen von dem anderen Prozess ignoriert. Der Operator, der Prozesse parallel ausführt ist der ||-Operator. Definieren wir nun zwei Prozesse.
+
+\begin{addmargin}[1cm]{0cm}
+$mensa:SA = \mu X \bullet (\text{in.münze} \rightarrow \text{out.schokolade} \rightarrow X)$\\
+$KUNDE = (\text{mensa.in.münze} \rightarrow \text{mensa.out.schokolade} \rightarrow sichfreuen \rightarrow  KUNDE)$
+\end{addmargin}
+
+Der erste Prozess ist der bekannt Schokoladenautomat. Nun ist es aber eine genaue Instanz mit dem Namen \textit{mensa}. $\mu X$ definiert einen annonymen
+
+\hierweiter
+
+
+\subsubsection{Weitere wichtige Konstrukte}
+Die oben vorgestellten Konstrukte reichen aus um einen einfachen Automaten zu definieren, der immer den gleichen Ablauf hat. Jedoch werden bei komplexeren Algorithmen Verzweigungen gebraucht, um alternative Abläufe zu modellieren. Hierfür definiert die Notation den |-Operator.
+
+
+
+
+
+Zusätzlich definiert Hoare noch viele andere wichtige Konstrukte, wie Verzweigung zwischen zwei Ausführungen. Symbolisiert durch einen senkrechten Strich (|).
+
+Um zu symbolisieren, dass zwei Prozesse mit dem \textbf{gleich Alphabet} (gleiche Events) parallel ausgeführt werden, gibt es den Zwei-senkrechte-Striche-Operator (||).
+
+
+\subsubsection{Realisierung in \CA}
+In \CA\ ist ein Prozess verschiedene Befehle, die entweder durch einen Thread ausgeführt werden können oder in einem \textit{go}-Block in eine Zustandsautomaten umgewandelt wird.
+
+
+
+
+
+ein Thread oder ein Prozess, der sich in einem \textit{go}-Block bef
+
+\comment{Auf core async Beziehen, was ist in ca ein Event. Gleiche mit Prozessen etc}
 
 \subsection{Brainstorming}
 
