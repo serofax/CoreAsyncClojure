@@ -1,0 +1,19 @@
+\section{\acf{CPS} am Beispiel von JavaScript}
+\acf{CPS} beschreibt einen Programmierstil, dem die Fortführung (Continuation) eines Programms an ein Unterprogramm übergeben wird. Zumeist werden die Continuations in Form von Funktionszeigern als Parameter an eine Funktion übergeben. In JavaScript werden diese als Callback-Funktionen bezeichnet. Der Einsatz von \acs{CPS} ermöglicht hier die asynchrone Abarbeitung von Funktionen. Betrachten wir folgendes Beispiel:\\
+\begin{lstlisting}
+function divides(n, m) {
+	return (m % n == 0);
+}
+
+function getDividers(n, callback) {
+	var dividers = Array();
+	for(var i = 0; i<n; i++) {
+		if(divides(i, n)) {
+			dividers.push(i);
+		}
+	}
+	return dividers;	
+}
+\end{lstlisting}
+\comment{ERLÄUTERUNG}
+\acresetall
