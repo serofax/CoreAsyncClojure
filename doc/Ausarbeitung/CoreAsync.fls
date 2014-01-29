@@ -159,8 +159,6 @@ INPUT /usr/local/texlive/2013/texmf-dist/tex/latex/base/ts1enc.dfu
 INPUT /usr/local/texlive/2013/texmf-dist/tex/latex/base/ts1enc.dfu
 INPUT /usr/local/texlive/2013/texmf-dist/tex/latex/makecell/makecell.sty
 INPUT /usr/local/texlive/2013/texmf-dist/tex/latex/makecell/makecell.sty
-INPUT /usr/local/texlive/2013/texmf-dist/tex/latex/fancyhdr/fancyhdr.sty
-INPUT /usr/local/texlive/2013/texmf-dist/tex/latex/fancyhdr/fancyhdr.sty
 INPUT /usr/local/texlive/2013/texmf-dist/tex/latex/hyphenat/hyphenat.sty
 INPUT /usr/local/texlive/2013/texmf-dist/tex/latex/hyphenat/hyphenat.sty
 INPUT /usr/local/texlive/2013/texmf-dist/tex/latex/amsmath/amsmath.sty
@@ -313,11 +311,10 @@ INPUT /usr/local/texlive/2013/texmf-dist/fonts/tfm/public/lm/lmsy6.tfm
 INPUT /usr/local/texlive/2013/texmf-dist/tex/latex/lm/omxlmex.fd
 INPUT /usr/local/texlive/2013/texmf-dist/tex/latex/lm/omxlmex.fd
 INPUT /usr/local/texlive/2013/texmf-dist/fonts/tfm/public/lm/lmex10.tfm
-INPUT /usr/local/texlive/2013/texmf-dist/fonts/tfm/public/lm/ec-lmbx12.tfm
+INPUT /usr/local/texlive/2013/texmf-dist/fonts/tfm/public/lm/ec-lmri12.tfm
 OUTPUT /Users/tobiasschwalm/git/CoreAsyncClojure/doc/Ausarbeitung/CoreAsync.toc
 INPUT /Users/tobiasschwalm/git/CoreAsyncClojure/doc/Ausarbeitung/chapter/01_Einleitung.tex
 INPUT /Users/tobiasschwalm/git/CoreAsyncClojure/doc/Ausarbeitung/chapter/01_Einleitung.tex
-INPUT /usr/local/texlive/2013/texmf-dist/fonts/tfm/public/lm/ec-lmri12.tfm
 INPUT /Users/tobiasschwalm/git/CoreAsyncClojure/doc/Ausarbeitung/chapter/02_Grundlagen.tex
 INPUT /Users/tobiasschwalm/git/CoreAsyncClojure/doc/Ausarbeitung/chapter/02_Grundlagen.tex
 INPUT /Users/tobiasschwalm/git/CoreAsyncClojure/doc/Ausarbeitung/chapter/Tobi_Files/Was_bedeutet_async.tex
