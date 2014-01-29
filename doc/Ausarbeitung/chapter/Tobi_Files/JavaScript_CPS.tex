@@ -1,5 +1,5 @@
-\section{\acf{CPS} am Beispiel von JavaScript}
-\label{jscps}\acf{CPS} beschreibt einen Programmierstil, bei dem die Fortführung (Continuation) eines Programms an ein Unterprogramm übergeben wird. Zumeist werden die Continuations in Form von Funktionszeigern als Parameter an eine Funktion übergeben. In JavaScript werden diese als Callback-Funktionen bezeichnet. Der Einsatz von \acs{CPS} ermöglicht hier die asynchrone Abarbeitung von Funktionen. Betrachten wir das Code-Beispiel aus Listing \ref{lstjscallback}. Im folgenden werden die Bestandteile des Code Beispiels erklärt.
+\section{\acl{CPS} am Beispiel von JavaScript}
+\label{sec:jscps}\acl{CPS} beschreibt einen Programmierstil, bei dem die Fortführung (Continuation) eines Programms an ein Unterprogramm übergeben wird. Zumeist werden die Continuations in Form von Funktionszeigern als Parameter an eine Funktion übergeben. In JavaScript werden diese als Callback-Funktionen bezeichnet. Der Einsatz von \acs{CPS} ermöglicht hier die asynchrone Abarbeitung von Funktionen. Betrachten wir das Code-Beispiel aus Listing \ref{lst:jscallback}. Im folgenden werden die Bestandteile des Code Beispiels erklärt.
 \begin{description}
 \item[Die Funktion divides]\hfill \\
 ermittelt, ob eine Zahl \textit{n} ein Teiler der Zahl \textit{m} ist und liefert einen bool'schen Wert zurück.
@@ -10,8 +10,7 @@ repräsentiert die Continuation in dem Code-Beispiel. Das Programm wird an diese
 \item[Die Funktion main]\hfill \\
 stellt den Entry-Point des Beispiels dar. Die Funktion \textit{calcDividers} wird für die Zahl \textit{65535} aufgerufen und \textit{printDividers} wird als Callback-Funktion übergeben.\\
 \end{description}
-
-\begin{lstlisting}[language=JavaScript,caption=JavaScript Callback Beispiel,label=lstjscallback]
+\begin{lstlisting}[language=JavaScript,caption=JavaScript Callback Beispiel,label=lst:jscallback]
 function divides(n, m) {
 	return (m % n == 0);
 }
@@ -46,5 +45,5 @@ function main() {
 main();
 \end{lstlisting}
 \subsection*{Asynchronität}
-Führt man das Code Beispiel aus \ref{jscps} in einem JavaScript Interpreter aus, so lässt sich kein asynchrones Verhalten der Anwendung, wie Eingangs beschrieben, erkennen.
+Führt man das Code Beispiel \ref{sec:jscps} in einem JavaScript Interpreter aus, so lässt sich kein asynchrones Verhalten der Anwendung, wie Eingangs beschrieben, erkennen. 
 \acresetall
