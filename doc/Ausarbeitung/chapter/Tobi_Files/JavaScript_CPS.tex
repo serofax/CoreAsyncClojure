@@ -39,11 +39,20 @@ function printDividers(dividers) {
 
 function main() {
 	calcDividers(65535, printDividers);
-	console.log('Calculation done.')
+	console.log("Calculation done.");
 }
 
 main();
 \end{lstlisting}
 \subsection*{Asynchronität}
-Führt man das Code Beispiel \ref{lst:jscallback} in einem JavaScript Interpreter aus, so lässt sich kein asynchrones Verhalten der Anwendung, wie Eingangs beschrieben, erkennen. 
+Führt man das Code Beispiel aus Listing \ref{lst:jscallback} in einem JavaScript-Interpreter aus, so lässt sich kein asynchrones Verhalten der Anwendung, wie Eingangs beschrieben, erkennen. Listing \ref{lst:jscallback_async} zeigt, wie \textit{calcDividers} asynchron aufgerufen werden kann. Hier wird die Funktion \mbox{\textit{calcDividers}} als Continuation mit Hilfe von \textit{setTimeout} an den JavaScript Event-Handler übergeben, der diese nach Ablauf des festgelegten Timeouts, in diesem Fall \textit{0 ms}, aufruft. Dieser Aufruf erlaubt, dass die nachfolgenden Befehle sofort ausgeführt werden. Startet man das Code-Beispiel in einem JavaScript-Interpreter, so wird der Text ``Calculation started...'' vor der Ausgabe des Ergebnisses angezeigt. Das Ergbnis wird asynchron ausgegeben, wenn die Abbarbeitung von \textit{calcDividers} abgeschlossen wurde.
+\begin{lstlisting}[language=JavaScript,caption=JavaScript setTimeout Beispiel,label=lst:jscallback_async]
+...
+function main() {
+	setTimeout(function() { calcDividers(65535, printDividers) }, 0);
+	console.log("Calculation started...")
+}
+
+main();
+\end{lstlisting}
 \acresetall
