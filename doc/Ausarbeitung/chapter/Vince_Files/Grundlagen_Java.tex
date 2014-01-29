@@ -1,21 +1,53 @@
-\section{Asynchrone Programmierung Java}
+\section{Asynchrone Programmierung in Java}
+Die einzige Möglichkeit von Haus aus in Java asynchron Befehle auszuführen geht über Threads.
 
-In Java gibt es von Haus aus verschiedene Möglichkeiten asynchron zu programmieren.
-
-Eigentlich gibt es ja nur Threads und alle anderen Funktionen vereinfachen einfach ihren Gebrauch
+Die Java-Platform bietet hierzu verschiedene Möglichkeiten an, um die Threads einfach zu handhaben. Beispiele dafür sind \textit{Executor}-Framework, \textit{Future}s oder die gerne in der \acs{GUI}-Programmierung verwendeten Callbacks (\textit{Listener}).
 
 \subsection{Threads}
 
-Die einfachste Methode, um in Java asynchrone Verarbeitungen zu machen
+\begin{lstlisting}[language=Java,caption=Definition und Erzeugung eines Threads,label=lst:java_thread]
+public class Worker implements Runnable {
+	public void run(){
+		//Do something asynchronous 	
+	}
+}
+...
+gatherInformation();
+new Thread(new Worker()).start(); 
+continueWork();
+\end{lstlisting}
 
 
+\subsection{ExecutionServices}
 
-Die einfachste, aber auch am schwersten zu wartende Methode ist die Auslagerung von einzelnen Befehlen in einen Thread. Dieser wird dann asynchron und sogar parallel zum
+\begin{lstlisting}[language=Java,caption=Verwendung eines ExecutionServices,label=lst:java_executionservice]
+ExecutorService es = Executors.newFixedThreadPool(2);
+gatherInformation();
+es.execute(new Worker())
+continueWork();
+\end{lstlisting}
 
-
-\subsection{Executor}
+ForkJoinPool für Rekursive Tasks
 
 \subsection{Callbacks und Futures}
+\comment{Callbacks bei UI werden asynchron , bzw später ausgeführt.}
+\begin{lstlisting}[language=Java,caption=Verwendung von Futures,label=lst:java_futures]
+public class Task implements Callable<Integer> {
+	public Integer call(){
+		//Do something asynchronous
+		return 42; 	
+	}
+}
+...
+ExecutorService es = Executors.newFixedThreadPool(2);
+gatherInformation();
+Future<Integer> f = es.submit(new Task())
+continueWork();
+...
+System.out.println("meaning of life: " + f.get());
+
+
+\end{lstlisting}
 Beide bringen das Ergebnis zurück
 
 \comment{Hier auch Futures erklären}

@@ -53,7 +53,7 @@ $COPY = (\text{in?x} \rightarrow \text{out!x} \rightarrow COPY)$
 
 \subsubsection{Parallelität}
 \comment{Umschreiben: Ist Kernelement wirklich die parallele Ausführung von mehreren Prozessen?}
-Momentan kann die vorgestellte Notation nur einen Prozess ausführen. Jedoch ist das Kernelement von \ac{CSP} die parallele Ausführung von Prozessen. Bei der parallelen Ausführung werden Events, die in beiden Alphabeten vorkommen synchron ausgeführt und Events, die nur in einem Prozess vorkommen von dem anderen Prozess ignoriert. Der Operator, der Prozesse parallel ausführt ist der ||-Operator. Definieren wir nun zwei Prozesse.
+Momentan kann die vorgestellte Notation nur einen Prozess ausführen. Jedoch ist das Kernelement von \ac{CSP} die gleichzeitige Ausführung von Prozessen. Bei der gleichzeitigen Ausführung werden Events, die in beiden Alphabeten vorkommen synchron ausgeführt und Events, die nur in einem Prozess vorkommen von dem anderen Prozess ignoriert. Der Operator, der Prozesse parallel ausführt ist der ||-Operator. Definieren wir nun zwei Prozesse.
 
 \begin{addmargin}[1cm]{0cm}
 $mensa:SA = \mu X \bullet (\text{in.münze} \rightarrow \text{out.schokolade} \rightarrow X)$\\\\
