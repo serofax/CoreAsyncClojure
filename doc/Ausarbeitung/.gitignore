@@ -18,6 +18,8 @@
 *.bbl
 *.gz
 CoreAsync-blx.bib
+CoreAsync.fdb_latexmk
+CoreAsync.fls
 
 # Sitzungen
 VinceSitzung.tks
