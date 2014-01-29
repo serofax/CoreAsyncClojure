@@ -1,12 +1,12 @@
 \section{\acl{CSP}}
-\acf{CSP} ist eine von \textit{C.A.R. Hoare} in seinem Paper\footcite{CSP} \textit{Communication Sequential Processes} 1978 erstmals vorgestellte mathematische Beschreibung von gleichzeitigen Prozessen und deren Kommunikation untereinander.
+\acf{CSP} ist eine von \textit{C.A.R. Hoare} in seinem Paper\footcite{CSP} \textit{Communication Sequential Processes} 1978 erstmals vorgestellte mathematische Beschreibung von gleichzeitigen Prozessen und deren Kommunikation untereinander mit Events und Nachrichten.
 
-Als Begründung, warum er ein solches System definiert hat, gibt Hoare an, dass in Zukunft neue Algorithmen benötigt werden, die parallel ausgeführt werden und miteinander kommunizieren und synchronisieren können, um die Effizient zu steigern. Die damalige Synchronisation über \textit{shared Storage} hat ihm nicht gefallen, da sie zu fehleranfällig und zu komplex war.\footcite[Introduction]{CSP}
+Als Begründung, warum er ein solches System definiert hat, gibt Hoare an, dass in Zukunft neue Algorithmen benötigt werden, die parallel ausgeführt werden. Durch die zwingende Kommunikation unter den Prozessen ist ein neues Konzept von Nöten, dass das genau spezifiziert und somit die  Effizient steigert. Die damalige Synchronisation über \textit{shared Storage} hat ihm nicht gefallen, da sie zu fehleranfällig und zu komplex war.\footcite[Introduction]{CSP}
 
 Die verwendeten Symbole werden von \textit{C.A.R. Hoare} in seinem Buch\footcite[Glossary of Symbols]{CSPBOOK} beschrieben und können da nachgeschlagen werden.
-\subsection[Operatoren und Konstrukte \acs{CSP}]{Operatoren und Konstrukte \acs{CSP}\footnote{Siehe \cite[Kapitel 1.1]{CSPBOOK}}}
+\subsection[Operatoren und Konstrukte in \acs{CSP}]{Operatoren und Konstrukte in \acs{CSP}\footnote{Siehe \cite[Kapitel 1.1]{CSPBOOK}}}
 
-Hoare definiert sehr viele Operatoren und Konstrukte, die wichtigen von ihren werden nun erläutert. Für Beispiele, wird das von Hoare gerne in seinem Buch\footcite{CSPBOOK} verwendete Beispiel eines Schokoladenautomaten verwendet, jedoch wurden die Begriffe ins Deutsche übersetzt.
+Hoare definiert sehr viele Operatoren und Konstrukte. Die Essentiellen von ihren werden nun erläutert. Für Beispiele, wird das von Hoare gerne in seinem Buch\footcite{CSPBOOK} verwendete Beispiel eines Schokoladenautomaten verwendet, jedoch wurden die Begriffe ins Deutsche übersetzt.
 
 \subsubsection{Events}
 Events sind Aktionen, die auftreten können. Zwischen eingehenden und ausgehenden Events wird nicht unterschieden. In Hoares Notation werden Events in Kleinbuchstaben geschrieben.
@@ -55,51 +55,22 @@ $COPY = (\text{in?x} \rightarrow \text{out!x} \rightarrow COPY)$
 Momentan kann die vorgestellte Notation nur einen Prozess ausführen. Jedoch ist das Kernelement von \ac{CSP} die parallele Ausführung von Prozessen. Bei der parallelen Ausführung werden Events, die in beiden Alphabeten vorkommen synchron ausgeführt und Events, die nur in einem Prozess vorkommen von dem anderen Prozess ignoriert. Der Operator, der Prozesse parallel ausführt ist der ||-Operator. Definieren wir nun zwei Prozesse.
 
 \begin{addmargin}[1cm]{0cm}
-$mensa:SA = \mu X \bullet (\text{in.münze} \rightarrow \text{out.schokolade} \rightarrow X)$\\
-$KUNDE = (\text{mensa.in.münze} \rightarrow \text{mensa.out.schokolade} \rightarrow sichfreuen \rightarrow  KUNDE)$
+$mensa:SA = \mu X \bullet (\text{mensa.in.münze} \rightarrow \text{mensa.out.schokolade} \rightarrow X)$\\\\
+$student:KUNDE = \mu X \bullet (\text{geldzählen} \rightarrow \text{mensa.in.münze} \rightarrow \text{mensa.out.schokolade} \rightarrow  X)$\\\\
+$ (mensa:SA) || (student:KUNDE) $
 \end{addmargin}
 
-Der erste Prozess ist der bekannt Schokoladenautomat. Nun ist es aber eine genaue Instanz mit dem Namen \textit{mensa}. $\mu X$ definiert einen annonymen
+Der erste Prozess ist der bekannt Schokoladenautomat. Nun ist es aber eine genaue Instanz mit dem Namen \textit{mensa}. $\mu X$ definiert eine Funktion mit dem Bezeichner X, die dann dem Prozess \textit{SA} zugewiesen wird.
+Der zweite Prozess ist ein Kunde mit dem Namen \textit{stundent}, der den Schokoladenautomat bedient. Er benutzt die Channels (Münzeinwurf, Ausgabe) des Schokoladenautomaten und zählt am Anfang sein Geld. Um beide Prozesse nun parallel auszuführen, kommt der oben angesprochene ||-Operator ins Spiel, der das ermöglicht.
 
-\hierweiter
-
+\comment{Evt die Umwandlung von 2 Parallelen Prozessen in einen Prozess Zeigen. Wäre interessant im Bezug auf die Statemachine}
 
 \subsubsection{Weitere wichtige Konstrukte}
-Die oben vorgestellten Konstrukte reichen aus um einen einfachen Automaten zu definieren, der immer den gleichen Ablauf hat. Jedoch werden bei komplexeren Algorithmen Verzweigungen gebraucht, um alternative Abläufe zu modellieren. Hierfür definiert die Notation den |-Operator.
+Die oben vorgestellten Konstrukte reichen aus um einen einfachen Automaten zu definieren, der immer den gleichen Ablauf hat. Jedoch werden bei komplexeren Algorithmen Verzweigungen benötigt, um alternative Abläufe zu modellieren. Hierfür definiert die Notation den |-Operator.
 
+\subsection{Umsetzung der Konstrukte in \CA}
+In \CA\ ist ein Prozess eine Sequenz von verschiedenen Befehlen, die entweder durch einen Thread ausgeführt werden können oder in einem \textit{go}-Block in einen Zustandsautomat umgewandelt werden.
 
+Die Kommunikation zwischen mehreren Prozessen funktioniert mit Channels, die mit der Funktion \textit{chan} erzeugt werden können. Das Hineinlegen eines Wertes (Event) wird in der Notation nicht vom Herausnehmen unterschieden, außer das Event soll zwischengespeichert werden, dann gibt es die oben erklärten Operatoren (? und !). In \CA\ wird das Hineinlegen eines Werts in einen Channel wird mit den Funktionen \textit{>!!} (bei der Verwendung von Threads) oder \textit{>!} (in einem \textit{go}-Block) gemacht und das Herausnehmen eines Werts aus dem Channel mit den Funktionen \textit{<!!} und \textit{<!} realisiert.
 
-
-
-Zusätzlich definiert Hoare noch viele andere wichtige Konstrukte, wie Verzweigung zwischen zwei Ausführungen. Symbolisiert durch einen senkrechten Strich (|).
-
-Um zu symbolisieren, dass zwei Prozesse mit dem \textbf{gleich Alphabet} (gleiche Events) parallel ausgeführt werden, gibt es den Zwei-senkrechte-Striche-Operator (||).
-
-
-\subsubsection{Realisierung in \CA}
-In \CA\ ist ein Prozess verschiedene Befehle, die entweder durch einen Thread ausgeführt werden können oder in einem \textit{go}-Block in eine Zustandsautomaten umgewandelt wird.
-
-
-
-
-
-ein Thread oder ein Prozess, der sich in einem \textit{go}-Block bef
-
-\comment{Auf core async Beziehen, was ist in ca ein Event. Gleiche mit Prozessen etc}
-
-\subsection{Brainstorming}
-
-Hoare:
-
-Problem:
-Programme sind sequentiell strukturiert und deterministisch.
-
-Es gibt Alternativen wie: oop, coroutinen, monitore, actors.
-
-Es wir vermutet das Multicore (multi prozessor) 'powerful' sind als monoprozessor
-
-Problem: Synchronisation, Kommunikation,
-
-Vergleich von CSP zum Actor-System ist auf wikipedia
-
-
+Alle übrigen Konstrukte, wie Rekursion, Verkettung, Verzweigungen etc. werden durch Clojure bzw. \acl{CLJS} abgebildet.
