@@ -1,10 +1,10 @@
 \section{\acl{CSP}}
-\acf{CSP} ist eine von \textit{C.A.R. Hoare} in seinem Paper\footcite{CSP} \textit{Communication Sequential Processes} 1978 erstmals vorgestellte mathematische Beschreibung von gleichzeitigen Prozessen und deren Kommunikation untereinander mit Events und Nachrichten.
+\acf{CSP} ist eine von \textit{C.A.R. Hoare} in seinem Paper\footcite{CSP} \textit{Communication Sequential Processes} 1978 erstmals vorgestellte formale Beschreibung von gleichzeitigen Prozessen und deren Kommunikation untereinander mit Events und Nachrichten.
 
 Als Begründung, warum er ein solches System definiert hat, gibt Hoare an, dass in Zukunft neue Algorithmen benötigt werden, die parallel ausgeführt werden. Durch die zwingende Kommunikation unter den Prozessen ist ein neues Konzept von Nöten, dass das genau spezifiziert und somit die  Effizient steigert. Die damalige Synchronisation über \textit{shared Storage} hat ihm nicht gefallen, da sie zu fehleranfällig und zu komplex war.\footcite[Introduction]{CSP}
 
 Die verwendeten Symbole werden von \textit{C.A.R. Hoare} in seinem Buch\footcite[Glossary of Symbols]{CSPBOOK} beschrieben und können da nachgeschlagen werden.
-\subsection[Operatoren und Konstrukte in \acs{CSP}]{Operatoren und Konstrukte in \acs{CSP}\footnote{Siehe \cite[Kapitel 1.1]{CSPBOOK}}}
+\subsection[Operatoren und Konstrukte in \acs{CSP}]{Operatoren und Konstrukte in \acs{CSP}\footcite[Siehe][Kap. 1.1]{CSPBOOK}}
 
 Hoare definiert sehr viele Operatoren und Konstrukte. Die Essentiellen von ihren werden nun erläutert. Für Beispiele, wird das von Hoare gerne in seinem Buch\footcite{CSPBOOK} verwendete Beispiel eines Schokoladenautomaten verwendet, jedoch wurden die Begriffe ins Deutsche übersetzt.
 
@@ -17,7 +17,7 @@ münze - Das Einwerfen einer Münze in den Automaten.\\
 schokolade - Das Entnehmen der Schokolade aus dem Auswurf des Automaten.
 \end{addmargin}
 
-Um den Bezug zu \CA\ herzustellen, erweitern wir die Events um Channels, womit sich Hoare erst in einem späteren Kapitel\footcite[4.2]{CSPBOOK} im Buch befasst. Stellen wir uns nun den Münzeinwurf (\textit{in}) und den Auswurf (\textit{out}) des Automaten als Channel vor. Die Events aus Sicht des Prozesses sehen nun wie folgt aus:
+Um den Bezug zu \CA\ herzustellen, erweitern wir die Events um Channels, womit sich Hoare erst in einem späteren Kapitel\footcite[Kap. 4.2]{CSPBOOK} im Buch befasst. Stellen wir uns nun den Münzeinwurf (\textit{in}) und den Auswurf (\textit{out}) des Automaten als Channel vor. Die Events aus Sicht des Prozesses sehen nun wie folgt aus:
 
 \begin{addmargin}[1cm]{0cm}
 in.münze - Das Entnehmen einer Münze aus dem Münzeinwurf.\\
@@ -52,15 +52,16 @@ $COPY = (\text{in?x} \rightarrow \text{out!x} \rightarrow COPY)$
 \end{addmargin}
 
 \subsubsection{Parallelität}
+\comment{Umschreiben: Ist Kernelement wirklich die parallele Ausführung von mehreren Prozessen?}
 Momentan kann die vorgestellte Notation nur einen Prozess ausführen. Jedoch ist das Kernelement von \ac{CSP} die parallele Ausführung von Prozessen. Bei der parallelen Ausführung werden Events, die in beiden Alphabeten vorkommen synchron ausgeführt und Events, die nur in einem Prozess vorkommen von dem anderen Prozess ignoriert. Der Operator, der Prozesse parallel ausführt ist der ||-Operator. Definieren wir nun zwei Prozesse.
 
 \begin{addmargin}[1cm]{0cm}
-$mensa:SA = \mu X \bullet (\text{mensa.in.münze} \rightarrow \text{mensa.out.schokolade} \rightarrow X)$\\\\
+$mensa:SA = \mu X \bullet (\text{in.münze} \rightarrow \text{out.schokolade} \rightarrow X)$\\\\
 $student:KUNDE = \mu X \bullet (\text{geldzählen} \rightarrow \text{mensa.in.münze} \rightarrow \text{mensa.out.schokolade} \rightarrow  X)$\\\\
 $ (mensa:SA) || (student:KUNDE) $
 \end{addmargin}
 
-Der erste Prozess ist der bekannt Schokoladenautomat. Nun ist es aber eine genaue Instanz mit dem Namen \textit{mensa}. $\mu X$ definiert eine Funktion mit dem Bezeichner X, die dann dem Prozess \textit{SA} zugewiesen wird.
+Der erste Prozess ist der bekannte Schokoladenautomat. Nun ist es aber eine genaue Instanz mit dem Namen \textit{mensa}. $\mu X$ definiert eine Funktion mit dem Bezeichner X, die dann dem Prozess \textit{SA} zugewiesen wird.
 Der zweite Prozess ist ein Kunde mit dem Namen \textit{stundent}, der den Schokoladenautomat bedient. Er benutzt die Channels (Münzeinwurf, Ausgabe) des Schokoladenautomaten und zählt am Anfang sein Geld. Um beide Prozesse nun parallel auszuführen, kommt der oben angesprochene ||-Operator ins Spiel, der das ermöglicht.
 
 \comment{Evt die Umwandlung von 2 Parallelen Prozessen in einen Prozess Zeigen. Wäre interessant im Bezug auf die Statemachine}
