@@ -1,11 +1,22 @@
 \section{\acf{CPS} am Beispiel von JavaScript}
-\acf{CPS} beschreibt einen Programmierstil, dem die Fortführung (Continuation) eines Programms an ein Unterprogramm übergeben wird. Zumeist werden die Continuations in Form von Funktionszeigern als Parameter an eine Funktion übergeben. In JavaScript werden diese als Callback-Funktionen bezeichnet. Der Einsatz von \acs{CPS} ermöglicht hier die asynchrone Abarbeitung von Funktionen. Betrachten wir folgendes Beispiel:\\
+\label{jscps}\acf{CPS} beschreibt einen Programmierstil, bei dem die Fortführung (Continuation) eines Programms an ein Unterprogramm übergeben wird. Zumeist werden die Continuations in Form von Funktionszeigern als Parameter an eine Funktion übergeben. In JavaScript werden diese als Callback-Funktionen bezeichnet. Der Einsatz von \acs{CPS} ermöglicht hier die asynchrone Abarbeitung von Funktionen. Betrachten wir das Code-Beispiel aus Listing \ref{lstjscallback}. Im folgenden werden die Bestandteile des Code Beispiels erklärt.
+\begin{description}
+\item[Die Funktion divides]\hfill \\
+ermittelt, ob eine Zahl \textit{n} ein Teiler der Zahl \textit{m} ist und liefert einen bool'schen Wert zurück.
+\item[Die Funktion calcDividers]\hfill \\
+nimmt eine Zahl \textit{n} entgegen, sowie eine Continuation in Form einer Callback-Funktion. Mit Hilfe einer Schleife wird pro Iterationsschritt ein Teiler der Zahl \textit{n} ermittelt. Sind alle Teiler berechnet, so wird die übergebene Callback-Funktion aus der Parameterliste aufgerufen, als Parameter wird ein Array aller Teiler übergeben.
+\item[Die Funktion printDividers] \hfill \\
+repräsentiert die Continuation in dem Code-Beispiel. Das Programm wird an dieser Stelle fortgesetzt, sobald die Berechnung beendet ist. An dieser Stelle werden alle Teiler ausgegeben.
+\item[Die Funktion main]\hfill \\
+stellt den Entry-Point des Beispiels dar. Die Funktion \textit{calcDividers} wird für die Zahl \textit{65535} aufgerufen und \textit{printDividers} wird als Callback-Funktion übergeben.\\
+\end{description}
+
 \begin{lstlisting}[language=JavaScript,caption=JavaScript Callback Beispiel,label=lstjscallback]
 function divides(n, m) {
 	return (m % n == 0);
 }
 
-function getDividers(n, callback) {
+function calcDividers(n, callback) {
 	var dividers = Array();
 	for(var i = 0; i<n; i++) {
 		if(divides(i, n)) {
@@ -28,10 +39,12 @@ function printDividers(dividers) {
 }
 
 function main() {
-	getDividers(1024, printDividers);
+	calcDividers(65535, printDividers);
+	console.log('Calculation done.')
 }
 
 main();
 \end{lstlisting}
-In der \textit{main}-Funktion wird die Funktion \textit{getDividers} aufgerufen. Als Parameter werden der Wert \textit{1024}, sowie die entsprechende Callback-Funktion übergeben, die die Werte entgegeben nimmt, sobald diese vorliegen. Die Funktion \textit{printDividers} repräsentiert hier die Continuation.
+\subsection*{Asynchronität}
+Führt man das Code Beispiel aus \ref{jscps} in einem JavaScript Interpreter aus, so lässt sich kein asynchrones Verhalten der Anwendung, wie Eingangs beschrieben, erkennen.
 \acresetall
