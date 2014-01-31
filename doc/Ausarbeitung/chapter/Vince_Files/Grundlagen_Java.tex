@@ -1,9 +1,67 @@
 \section{Asynchrone Programmierung in Clojure}
 
+Clojure ist eine Sprache, die zur Java-Bytecode, CIL-Bytecode oder JavaScript (\acl{CLJS}) compiliert werden kann und somit von einer \ac{JVM}, \ac{CLR} oder einem JavaScript-Interpreter ausgeführt werden können.
+
+In den beiden ersten Laufzeitumgebungen können Threads, für die asynchrone und gleichzeitige Verarbeitung von Befehlen, verwendet werden und in JavaScript gibt es den im vorherigen Kapitel vorgestellten Event-Handler.
+
+Das folgende Beispiel und alle restlichen Erläuterungen beziehen sich auf Clojure in Verwendung mit einer \ac{JVM}.
+
+\comment{Clojure ist keine JVM sprache}
+Generell kann in Clojure mit Threads programmiert werden, wenn
+Clojure ist eine \ac{JVM}-Sprache, dementsprechend stehen für die asynchrone Programmierung  Threads zu Verfügung mit denen asynchron und concurrent programmiert werden können.
+
+Clojure und Java bieten ohne zusätzliche Bibliotheken schon viele Paradigmen und Frameworks (\textit{ExecutionService}, \textit{ForkJoinPool}) an, um die Verwendung für den Entwickler stark zu vereinfachen und zu abstrahieren.
+
+\subsection*{Beispiel mit der Methode \textit{future}}
+Die einfachste Methode eine Aufgabe auszulagern, die dann asynchron und concurrent abgearbeitet wird, funktioniert über die \textit{future}-Methode, wie in dem Beispiel in Listing \ref{lst:clojure_future} zu sehen ist. Die Methode übergibt den übergebenen Body an einen einen Thread in einem \textit{ExecutionService} und gibt ein Future-Objekt an den Hauptthread zurück.
+
+Der Hauptthread kann nun weiterlaufen und weitere Aufgaben erledigen. Im Beispiel testet er ob es sich um ein Future handelt und mit der Methode \textit{realized?} prüft er ob bereits ein Ergebnis vorliegt. Wenn der andere Thread nun fertig ist, kann der Hauptthread das Ergebnis der Berechnung über das Future anfragen, indem er das Objekt mit \textit{@} dereferenziert.
+
+Falls vom Entwickler benötigt, können alle Frameworks von Java bzw. der Laufzeitumgebung verwendet werden, indem die \textit{Java-Interop}-Schnittstelle verwendet werden. 
+
+\begin{lstlisting}[language=Clojure,caption=Das asynchrone Ausführen von Befehlen mit der Methode \textit{future},label=lst:clojure_future]
+(println (-> (Thread/currentThread) (.getName)))
+(let [f (future
+          (Thread/sleep 1000)
+          (println (-> (Thread/currentThread) (.getName)) "I am done")
+          42)]
+  (println (future? f))
+  (println (realized? f))
+  (Thread/sleep 2000)
+  (println (realized? f))
+  (println @f))
+...
+[stdout]:nREPL-worker-7
+[stdout]:true
+[stdout]:false
+[stdout]:clojure-agent-send-off-pool-9 I am done
+[stdout]:true
+[stdout]:42
+\end{lstlisting}
+
+\subsection*{\acl{STM}}
+Bei der gleichzeitigen Verarbeitung von Aufgaben und der Benutzung eines \textit{shared Storages} gibt zwingend immer die Problematik, dass eine Race Condition entsteht und Werte und Objekte inkonsistent werden können.
+
+\hierweiter
+
+synchonized kann mit lock verwendet werden
 
 
+\comment{Alles hier drunter löschen}
 
-\comment{Alle Sektionen hier drunter läschen}
+\begin{lstlisting}[language=Clojure,caption=Definition und Erzeugung eines Threads in Clojure,label=lst:clojure_thread]
+(let [t (Thread. #(dotimes [i 3]
+            (println (-> (Thread/currentThread) (.getName)) i)))]
+  (println (-> (Thread/currentThread) (.getName)) "before")
+  (. t start)
+  (println (-> (Thread/currentThread) (.getName)) "after"))
+...  
+[stdout]:nREPL-worker-2 before
+[stdout]:Thread-2 0
+[stdout]:Thread-2 1
+[stdout]:nREPL-worker-2 after
+[stdout]:Thread-2 2
+\end{lstlisting}
 \section{Asynchrone Programmierung in Java}
 Die einzige Möglichkeit von Haus aus in Java asynchron Befehle auszuführen geht über Threads.
 
