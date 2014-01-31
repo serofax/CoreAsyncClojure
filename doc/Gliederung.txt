@@ -6,12 +6,12 @@
 		-Technologien
 			-JS / CPS (Tobi)
 			-ClojureScript (Tobi)
-			-Java / JCSP / Future, Callback, ExecutionService, Threads, ... (Vince)	 
+			-Clojure / future method, executionservice java intop ..., threads, java inop (Vince)
 
 -Idee/Prinzip Core.Async
 	- Idee google go (Tobi)
 	- API Beispiele (Tobi)
-	- Vergleich zu anderen Paradigmen s.o. (Vincent)
+	- Vergleich zu anderen Paradigmen s.o. (Vincent) (Actors, Monitors, Shared Storage)
 (-Komplexere Beispiele)
 -Fazit (Tobi)
 

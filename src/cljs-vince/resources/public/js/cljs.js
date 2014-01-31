@@ -17425,8 +17425,8 @@ vince.core.testSquash = function() {
         }
         if(14 === c) {
           var c = b[2], d = cljs.core.async.close_BANG_.call(null, a), e = cljs.core.async.timeout.call(null, 1E3);
-          b[19] = c;
-          b[20] = d;
+          b[19] = d;
+          b[20] = c;
           return cljs.core.async.impl.ioc_helpers.take_BANG_.call(null, b, 15, e)
         }
         return 15 === c ? (c = b[2], cljs.core.async.impl.ioc_helpers.return_chan.call(null, b, c)) : null
@@ -17449,11 +17449,11 @@ vince.core.by_id = function(a) {
 vince.core.printTA = function(a, b) {
   var c = cljs.core.async.chan.call(null), d = cljs.core.async.chan.call(null, 1);
   cljs.core.async.impl.dispatch.run.call(null, function() {
-    var e = function() {
+    var b = function() {
       return function(a) {
         return function() {
           var b = null, c = function() {
-            var a = Array(10);
+            var a = Array(9);
             a[0] = b;
             a[1] = 1;
             return a
@@ -17494,29 +17494,13 @@ vince.core.printTA = function(a, b) {
           b.cljs$core$IFn$_invoke$arity$1 = d;
           return b
         }()
-      }(function(d) {
-        var e = d[1];
-        if(9 === e) {
-          return e = d[2], d[7] = e, d[2] = null, d[1] = 3, new cljs.core.Keyword(null, "recur", "recur", 1122293407)
-        }
-        if(8 === e) {
-          return d[8] = d[2], cljs.core.async.impl.ioc_helpers.take_BANG_.call(null, d, 9, c)
-        }
-        if(7 === e) {
-          return e = d[2], d[2] = e, d[1] = 4, new cljs.core.Keyword(null, "recur", "recur", 1122293407)
-        }
-        if(6 === e) {
-          return e = vince.core.set_html_BANG_.call(null, a, "Channel was closed"), d[2] = e, d[1] = 7, new cljs.core.Keyword(null, "recur", "recur", 1122293407)
-        }
-        if(5 === e) {
-          var e = d[7], e = vince.core.set_html_BANG_.call(null, a, e), f = cljs.core.async.timeout.call(null, b);
-          d[9] = e;
-          return cljs.core.async.impl.ioc_helpers.take_BANG_.call(null, d, 8, f)
-        }
-        return 4 === e ? (e = d[2], cljs.core.async.impl.ioc_helpers.return_chan.call(null, d, e)) : 3 === e ? (e = d[7], e = cljs.core.not.call(null, null == e), d[1] = e ? 5 : 6, new cljs.core.Keyword(null, "recur", "recur", 1122293407)) : 2 === e ? (e = d[2], d[7] = e, d[2] = null, d[1] = 3, new cljs.core.Keyword(null, "recur", "recur", 1122293407)) : 1 === e ? cljs.core.async.impl.ioc_helpers.take_BANG_.call(null, d, 2, c) : null
+      }(function(b) {
+        var d = b[1];
+        return 8 === d ? (d = b[2], b[7] = d, b[2] = null, b[1] = 3, new cljs.core.Keyword(null, "recur", "recur", 1122293407)) : 7 === d ? (d = b[2], b[2] = d, b[1] = 4, new cljs.core.Keyword(null, "recur", "recur", 1122293407)) : 6 === d ? (d = vince.core.set_html_BANG_.call(null, a, "Channel was closed"), b[2] = d, b[1] = 7, new cljs.core.Keyword(null, "recur", "recur", 1122293407)) : 5 === d ? (d = b[7], d = vince.core.set_html_BANG_.call(null, a, d), b[8] = d, cljs.core.async.impl.ioc_helpers.take_BANG_.call(null, 
+        b, 8, c)) : 4 === d ? (d = b[2], cljs.core.async.impl.ioc_helpers.return_chan.call(null, b, d)) : 3 === d ? (d = b[7], d = cljs.core.not.call(null, null == d), b[1] = d ? 5 : 6, new cljs.core.Keyword(null, "recur", "recur", 1122293407)) : 2 === d ? (d = b[2], b[7] = d, b[2] = null, b[1] = 3, new cljs.core.Keyword(null, "recur", "recur", 1122293407)) : 1 === d ? cljs.core.async.impl.ioc_helpers.take_BANG_.call(null, b, 2, c) : null
       })
     }(), f = function() {
-      var a = e.call(null);
+      var a = b.call(null);
       a[cljs.core.async.impl.ioc_helpers.USER_START_IDX] = d;
       return a
     }();
