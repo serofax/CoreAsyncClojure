@@ -1,0 +1,57 @@
+\section{\acs{API} Code-Beispiele}
+\begin{lstlisting}[language=Clojure,caption=\textit{read-chan} Hilfsfunktion,label=lst:readchan]
+(defn read-chan
+  ([c] (read-chan "" c))
+  ([str c]
+  (thread
+    (loop [val (<!! c)]
+      (when (not= val nil)
+        (println str val)
+        (recur (<!! c))))
+      (println "END."))))
+\end{lstlisting}
+\subsection{\textit{Go}-Blocks}
+\begin{lstlisting}[language=Clojure,caption=\textit{Go}-Blocks,label=lst:goblock]
+(let [c (chan)]
+  (go
+    (>! c "test"))
+  (go
+    (println (<! c))))
+\end{lstlisting}
+\subsection{Threads}
+\begin{lstlisting}[language=Clojure,caption=Thread,label=lst:thread]
+(let [c (chan)]
+  (thread
+    (>!! c "test"))
+  (thread
+    (println (<!! c))))
+\end{lstlisting}
+\subsection{Timeout}
+\begin{lstlisting}[language=Clojure,caption=Timeout,label=lst:timeout]
+(let [c (timeout 4000)]
+  (put! c "test")
+  (thread
+  (loop [val (<!! c)]
+    (when (not= val nil)
+      (println val)
+      (recur (<!! c))))
+    (println "timeout")))
+\end{lstlisting}
+\subsection{Filter}
+\begin{lstlisting}[language=Clojure,caption=Filter,label=lst:filter]
+(let [out (chan)
+      c (filter> string? out)]
+  (thread
+    (>!! c "abc")
+    (>!! c 123))
+  (read-chan out))
+\end{lstlisting}
+\subsection{Buffer}
+\begin{lstlisting}[language=Clojure,caption=Buffer,label=lst:buffer]
+(let [c (chan (buffer 4))]
+  (dotimes[n 4]
+    (>!! c n))
+  (dotimes[n 4]
+    (println (<!! c))))
+\end{lstlisting}
+\acresetall
