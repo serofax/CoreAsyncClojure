@@ -37,7 +37,6 @@ Dieses Beispiel verdeutlicht die sehr einfache Verwendung in Clojure. Falls eine
 \subsection*{\acl{STM}}
 Bei der gleichzeitigen Verarbeitung von Aufgaben und der Benutzung eines \textit{Shared Storages} gibt immer die Problematik, dass \textit{Race Conditions} entstehen können und Objekte inkonsistent werden können.
 
-In Clojure sollte dementsprechend bei der Bearbeitung von Referenzen ein \acf{STM}, das die Inkonsistenz mittels \ac{MVCC} verhindert. Das Phänomen des \textit{Write Skew} muss aber aber vom Entwickler erkannt und besonders behandelt werden.
-\comment{Write Skew erklären im Glossar vielleicht?}
+In Clojure sollte dementsprechend bei der Bearbeitung von Referenzen ein \acf{STM}, das die Inkonsistenz mittels \ac{MVCC} verhindert. Das Phänomen des \textit{Write Skews} muss aber aber vom Entwickler erkannt und besonders behandelt werden.
 
-Falls kein \ac{STM} erwünscht ist, kann auch das Locking von Java mit Sperren verwendet werden, wenn die Funktion \textit{locking} verwendet wird.
+Falls kein \ac{STM} erwünscht ist, kann auch das Locking von Java mit Sperren verwendet werden, indem die Funktion \textit{locking} verwendet wird.
