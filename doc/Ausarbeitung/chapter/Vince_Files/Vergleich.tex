@@ -1,7 +1,37 @@
-\section{Vergleich von \acs{CSP} zu anderen Paradigmen}
+\section{Vergleich von \acs{CSP} und dem Actor model}
 
-\subsection{Actor Model}
+\subsection{Das Actor Model}
+\comment{Sowas doch lieber in die Grundlagen?}
+Das Actor Model (Aktorenmodell) ist ein von \citeauthor{ACTORS} beschriebenes Modell zur Modellierung von künstlichen Intelligenzen, das sich optimal für nebenläufige und parallele Programmierung eignet. Veröffentlicht wurde das Modell 1973 in dem Paper\footcite{ACTORS} \textit{A Universal Modular ACTOR Formalism for Artificial Intelligence}.
+
+Aktoren bestehen aus folgenden fundamentalen Teilen:
+
+\begin{description}
+\item[Prozess]\hfill \\
+Ein Aktor benötigt einen Prozess, der die Aufgaben des Aktors ausführt. Üblicherweise ist das ein Thread.
+\item[Speicher]\hfill \\
+Zustände des Aktors werden in einem Speicher gesichert, damit unterschiedlich auf Nachrichten reagiert werden kann.
+\item[Kommunikation] \hfill \\
+Aktoren müssen untereinander kommunizieren können und sich Nachrichten schicken.
+\end{description}
+
+Ein Aktor ist für sich alleine genommen kein Aktoren, erst in einem Aktorensystem existiert er. Das Aktorensystem stellt ein Kommunikationsmedium bereit, das nach \glqq best effort\grqq\ versucht die Nachrichten zu übertragen. Deswegen können Nachrichten verloren gehen oder andere Nachrichten überholen. Aktoren verfügen über eine Adresse, worüber andere Aktoren ihnen Nachrichten schicken können. Nachrichten werden in die Mailbox des Aktors gelegt und dieser kann sie nun verarbeiten. Mailboxen sind selbst auch Aktoren und deswegen Axiome.
+Ein Aktor verarbeitet mit seinem Prozess nur eine Nachricht zu einem Zeitpunkt und weil Aktoren keinen gemeinsamen Speicher benutzen dürfen, können keine Race-Conditions auftreten.
+Das Aktorenmodell ist nicht deterministisch, weil die Kommunikation zwischen Aktoren nicht genau definiert ist und die Nachrichten zufällig beim Empfänger eintreffen können, wodurch Determinismus nicht garantiert werden kann.
+
+\subsection{Unterschiede und Gemeinsamkeiten}
+Es sind beides theoretische Modelle zur Beschreibung von Parallelität und Nebenläufigkeit. Unterscheiden tun sie sich bereits in ihren formalen Beschreibungen.\comment{Macht das Sinn?}.
+\ac{CSP} ist eine Prozess-Algebra und basiert auf mathematischen Gesetzen, wodurch keine Unklarheiten existieren. Hingegen das Aktorenmodell orientiert sich an der Physik und kann deswegen einige Bereiche nicht genau spezifizieren, sodass Axiome als Begründung eingebracht werden. Dadurch wird das Modell sehr einfach und leicht verständlich. Das Aktorenmodell ist aufgrund der Axiome nicht deterministisch. Determinismus muss zusätzlich spezifiziert werden. Abläufe in \ac{CSP} sind deterministisch. Um die Automaten einfach zu halten, kann Nichtdeterminismus mit einem besonderen Operator ($\sqcap$) speziell modelliert werden.
+
+Das Aktorenmodell definiert nicht, wie eine Nachricht aus der Mailbox entnommen wird. Das kann über einen blockierenden Aufruf passieren oder eine eingehende Nachricht kann eine Methode aufrufen, wie es zum Beispiel in dem Aktorenframework Akka umgesetzt wird. In \ac{CSP} kann es nur blockierende bzw. parkende Operationen geben, weil ein Prozess auf mehrere Channels gleichzeitig warten kann.
+
+\comment{HMM? eigentlich kann man sie nicht vergleichen}
+
+
+
 Actor Reaktiv - CSP Blockierend
+Message /Event driven
+physikalisches Modell - mathematisches Modell
 
 \subsection{Synchronisation mit wechselseitigem Ausschluss}
 Blockierend (Pessimistische Strategie) - CSP Blockierend
@@ -9,5 +39,5 @@ Lock
 Semaphore
 Monitor
 
-\subsection{Synchronisation mit einem \asc{STM}}
+\subsection{Synchronisation mit einem \acs{STM}}
 Redo Optimistische Strategie - CSP Blockierend
