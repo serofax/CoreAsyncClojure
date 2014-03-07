@@ -64,6 +64,8 @@ $ (mensa:SA) || (student:KUNDE) $
 Der erste Prozess ist der bekannte Schokoladenautomat. Nun ist es aber eine genaue Instanz mit dem Namen \textit{mensa}. $\mu X$ definiert eine Funktion mit dem Bezeichner X, die dann dem Prozess \textit{SA} zugewiesen wird.
 Der zweite Prozess ist ein Kunde mit dem Namen \textit{stundent}, der den Schokoladenautomat bedient. Er benutzt die Channels (Münzeinwurf, Ausgabe) des Schokoladenautomaten und zählt am Anfang sein Geld. Um beide Prozesse nun parallel auszuführen, kommt der oben angesprochene ||-Operator ins Spiel, der das ermöglicht.
 
+Die Aktion \textit{in.münze} des Mensa-Prozesses und die Aktion \textit{mensa.in.münze} des Studenten-Prozesses laufen simultan.\footcite[vgl. Seite 117]{CSPBOOK} Der Prozess blockiert wenn der andere Prozess nicht bereit ist. Ein Puffer muss durch einen weiteren Prozess modelliert werden\footcite[vgl. Seite 133]{CSPBOOK}.
+
 \comment{Evt die Umwandlung von 2 Parallelen Prozessen in einen Prozess Zeigen. Wäre interessant im Bezug auf die Statemachine}
 
 \subsubsection{Weitere wichtige Konstrukte}
