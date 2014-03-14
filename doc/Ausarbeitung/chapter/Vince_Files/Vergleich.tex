@@ -1,12 +1,13 @@
-\section{Vergleich von \acs{CSP} und dem Actor model}
-\comment{Falsches Kapitel. Ich würde es zu den Grundlagen tun hinter CSP}
-Das Aktorenmodell und \ac{CSP} definieren beide Modelle mit denen nebenläufige und parallele Ausführung modelliert werden kann. Dadurch haben sie automatisch schon viele Gemeinsamkeiten. Aufgrund der unterschiedlichen Herangehensweise und Definition unterscheiden sie sich in einigen Bereichen stark. 
+\section{Vergleich von \acs{CSP} und dem Actor Model}
 
-Als erstes wird zusammengefasst das Aktorenmodell im nachfolgenden Unterkapitel erläutern. Im anschließenden Unterkapitel werden die Unterschiede und Gemeinsamkeiten der beiden Modelle aufgezeigt.
+Zur Modellierung von nebenläufigen Prozessen existiert nicht nur \ac{CSP} als Modell. Ein sehr weit verbreitetes und oft angewendetes Modell ist das Actor model (Aktorenmodell). Beide Modelle haben das gleiche Ziel, dadurch haben sie sehr viele Gemeinsamkeiten. Um \ac{CSP} besser zu verstehen, ist eine Darstellung des Aktorenmodells und ein Vergleich beider Modelle vorteilhaft.
+
+Eine naheliegende Gegenüberstellung von \ac{CPS}, \textit{Synchronisation mittels gegenseitigen Ausschlusses} und \ac{CSP} macht nur bedingt Sinn, da es sich bei Ersteren um Programmierstille handelt und bei \ac{CSP} um ein Designmuster.
+
+Im Folgenden wird zuerst komprimiert das Aktorenmodell dargestellt und anschließend beide Modelle verglichen.
 
 \subsection{Das Actor Model}
-\comment{Sowas doch lieber in die Grundlagen?}
-Das Actor Model (Aktorenmodell) ist ein von \citeauthor{ACTORS} beschriebenes Modell zur Modellierung von künstlichen Intelligenzen, das sich optimal für nebenläufige und parallele Programmierung eignet. Veröffentlicht wurde das Modell 1973 in dem Paper\footcite{ACTORS} \textit{A Universal Modular ACTOR Formalism for Artificial Intelligence}. Von \citeauthor{ACTORSNEW} wurde das Modell mit dem Paper \textit{Actor Model of Computation: Scalable Robust Information Systems}\footcite{ACTORSNEW} 2011 aufbereitet. 
+Das Aktorenmodell ist ein von \citeauthor{ACTORS} beschriebenes Modell zur Modellierung von künstlichen Intelligenzen, das sich optimal für nebenläufige und parallele Programmierung eignet. Veröffentlicht wurde das Modell 1973 in dem Paper\footcite{ACTORS} \textit{A Universal Modular ACTOR Formalism for Artificial Intelligence}. Von \citeauthor{ACTORSNEW} wurde das Modell mit dem Paper \textit{Actor Model of Computation: Scalable Robust Information Systems}\footcite{ACTORSNEW} 2011 aufbereitet. 
 
 Aktoren bestehen aus folgenden fundamentalen Teilen:
 
@@ -33,20 +34,3 @@ Das Aktorenmodell definiert nicht, wie eine Nachricht empfangen wird. Das kann �
 Der Datenaustausch zwischen zwei Prozessen in \ac{CSP} ist simultan. Sodass ein Prozess blockiert, wenn kein anderer Prozess mit der gegensätzlichen Aktion auf den Channel zugreift. Ein Buffer muss mit einem weiteren Prozess modelliert werden. Die Kommunikation mit Nachrichten zwischen zwei Aktoren passiert asymmetrisch, weil das Aktorensystem die Zustellung der Nachrichten übernimmt. Eine mengenmäßige Begrenzung ist nicht vorgesehen. In technischen Implementierungen des Aktorenmodells wie Akka existieren selbstverständlich Begrenzungen seitens der Konfiguration oder der Hardware. Zudem sichert Akka auch zu das Nachrichten nicht verloren gehen können und sich nicht überholen können.
 
 \comment{schau mal hier rein \url{http://en.wikipedia.org/wiki/Actor_model_and_process_calculi}}
-
-
-
-Actor Reaktiv - CSP Blockierend
-Message /Event driven
-physikalisches Modell - mathematisches Modell
-
-\comment{Fehlt ein Vergleich zwischen CSP und CPS?}
-
-\subsection{Synchronisation mit wechselseitigem Ausschluss}
-Blockierend (Pessimistische Strategie) - CSP Blockierend
-Lock
-Semaphore
-Monitor
-
-\subsection{Synchronisation mit einem \acs{STM}}
-Redo Optimistische Strategie - CSP Blockierend

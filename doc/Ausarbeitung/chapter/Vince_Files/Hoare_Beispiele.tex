@@ -1,0 +1,25 @@
+\section{Beispiele von Hoare zu \acs{CSP}}
+Tony Hoare hat in seinem Paper\footcite{CSP} einige Beispiele erläutert, in denen \ac{CSP} angewendet wird. Einige der einfacheren Beispiele wurde in \textit{core.async} implementiert und sind auf Github\footnote{\url{https://github.com/serofax/CSPHoareExamplesCoreAsync}} zu finden.
+
+Hoare teilt seine Beispiele in vier Bereiche. 
+
+\begin{description}
+\item[Coroutines]\hfill \\
+Koroutinen sind Prozesse, die Daten von einem oder mehreren entgegennehmen und diese dann in meistens veränderter Form ausgeben.
+
+In \CA\ wurden alle Koroutinen umgesetzt und befinden sich in der Datei \textit{coroutines.clj}.
+\item[Subroutines and Data Representation]\hfill \\
+Subrotinen sind komplexere Prozesse, die aus Koroutinen zusammengesetzt sind und eine komplexere Aufgabe haben, wie z.B. rekursives Berechnen der Fakultät.
+
+Sechs Beispiele definiert Hoare in seinem Paper. In \CA\ umgesetzt wurden lediglich die rekursive Berechnung der Fakultät und einen Divisionsprozess, der aus einem Dividenten und einem Divisor den Quotienten und den Rest errechnet. Diese beiden Beispiele sind in der Datei \textit{subroutines.clj} zu finden.
+\item[Monitores and Scheduling] \hfill \\
+In diesen Beispielen werden Prozesse definiert, die die Aufgabe eines Monitors übernehmen um den gleichzeitigen Zugriff auf eine oder mehrere Ressourcen zu koordinieren.
+
+Von den Monitorbeispielen wurden der Integer-Monitor umgesetzt und das Beispiel der Dining Philosopers. Die Monitore in diesem Beispiel sind die Gabeln und der Raum. Die Integer-Monitore ist in der Datei \textit{semaphore.clj} zu finden und das Philosophen-Beispiel in der Datei \textit{philosophers.clj}.
+\item[Miscellaneous] \hfill \\
+Die Beispiele dieses Kapitel ließen sich in keine der oberen drei Kapitel einteilen. Von diesen wurde keines in \CA\ umgesetzt.
+\end{description}
+
+
+
+
