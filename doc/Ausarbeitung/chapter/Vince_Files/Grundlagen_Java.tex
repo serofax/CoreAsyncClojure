@@ -1,15 +1,15 @@
 \section{Asynchrone Programmierung in Clojure}
 
-Clojure ist eine Sprache, die zur Java-Bytecode, CIL-Bytecode oder JavaScript (\acl{CLJS}) compiliert werden kann und somit von einer \ac{JVM}, \ac{CLR} oder einem JavaScript-Interpreter ausgeführt werden kann.
+Clojure ist eine Sprache, die zu Java- oder CIL-Bytecode und JavaScript (\acl{CLJS}) kompiliert werden und somit von einer \ac{JVM}, \ac{CLR} oder einem JavaScript-Interpreter ausgeführt werden kann.
 
-In den beiden ersten Laufzeitumgebungen können Threads, für die asynchrone und gleichzeitige Verarbeitung von Befehlen verwendet werden und in JavaScript existiert der im vorherigen Kapitel vorgestellte Event-Handler.
+In den beiden ersten Laufzeitumgebungen können Threads zur asynchronen und gleichzeitigen Verarbeitung von Befehlen verwendet werden. In JavaScript existiert der im vorherigen Kapitel vorgestellte Event-Handler.
 
-Das folgende Beispiel und alle restlichen Erläuterungen und Beispiele beziehen sich auf Clojure in Verwendung mit einer \ac{JVM}.
+Das folgende Beispiel, sowie alle restlichen Erläuterungen und Beispiele beziehen sich auf Clojure in Verwendung mit einer \ac{JVM}.
 
 \subsection*{Beispiel anhand der Funktion \textit{future}}
-Die einfachste Methode eine Aufgabe auszulagern, die dann asynchron und concurrent abgearbeitet wird, funktioniert über die \textit{future}-Funktion, wie in dem Beispiel in Listing \ref{lst:clojure_future} zu sehen ist. Die Funktion übergibt den übergebenen Body an einen einen Thread in einem \textit{ExecutionService} und gibt ein Future-Objekt an den Hauptthread zurück.
+Eine Methode eine Aufgabe auszulagern, die dann asynchron und concurrent abgearbeitet wird, funktioniert über die \textit{future}-Funktion (siehe Listing \ref{lst:clojure_future}). Die Funktion übergibt den übergebenen Body an einen Thread in einem \textit{ExecutionService} und gibt ein Future-Objekt an den Hauptthread zurück.
 
-Der Hauptthread kann die Ausführung fortsetzen und weitere Aufgaben erledigen. Im Beispiel wird zusätzlich überprüft, ob sich bei dem zurückgegebene Objekt um ein Future handelt und mit der Funktion  \textit{realized?} ob bereits ein Ergebnis vorliegt. Wenn sie Aufgabe erledigt ist, kann der Hauptthread das Ergebnis der Berechnung über das Future anfragen, indem dieser mit der Funktion \textit{deref} oder dem Marco  \textit{@} das Objekt dereferenziert. Falls die Aufgabe noch nicht erledigt ist, blockiert der Hauptthread solange bis das Ergebnis vorliegt.
+Der Hauptthread kann die Ausführung fortsetzen und weitere Aufgaben erledigen. Im Beispiel wird zusätzlich überprüft, ob es sich beim zurückgegebene Objekt um ein Future-Objekt handelt und mit der Funktion  \textit{realized?}, ob bereits ein Ergebnis vorliegt. Wenn die Aufgabe erledigt ist, kann der Hauptthread das Ergebnis der Berechnung über das Future anfragen, indem dieser mit der Funktion \textit{deref} oder dem Makro \textit{@} das Objekt dereferenziert. Falls die Aufgabe noch nicht erledigt ist, blockiert der Hauptthread solange, bis das Ergebnis vorliegt.
 
 \begin{lstlisting}[language=Clojure,caption=Das asynchrone Ausführen von Befehlen mit der Funktion \textit{future},label=lst:clojure_future]
 (println (-> (Thread/currentThread) (.getName)))
@@ -31,11 +31,11 @@ Der Hauptthread kann die Ausführung fortsetzen und weitere Aufgaben erledigen. 
 [stdout]:42
 \end{lstlisting}
 
-Dieses Beispiel verdeutlicht die sehr einfache Verwendung von Threads in Clojure. Falls eine gezieltere Kontrolle über die Definition und Ausführung von Threads gefordert ist, kann über die \textit{Java-Interop}-Schnittstelle Threads selbstständig definiert werden oder es kann das \textit{ExecutionService}-Framework verwendet werden.
+Dieses Beispiel verdeutlicht die Verwendung von Threads in Clojure. Falls eine gezieltere Kontrolle über die Definition und Ausführung von Threads gefordert ist, können über die \textit{Java-Interop}-Schnittstelle Threads selbstständig definiert oder es kann das \textit{ExecutionService}-Framework verwendet werden.
 
 \subsection*{\acl{STM}}
-Bei der gleichzeitigen Verarbeitung von Aufgaben und der Benutzung eines \textit{Shared Storages} gibt immer die Problematik, dass \textit{Race Conditions} entstehen können und die Objekte somit inkonsistent werden können.
+Bei der gleichzeitigen Verarbeitung von Aufgaben und der Benutzung eines \textit{Shared Storages} existiert die Problematik, dass \textit{Race Conditions} entstehen können und die im Objekt gekapselten Daten somit inkonsistent werden können.
 
-In Clojure garantiert das \acf{STM} bei der Veränderung von Referenzen, dass eine Inkonsistenz der Objekte verhindert wird. Das \acs{STM} von Clojure verwendet hierfür ein \ac{MVCC} mit Snapshot Isolation. Dadurch kann aber das Phänomen des \textit{Write Skews}\footcite[S. Seite 17]{RENZSTATE} auftreten, das vom Entwickler erkannt und besonders behandelt werden muss.
+In Clojure garantiert das \acf{STM} bei der Veränderung von Referenzen, dass eine solche Inkonsistenz verhindert wird. Das \acs{STM} von Clojure verwendet hierfür ein \ac{MVCC} mit Snapshot Isolation. Dadurch kann das Phänomen des \textit{Write Skews}\footcite[S. Seite 17]{RENZSTATE} auftreten, das vom Entwickler erkannt und besonders behandelt werden muss.
 
 Falls kein \ac{STM} erwünscht ist, kann auch das Synchronisationsprinzip von Java über Sperren verwendet werden, indem der kritische Abschnitt der Funktion \textit{locking} übergeben wird.

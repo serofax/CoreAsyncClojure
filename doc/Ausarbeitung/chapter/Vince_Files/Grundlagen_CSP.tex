@@ -1,17 +1,17 @@
 \section{\acl{CSP}}
-\acf{CSP} ist eine von \textit{C.A.R. Hoare}, in seinem Paper\footcite{CSP} \textit{Communication Sequential Processes}, 1978 erstmals vorgestellte formale Modellierung von nebenläufigen Prozessen und deren Kommunikation untereinander, mit Hilfe von Events und Nachrichten.
+\acf{CSP} ist eine von \textit{C.A.R. Hoare}, in einem Paper\footcite{CSP} erstmals vorgestellte formale Modellierung von nebenläufigen Prozessen und deren Kommunikation untereinander, mit Hilfe von Events und Nachrichten.
 
-Hoare hat schon frühzeitig erkannt, dass in der Zukunft neue Algorithmen und Modelle benötigt werden, die horizontal skaliert werden können. Durch die zwingende Kommunikation zwischen den Prozessen ist ein genau spezifiziertes Konzept von Nöten, wodurch die Effizienz gesteigert werden kann. Die 1978 übliche Kommunikation über einen \textit{Shared Storage} und die Synchronisation über gegenseitigen Ausschluss, war zu komplex und zu fehleranfällig.\footcite[Introduction]{CSP}
+Hoare hat erkannt, dass in der Zukunft neue Algorithmen und Modelle benötigt werden, die horizontal skaliert werden können. Durch die zwingende Kommunikation zwischen den Prozessen ist ein genau spezifiziertes Konzept von Nöten, wodurch die Effizienz gesteigert werden kann. Die 1978 übliche Kommunikation über einen \textit{Shared Storage} und die Synchronisation über gegenseitigen Ausschluss, war zu komplex und zu fehleranfällig.\footcite[Introduction]{CSP}
 
-Die in den folgenden Unterkapitel verwendeten Symbole werden von Hoare in seinem Buch\footcite[Glossary of Symbols]{CSPBOOK} beschrieben.
+Die in den folgenden Unterkapiteln verwendeten Symbole werden von Hoare in seinem Buch\footcite[Glossary of Symbols]{CSPBOOK} beschrieben.
 
 \subsection[Operatoren und Konstrukte in \acs{CSP}]{Operatoren und Konstrukte in \acs{CSP}\footcite[Siehe][Kap. 1.1]{CSPBOOK}}
 
-Hoare definiert in seinem Buch zu \ac{CSP} sehr viele Operatoren und Konstrukte, wovon die Essentiellen  erläutert werden. Als Beispiel, wird das von Hoare gerne in seinem Buch\footcite{CSPBOOK} verwendete Beispiel eines Schokoladenautomaten verwendet, jedoch werden die Begriffe in die deutsche Sprache übersetzt.
+Hoare definiert in seinem Buch zu \ac{CSP} sehr viele Operatoren und Konstrukte, wovon die essentiellen  erläutert werden. Als Beispiel, wird das von Hoare in seinem Buch\footcite{CSPBOOK} verwendete Beispiel eines Schokoladenautomaten gezeigt, jedoch werden die Begriffe in die deutsche Sprache übersetzt.
 
 \subsubsection{Events}
-Events sind Aktionen, die jederzeit auftreten können. Dabei wird nicht zwischen eingehenden und ausgehenden Events unterschieden, diese Semantik ergibt sich durch den Kontext, wie die Prozesse verknüpft sind. In Hoares Notation werden Events in Kleinbuchstaben geschrieben.
-Bei dem Beispiel eines einfachen Schokoladenautomaten existieren die folgenden zwei Events:
+Events sind Aktionen, die jederzeit auftreten können. Dabei wird nicht zwischen eingehenden und ausgehenden Events unterschieden, diese Semantik ergibt sich durch den Kontext, der Verknüpfung der Prozesse. In Hoares Notation werden Events in Kleinbuchstaben geschrieben.
+Im Beispiel eines einfachen Schokoladenautomaten existieren die folgenden zwei Events:
 
 \begin{description}
 \item[münze]\hfill \\
@@ -32,9 +32,9 @@ Das Entnehmen einer Münze aus dem Münzeinwurf.
 Das Hineinlegen einer Schokolade in den Auswurf.
 \end{description}
 
-In nicht allen Fällen ist genau bekannt, um welches Event es sich auf dem Channel handelt. Damit diese auch verarbeitet werden können, existieren die Operatoren ? und !, mit denen Events in Variablen gespeichert werden können (?-Operator) oder Event aus Variablen auf einen Channel geschrieben werden können (!-Operator). Weil das Beispiel eines Schokoladenautomaten ungeeignet ist, wird ein neues Beispiel konstruiert. 
+In nicht allen Fällen ist genau bekannt, um welches Event es sich auf dem Channel handelt. Damit diese auch verarbeitet werden können, existieren die Operatoren \textit{?} und \textit{!}, mit denen Events in Variablen gespeichert werden können (\textit{?}-Operator) oder Event aus Variablen auf einen Channel geschrieben werden können (\textit{!}-Operator). Weil das Beispiel eines Schokoladenautomaten ungeeignet ist, wird ein neues Beispiel konstruiert. 
 
-Bei diesem Beispiel handelt es sich um einen Automaten (\textit{COPY}), der aus einem Channel \textit{in} Events liest und den Wert in einen Channel \textit{out} schreibt. Dieser Automat hat nun die folgenden Events:
+Bei diesem Beispiel handelt es sich um einen Automaten (\textit{COPY}), der aus einem Channel \textit{in} Events liest und den Wert in einen Channel \textit{out} schreibt. Dieser Automat hat die folgenden Events:
 
 \begin{description}
 \item[in?x]\hfill \\
@@ -46,28 +46,28 @@ Das Hineinlegen von dem Wert, der in der Variable \textit{x} gespeichert ist, au
 Alle nachfolgenden Konstrukte werden mit Hilfe von Channels erklärt.
 
 \subsubsection{Prozesse}
-Ein Prozess definiert sich durch eine Kombination aus verschiedenen Events, die sequentiell hintereinander auftreten können. In dem ersten Beispiel eines Schokoladenautomaten existiert nur der Prozess, der den  Schokoladenautomaten (\textit{SA}) definiert. Der Prozess \textit{SA} ist durch die Großbuchstaben als solches erkenntlich, wie es die Notation vorsieht. Auf ein Event muss stets ein Event oder ein Prozess folgen. Ein terminierbarer Automat kann dementsprechend nicht nach einem Event enden, sondern muss in einen anderen Prozess enden. Dafür wird der Prozess \textit{STOP} definiert, der auf die eigentlichen Ausführung des Prozesses folgt und den nicht mehr funktionsfähigen Schokoladenautomaten definiert.
+Ein Prozess wird durch eine Kombination aus verschiedenen Events, die sequentiell hintereinander auftreten können definiert. In dem ersten Beispiel eines Schokoladenautomaten existiert der Prozess, der den  Schokoladenautomaten (\textit{SA}) definiert. Der Prozess \textit{SA} ist durch die Großbuchstaben als solches erkenntlich, wie es die Notation vorsieht. Auf ein Event muss stets ein Event oder ein Prozess folgen. Ein terminierbarer Automat kann dementsprechend nicht nach einem Event enden, sondern muss in einem anderen Prozess enden. Dafür wird der Prozess \textit{STOP} definiert, der auf die eigentlichen Ausführung des Prozesses folgt und den nicht mehr funktionsfähigen Schokoladenautomaten definiert.
 
 \subsubsection{Verkettung}
 Um die sequentielle Abfolge von Events, Prozessen und anderen Konstrukten darzustellen, definiert Hoare den 
 $ \rightarrow $-Operator. Der Schokoladenautomat, der eine Münze annimmt und eine Schokolade auswirft und danach kaputt geht, sieht unter Verwendung des Operators wie folgt aus:
 \[(\text{in.münze} \rightarrow (out.schokolade \rightarrow STOP))\]
 
-Alternativ kann der Prozess auch benannt werden und die Klammern können entfernt werden, wodurch die Ausführung wie folgt aussieht: 
+Alternativ kann der Prozess auch benannt und die Klammern können entfernt werden, wodurch die Ausführung wie folgt aussieht: 
 \[SA = (\text{in.münze} \rightarrow \text{out.schokolade} \rightarrow STOP)\]
 
 \subsubsection{Rekursion}
-Einfache Verkettung ermöglicht bereits zu diesem Zeitpunk die Modellierung von komplexen Prozessen. Allerdings existieren in Prozessen üblicherweise redundante Abläufe, die nicht modelliert werden wollen oder können. Um nicht den gesamten Ablauf einen Prozesses modellieren zu müssen, sieht die Notation Rekursion vor. 
-Im Folgenden wird der nicht terminierende Automat \textit{SA} definiert, unter Anwendung der neuen Operatoren:
+Einfache Verkettung ermöglicht bereits zu diesem Zeitpunk die Modellierung von komplexen Prozessen. Allerdings existieren in Prozessen üblicherweise redundante Abläufe, die nicht modelliert werden können oder nicht vom Entwickler zur Modellierung vorgesehen sind. Um nicht den gesamten Ablauf einen Prozesses modellieren zu müssen, sieht die Notation Rekursion vor. 
+Im Folgenden wird der nicht terminierende Automat \textit{SA} unter Anwendung der neuen Operatoren definiert:
 
 \[SA = (\text{in.münze} \rightarrow \text{out.schokolade} \rightarrow SA)\]
 
-Und das Beispiel des kopierenden Prozesses (\textit{COPY}) sähe folgendermaßen aus.
+Und das Beispiel des kopierenden Prozesses (\textit{COPY}) sieht folgendermaßen aus.
 
 \[COPY = (\text{in?x} \rightarrow \text{out!x} \rightarrow COPY)\]
 
 \subsubsection{Parallelität}
-Mit der zu diesem Zeitpunkt vorgestellten Notation ist es nur möglich, dass maximal ein Prozess gleichzeitig ausgeführt werden kann. Eine sequentielle Durchführung aller Prozesse ist zwar möglich, verkompliziert die einzelnen Prozesse jedoch sehr stark, weil ein Scheduling definiert werden muss. Die Notation sieht aber vor, dass mehrere Prozesse parallel ausgeführt werden können. Bei der gleichzeitigen Ausführung von Prozessen werden Events, die in beiden Alphabeten vorkommen, synchron ausgeführt und Events, die nur in einem Prozess vorkommen von dem anderen Prozess ignoriert. Durch die synchrone Ausführung von zwei gleiche Events ist die Kommunikation zwischen zwei Prozessen möglich zu modellieren. Der Operator, der Prozesse parallel ausführt ist der ||-Operator. 
+Die zu diesem Zeitpunkt vorgestellten Notation ermöglicht ausschließlich, die gleichzeitige Ausführung eines Prozesses. Eine sequentielle Durchführung aller Prozesse ist zwar möglich, verkompliziert die einzelnen Prozesse, da ein Scheduling definiert werden muss. Die Notation sieht aber vor, dass mehrere Prozesse parallel ausgeführt werden können. Bei der gleichzeitigen Ausführung von Prozessen werden Events, die in beiden Alphabeten vorkommen, synchron ausgeführt und Events, die nur in einem Prozess vorkommen vom anderen Prozess ignoriert. Durch die synchrone Ausführung von zwei gleichen Events ist die Kommunikation zwischen zwei Prozessen möglich zu modellieren. Der Operator, der Prozesse parallel ausführt ist der \textit{||}-Operator. 
 
 Zur Verdeutlichung werden die folgenden zwei Prozesse definiert:
 
@@ -77,18 +77,18 @@ $student:KUNDE = \mu X \bullet (\text{geldzählen} \rightarrow \text{mensa.in.m�
 $ (mensa:SA) || (student:KUNDE) $
 \end{addmargin}
 
-Der erste Prozess ist der bereits bekannte Schokoladenautomat. Hierbei handelt es sich aber um eine Instanz mit dem Namen \textit{mensa} und dem Prozesstyp \textit{SA}. $\mu X$ definiert eine Funktion mit dem Bezeichner \textit{X}, die dem Prozess \textit{SA} zugewiesen wird. Dadurch kann innerhalb der Funktion der Name \textit{X} verwendet werden, unabhängig von dem Namen der Instanz.
-Der zweite Prozess ist ein Kunde mit dem Namen \textit{student}, der den Schokoladenautomat bedient. Er benutzt die Channels Münzeinwurf (\textit{in}) und Ausgabe (\textit{out}) des Schokoladenautomaten und zählt am Anfang sein Geld. Damit beide Prozesse nun parallel auszuführen werden, wird der ||-Operator verwendet.
+Der erste Prozess ist der bereits bekannte Schokoladenautomat. Hierbei handelt es sich um eine Instanz mit dem Namen \textit{mensa} und dem Prozesstyp \textit{SA}. $\mu X$ definiert eine Funktion mit dem Bezeichner \textit{X}, die dem Prozess \textit{SA} zugewiesen wird. Dadurch kann innerhalb der Funktion der Name \textit{X} verwendet werden, unabhängig vom Namen der Instanz.
+Der zweite Prozess ist ein Kunde mit dem Namen \textit{student}, der den Schokoladenautomat bedient. Er benutzt die Channels Münzeinwurf (\textit{in}) und Ausgabe (\textit{out}) des Schokoladenautomaten und zählt am Anfang sein Geld. Damit beide Prozesse nun parallel auszuführen werden, wird der \textit{||}-Operator verwendet.
 
-Die Aktion \textit{in.münze} des Mensa-Prozesses und die Aktion \textit{mensa.in.münze} des Studenten-Prozesses laufen simultan ab.\footcite[vgl][Seite 117]{CSPBOOK} Der Prozess blockiert wenn der andere Prozess nicht bereit ist. Wenn eine Art von Puffer benötigt wird, der das verhindern würde, muss dieser durch einen anderen Prozess modelliert werden.\footcite[vgl.][Seite 133]{CSPBOOK}.
+Die Aktion \textit{in.münze} des Mensa-Prozesses und die Aktion \textit{mensa.in.münze} des Studenten-Prozesses laufen simultan ab.\footcite[vgl][Seite 117]{CSPBOOK} Der Prozess blockiert, wenn der andere Prozess nicht bereit ist. Eine Art von Puffer der die Blockierung verhindert, muss durch einen anderen Prozess modelliert werden.\footcite[vgl.][Seite 133]{CSPBOOK}.
 
-\subsubsection{Weitere wichtige Konstrukte}
-Die oben vorgestellten Konstrukte reichen aus, um einen einfachen Automaten zu definieren, der immer den gleichen Ablauf hat. Für komplexere Algorithmen sind Verzweigungen von Nöten, um alternative Abläufe modellieren zu können. Die Notation sieht für diesen Fall den |-Operator vor, der zwischen zwei Abläufen unterscheiden kann.
+\subsubsection{Zusätzliche Konstrukte}
+Die oben vorgestellten Konstrukte reichen aus, um einen einfachen Automaten zu definieren, der immer den gleichen Ablauf hat. Für komplexere Algorithmen sind Verzweigungen von Nöten, um alternative Abläufe modellieren zu können. Die Notation sieht für diesen Fall den \textit{|}-Operator vor, der zwischen zwei Abläufen unterscheiden kann.
 
 \subsection{Umsetzung der Konstrukte in core.async}
-In \CA\ ist ein Prozess eine Sequenz von verschiedenen Befehlen, die entweder durch einen Thread ausgeführt werden können oder in einem \textit{go}-Block in einen Zustandsautomat umgewandelt werden.
+In \CA\ ist ein Prozess eine Sequenz von verschiedenen Befehlen, die entweder durch einen Thread ausgeführt oder in einem \textit{go}-Block in einen Zustandsautomat umgewandelt werden.
 
-Die Kommunikation zwischen mehreren Prozessen passiert über Channels, die mit Hilfe der Funktion \textit{chan} erzeugt werden können. Das Hineinlegen eines Wertes (Event), wird in der Notation nicht vom Herausnehmen unterschieden, außer das Event soll zwischengespeichert werden, in diesem Fall existieren die oben erklärten Operatoren (? und !). In \CA\ wird das Hineinlegen eines Werts in einen Channel mit den Funktionen \textit{>!!} (bei der Verwendung von Threads) oder \textit{>!} (in einem \textit{go}-Block) durchgeführt. Das Herausnehmen eines Werts aus dem Channel wird mit den Funktionen \textit{<!!} und \textit{<!} realisiert.
+Die Kommunikation zwischen mehreren Prozessen erfolgt über Channels, die mit Hilfe der Funktion \textit{chan} erzeugt werden. Das Hineinlegen eines Wertes (Event), wird in der Notation nicht vom Herausnehmen unterschieden, außer das Event soll zwischengespeichert werden, in diesem Fall existieren die oben erklärten Operatoren (\textit{?} und \textit{!}). In \CA\ wird das Hineinlegen eines Werts in einen Channel mit den Funktionen \textit{>!!} (bei der Verwendung von Threads) oder \textit{>!} (in einem \textit{go}-Block) durchgeführt. Das Herausnehmen eines Werts aus dem Channel wird mit den Funktionen \textit{<!!} und \textit{<!} realisiert.
 
 Alle übrigen Konstrukte, wie Rekursion, Verkettung, Verzweigungen etc. werden durch Clojure abgebildet.
 
