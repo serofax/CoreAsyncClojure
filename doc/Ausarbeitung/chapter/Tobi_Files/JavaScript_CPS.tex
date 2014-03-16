@@ -1,10 +1,10 @@
 \section{\acl{CPS} am Beispiel von JavaScript}
-\label{sec:jscps}\acl{CPS} beschreibt einen Programmierstil, bei dem die Fortführung (Continuation) eines Programms an ein Unterprogramm übergeben wird. Zumeist werden die Continuations in Form von Funktionszeigern als Parameter an eine Funktion übergeben. In JavaScript werden diese als Callback-Funktionen bezeichnet. Der Einsatz von \acs{CPS} ermöglicht hier die asynchrone Abarbeitung von Funktionen. Betrachten wir das Code-Beispiel aus Listing \ref{lst:jscallback}. Im folgenden werden die Bestandteile des Code Beispiels erklärt.
+\label{sec:jscps}\acl{CPS} beschreibt einen Programmierstil, bei dem die Fortführung (Continuation) eines Programms an ein Unterprogramm übergeben wird. Zumeist werden die Continuations in Form von Funktionszeigern als Parameter an eine Funktion übergeben. In JavaScript werden diese als Callback-Funktionen bezeichnet. Der Einsatz von \acs{CPS} ermöglicht hier die asynchrone Abarbeitung von Funktionen. Betrachten wir das Code-Beispiel aus Listing \ref{lst:jscallback}. Im Folgenden werden die Bestandteile des Code Beispiels erklärt:
 \begin{description}
 \item[Die Funktion divides]\hfill \\
-ermittelt, ob eine Zahl \textit{n} ein Teiler der Zahl \textit{m} ist und liefert einen bool'schen Wert zurück.
+ermittelt, ob eine Zahl \textit{n} ein Teiler der Zahl \textit{m} ist und liefert einen boolschen Wert zurück.
 \item[Die Funktion calcDividers]\hfill \\
-nimmt eine Zahl \textit{n} entgegen, sowie eine Continuation in Form einer Callback-Funktion. Mit Hilfe einer Schleife wird pro Iterationsschritt ein Teiler der Zahl \textit{n} ermittelt. Sind alle Teiler berechnet, so wird die übergebene Callback-Funktion aus der Parameterliste aufgerufen, als Parameter wird ein Array aller Teiler übergeben.
+nimmt eine Zahl \textit{n} entgegen sowie eine Continuation in Form einer Callback-Funktion. Mit Hilfe einer Schleife wird pro Iterationsschritt ein Teiler der Zahl \textit{n} ermittelt. Sind alle Teiler berechnet, so wird die übergebene Callback-Funktion aus der Parameterliste aufgerufen, als Parameter wird ein Array aller Teiler übergeben.
 \item[Die Funktion printDividers] \hfill \\
 repräsentiert die Continuation in dem Code-Beispiel. Das Programm wird an dieser Stelle fortgesetzt, sobald die Berechnung beendet ist. An dieser Stelle werden alle Teiler ausgegeben.
 \item[Die Funktion main]\hfill \\
@@ -45,7 +45,7 @@ function main() {
 main();
 \end{lstlisting}
 \subsection*{Asynchronität}
-Führt man das Code Beispiel aus Listing \ref{lst:jscallback} in einem JavaScript-Interpreter aus, so lässt sich kein asynchrones Verhalten der Anwendung, wie Eingangs beschrieben, erkennen. Listing \ref{lst:jscallback_async} zeigt, wie \textit{calcDividers} asynchron aufgerufen werden kann. Hier wird die Funktion \mbox{\textit{calcDividers}} als Continuation mit Hilfe von \textit{setTimeout} an den JavaScript Event-Handler übergeben, der diese nach Ablauf des festgelegten Timeouts, in diesem Fall \textit{0 ms}, aufruft. Dieser Aufruf erlaubt, dass die nachfolgenden Befehle sofort ausgeführt werden. Startet man das Code-Beispiel in einem JavaScript-Interpreter, so wird der Text ``Calculation started...'' vor der Ausgabe des Ergebnisses angezeigt. Das Ergbnis wird asynchron ausgegeben, wenn die Abarbeitung von \textit{calcDividers} abgeschlossen wurde.
+Wird das Code-Beispiel auf Listing \ref{lst:jscallback} in einem JavaScript-Interpreter ausgeführt, so lässt sich kein asynchrones Verhalten der Anwendung, wie eingangs beschrieben, erkennen. Listing \ref{lst:jscallback_async} zeigt, wie \textit{calcDividers} asynchron aufgerufen werden kann. Hier wird die Funktion \mbox{\textit{calcDividers}} als Continuation mit Hilfe von \textit{setTimeout} an den JavaScript Event-Loop übergeben, der diese nach Ablauf des festgelegten Timeouts, in diesem Fall \textit{0 ms}, aufruft. Dieser Aufruf erlaubt, dass die nachfolgenden Befehle sofort ausgeführt werden. Wird das Code-Beispiel in einem JavaScript-Interpreter ausgeführt, so wird der Text ``Calculation started...'' vor der Ausgabe des Ergebnisses angezeigt. Das Ergebnis wird asynchron ausgegeben, wenn die Abarbeitung von \textit{calcDividers} abgeschlossen ist.
 \begin{lstlisting}[language=JavaScript,caption=JavaScript setTimeout Beispiel,label=lst:jscallback_async]
 ...
 function main() {
