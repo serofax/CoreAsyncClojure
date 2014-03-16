@@ -44,7 +44,7 @@ Zu Beginn wird ein Channel mittels \textit{timeout} erzeugt und neuer Wert async
     (println "timeout")))
 \end{lstlisting}
 \subsection{Filter}
-Channels können mit einem Filter versehen werden, der die eingehenden Werte auf die Erfüllung eines Prädikats prüft. Das Beispiel aus Listing \ref{lst:filter} veranschaulicht die Verwendung der \textit{filter>} Funktion, die diese Funktionalität bereitstellt. Die Funktion erhält ein Prädikat, sowie einen Ausgabe-Channel und gibt einen Eingabe-Channel zurück. Das hier übergebene Prädikat prüft, ob die eingehenden Werte String-Werte sind. Werte, die dem Prädikat entsprechen, werden über den Ausgabe-Channel zurück gegeben, alle anderen werden verworfen.
+Channels können mit einem Filter versehen werden, der die eingehenden Werte auf die Erfüllung eines Prädikats prüft. Das Beispiel aus Listing \ref{lst:filter} veranschaulicht die Verwendung der \textit{filter>} Funktion, die diese Funktionalität bereitstellt. Die Funktion erhält ein Prädikat, sowie einen Ausgabe-Channel und gibt einen Eingabe-Channel zurück. Die hier übergebene Prädikat-Funktion prüft, ob die eingehenden Werte String-Werte sind. Werte, die dem Prädikat entsprechen, werden über den Ausgabe-Channel zurück gegeben, alle anderen werden verworfen.
 \begin{lstlisting}[language=Clojure,caption=Filter,label=lst:filter]
 (let [out (chan)
       c (filter> string? out)]
