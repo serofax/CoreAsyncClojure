@@ -1,4 +1,5 @@
 \section{\acs{API} Code-Beispiele}
+Dieses Kapitel demonstriert die Basis-Funktionalität des Frameworks anhand von Code-Beispielen. Zwecks Vereinfachung der Beispiele wird Eingangs die Funktion \textit{read-chan} aus Listing \ref{lst:readchan}\ definiert, die eine einheitliche Ausgabe der Werte auf dem ihr übergebenen Channel realisiert. Diese Funktion durchläuft mit \textit{loop} und \textit{recur} solange alle Werte auf einem Channel, bis dieser geschlossen wird. Das Schließen des Kanals wird durch die Publikation des Wertes \textit{nil} signalisiert.
 \begin{lstlisting}[language=Clojure,caption=\textit{read-chan} Hilfsfunktion,label=lst:readchan]
 (defn read-chan
   ([c] (read-chan "" c))
@@ -11,6 +12,7 @@
       (println "END."))))
 \end{lstlisting}
 \subsection{\textit{Go}-Blocks}
+Das folgende Code Beispiel aus Listing \ref{lst:goblock}\ demonstriert den Parking-Mechanismus. Zu Beginn wird  ein ungepufferter Channel \textit{c} erzeugt. Anschließend wird mittels \textit{>!} und \textit{<!} in Kombination mit \textit{go} darauf zugegriffen. Ist der Channel belegt, so wird die \textit{>!} Funktion geparkt. Ein ähnliches Verhalten ist bei \textit{<!} erkennbar, welche geparkt wird, wenn kein Wert auf dem Channel vorliegt. Ist ein Wert vorhanden, so wird dieser vom Channel entfernt und auf der Konsole ausgegeben.
 \begin{lstlisting}[language=Clojure,caption=\textit{Go}-Blocks,label=lst:goblock]
 (let [c (chan)]
   (go
@@ -19,6 +21,7 @@
     (println (<! c))))
 \end{lstlisting}
 \subsection{Threads}
+Das obige Beispiel aus Listing \ref{lst:goblock}\ lässt sich auch mit blockierenden Funktionen in Threads ausführen. Die Korrelate zu den Put- und Take-Operation sind hier \textit{>!!} und \textit{<!!}, welche den jeweiligen Thread, in dem sie ausgeführt werden beim Lesen bzw. Schreiben blockieren (siehe Listing \ref{lst:thread}).
 \begin{lstlisting}[language=Clojure,caption=Thread,label=lst:thread]
 (let [c (chan)]
   (thread
@@ -27,6 +30,9 @@
     (println (<!! c))))
 \end{lstlisting}
 \subsection{Timeout}
+Channels werden in ihrer Lebensdauer zeitlich beschränkt, wenn ihre Erzeugung mit Hilfe der \textit{timeout}-Funktion erfolgt ist. Diese Kanäle werden nach Ablauf des Timeouts automatisch geschlossen. Das Beispiel aus Listing \ref{lst:timeout} demonstriert dieses Verhalten:\\
+\\
+Zu Beginn wird ein Channel mittels \textit{timeout} erzeugt und neuer Wert asynchron mit Hilfe von \textit{put!} darauf abgelegt. In einem Thread werden nun, wie in der Funktion \textit{read-chan} aus Listing \ref{lst:readchan}\ solange Werte vom Channel abgerufen, bis dieser seine Schließung nach vier Sekunden mittels \textit{nil}-Wert signalisiert.
 \begin{lstlisting}[language=Clojure,caption=Timeout,label=lst:timeout]
 (let [c (timeout 4000)]
   (put! c "test")
@@ -38,6 +44,7 @@
     (println "timeout")))
 \end{lstlisting}
 \subsection{Filter}
+Channels können mit einem Filter versehen werden, der die eingehenden Werte auf die Erfüllung eines Prädikats prüft. Das Beispiel aus Listing \ref{lst:filter} veranschaulicht die Verwendung der \textit{filter>} Funktion, die diese Funktionalität bereitstellt. Die Funktion erhält ein Prädikat, sowie einen Ausgabe-Channel und gibt einen Eingabe-Channel zurück. Das hier übergebene Prädikat prüft, ob die eingehenden Werte String-Werte sind. Werte, die dem Prädikat entsprechen, werden über den Ausgabe-Channel zurück gegeben, alle anderen werden verworfen.
 \begin{lstlisting}[language=Clojure,caption=Filter,label=lst:filter]
 (let [out (chan)
       c (filter> string? out)]
@@ -47,6 +54,7 @@
   (read-chan out))
 \end{lstlisting}
 \subsection{Buffer}
+Channels sind standardmäßig ungepuffert, d.h. es kann maximal ein Wert abgelegt werden. Die Schreiber werden solange geparkt bzw. blockiert, bis der Channel wieder frei ist. Dieses Verhalten kann bei der Erzeugung des Channels eingestellt werden (siehe Listing \ref{lst:buffer}). Im Listing wird bei der Erzeugung des Channels ein Puffer der Größe vier übergeben, der zuvor mit der Funktion \textit{buffer} erzeugt wurde. Alternativ kann die Größe des Kanal-Puffers direkt der \textit{chan}-Funktion als Zahlwert übergeben werden. Der Channel akzeptiert nun vier Werte, anschließend werden alle Schreiber geparkt bzw. blockiert.
 \begin{lstlisting}[language=Clojure,caption=Buffer,label=lst:buffer]
 (let [c (chan (buffer 4))]
   (dotimes[n 4]
