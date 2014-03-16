@@ -1,15 +1,15 @@
 \section{Beispiele von Hoare zu \acs{CSP}}
-Tony Hoare hat in seinem Paper\footcite{CSP} einige Beispiele erläutert, in denen \ac{CSP} angewendet wird. Einige der einfacheren Beispiele sind in \textit{core.async} implementiert worden und sind auf Github\footnote{\url{https://github.com/serofax/CSPHoareExamplesCoreAsync}} zu finden.
+Tony Hoare hat in seinem Paper\footcite{CSP} diverse Beispiele erläutert, in denen \ac{CSP} angewendet wird. Einige der einfacheren Beispiele sind in \textit{core.async} implementiert worden und sind auf Github\footnote{\url{https://github.com/serofax/CSPHoareExamplesCoreAsync}} zu finden.
 
 Hoare teilt seine Beispiele in vier Bereiche. 
 
 \begin{description}
 \item[Coroutines]\hfill \\
-Koroutinen sind Prozesse, die Daten von einem oder mehreren entgegennehmen und diese dann in meistens veränderter Form ausgeben.
+Koroutinen sind Prozesse, die Daten von einem oder mehreren Channels entgegennehmen und diese dann in meistens veränderter Form ausgeben.
 
 In \CA\ sind alle Koroutinen umgesetzt worden und befinden sich in der Datei \textit{coroutines.clj}.
 \item[Subroutines and Data Representation]\hfill \\
-Subrotinen sind komplexere Prozesse, die aus Koroutinen zusammengesetzt sind und eine komplexere Aufgabe haben, wie zum Beispiel das rekursives Berechnen der Fakultät.
+Subroutinen sind Prozesse, die aus Koroutinen zusammengesetzt sind und eine bestimmte Aufgabe erfüllen, wie z. B. das rekursives Berechnen der Fakultät.
 
 Sechs Beispiele definiert Hoare in seinem Paper. In \CA\ umgesetzt wurden lediglich die rekursive Berechnung der Fakultät und einen Divisionsprozess, der aus einem Dividenden und einem Divisor den Quotienten und den Rest errechnet. Diese beiden Beispiele sind in der Datei \textit{subroutines.clj} zu finden.
 \item[Monitores and Scheduling] \hfill \\
