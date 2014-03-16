@@ -30,8 +30,9 @@ Das obige Beispiel aus Listing \ref{lst:goblock}\ lässt sich auch mit blockiere
     (println (<!! c))))
 \end{lstlisting}
 \subsection{Timeout}
-Channels lassen sich in ihrer Lebensdauer zeitlich beschränken, indem man ihre Erzeugung mit Hilfe der \textit{timeout}-Funktion vornimmt. Diese Kanäle werden nach Ablauf des Timeouts automatisch geschlossen. Das folgende Beispiel aus Listing \ref{lst:timeout} demonstriert dieses Verhalten:\\
-Zu Beginn wird ein Channel mittels \textit{timeout} erzeugt und neuer Wert asynchron mit Hilfe von \textit{put!} darauf abgelegt. In einem Thread werden nun, wie in der Funktion \textit{read-chan} aus Listing {lst:readchan}\ solange Werte vom Channel abgerufen, bis dieser seine Schließung mittels \textit{nil}-Wert signalisiert.
+Channels werden in ihrer Lebensdauer zeitlich beschränkt, wenn ihre Erzeugung mit Hilfe der \textit{timeout}-Funktion erfolgt ist. Diese Kanäle werden nach Ablauf des Timeouts automatisch geschlossen. Das Beispiel aus Listing \ref{lst:timeout} demonstriert dieses Verhalten:\\
+\\
+Zu Beginn wird ein Channel mittels \textit{timeout} erzeugt und neuer Wert asynchron mit Hilfe von \textit{put!} darauf abgelegt. In einem Thread werden nun, wie in der Funktion \textit{read-chan} aus Listing \ref{lst:readchan}\ solange Werte vom Channel abgerufen, bis dieser seine Schließung nach vier Sekunden mittels \textit{nil}-Wert signalisiert.
 \begin{lstlisting}[language=Clojure,caption=Timeout,label=lst:timeout]
 (let [c (timeout 4000)]
   (put! c "test")
@@ -43,6 +44,7 @@ Zu Beginn wird ein Channel mittels \textit{timeout} erzeugt und neuer Wert async
     (println "timeout")))
 \end{lstlisting}
 \subsection{Filter}
+Channels können mit einem Filter versehen werden, der die eingehenden Werte auf die Erfüllung eines Prädikats prüft. Das Beispiel aus Listing \ref{lst:filter} veranschaulicht die Verwendung der \textit{filter>} Funktion, die diese Funktionalität bereitstellt. Die Funktion erhält ein Prädikat, sowie einen Ausgabe-Channel und gibt einen Eingabe-Channel zurück. Das hier übergebene Prädikat prüft, ob die eingehenden Werte String-Werte sind. Werte, die dem Prädikat entsprechen, werden über den Ausgabe-Channel zurück gegeben, alle anderen werden verworfen.
 \begin{lstlisting}[language=Clojure,caption=Filter,label=lst:filter]
 (let [out (chan)
       c (filter> string? out)]
@@ -52,6 +54,7 @@ Zu Beginn wird ein Channel mittels \textit{timeout} erzeugt und neuer Wert async
   (read-chan out))
 \end{lstlisting}
 \subsection{Buffer}
+Channels sind standardmäßig ungepuffert, d.h. es kann maximal ein Wert abgelegt werden. Die Schreiber werden solange geparkt bzw. blockiert, bis der Channel wieder frei ist. Dieses Verhalten kann bei der Erzeugung des Channels eingestellt werden (siehe Listing \ref{lst:buffer}). Im Listing wird bei der Erzeugung des Channels ein Puffer der Größe vier übergeben, der zuvor mit der Funktion \textit{buffer} erzeugt wurde. Alternativ kann die Größe des Kanal-Puffers direkt der \textit{chan}-Funktion als Zahlwert übergeben werden. Der Channel akzeptiert nun vier Werte, anschließend werden alle Schreiber geparkt bzw. blockiert.
 \begin{lstlisting}[language=Clojure,caption=Buffer,label=lst:buffer]
 (let [c (chan (buffer 4))]
   (dotimes[n 4]
