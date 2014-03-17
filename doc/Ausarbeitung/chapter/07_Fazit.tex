@@ -1,16 +1,5 @@
-\chapter{Fazit}
-\comment{SO FAZIT}
-
-\comment{Fazit Vince}
-- CSP ist ein Prozess-Algebra von Hoare zur Codellierung von  nebenläufigen Prozessen.\\
--Es bietet die Möglichkeit Prozesse zu modellieren, die parallel ausgeführt werden können, wenn ein System über einen  Multi-Core-Prozessoren verfügt ohne sich dabei um  Race-Conditions gedanken zu machen. (Deadlocks können passieren!)\\\\
-	Mehr kann man zu CSP nicht sagen, sonst wird es eine Zusammenfassung.\\
-	
-Zum Actormodell CSP-Vergleich
--Das Aktorenmodell ist wie CSP ein Modell zur Modellierung von nebenläufigen Prozessen.\\
--Keines der Modelle kann gegenüber dem Anderen präferiert werden. Der Entwickler muss nach den bestehenden Anforderungen entscheiden, welches Modell den fachlichen Anforderungen besser entspricht. Jedoch sollten auch die Unterschiede der Implementierungen in Betracht gezogen werden, die evt. einige Nachteile des Modells aufwiegen.
-(Als Beispiel kannst du hier Akka angeben, zugesichert wird, dass eine Nachricht ankommt und das Nachrichten in der gleichen Reihenfolge ankommen, wie sie abgeschickt wurden)\\
-- Ich würde auch eine sehr persönliche Meinung zu dem Projekt ins Fazit ans Ende schreiben. Das es uns sehr viel Spaß gemacht hat und wir dadurch viel gelernt haben in Richtung Synchronisation, Parallelität ...)\\
-- Ich würde auch sagen das core.async eine interessante Alternative zum STM von Clojure ist vorallen im Bezug auf CLJS.
-
+\chapter{Zusammenfassung und Fazit}
+Die Bibliothek \textit{core.async} implementiert das Channel Prinzip aus Tony Hoare's Prozess-Algebra \acf{CSP} zur Modellierung nebenläufiger Prozesse. Es wurde gezeigt, dass auch wenn ein System über Multi-Core-Prozessoren verfügt, keine Rücksicht auf Race-Conditions bei der Modellierung genommen werden muss, dennoch aber Deadlocks auftreten können. Anschließend wurde ein Vergleich zwischen \acs{CSP} und dem Aktorenmodell angestellt. Das Aktorenmodell ist wie \acs{CSP} ein Prinzip zur Modellierung von Nebenläufigkeit. Keines der Modelle kann gegenüber dem Anderen präferiert werden. Der Entwickler muss nach den bestehenden Anforderungen entscheiden, welches Modell den fachlichen Anforderungen besser entspricht, so auch beim Einsatz von \textit{core.async}. Jedoch sollten auch die Unterschiede der Implementierungen in Betracht gezogen werden, die eventuelle Nachteile des Modells aufwiegen.\\
+Zunächst wurde der Begriff Asynchrone Programmierung anhand von JavaScript-Code erklärt und demonstriert und es wurde \acf{CPS} vorgestellt, anschließend wurde die Basis-Funktionalität der \acs{API} von \textit{core.async} mit Code-Beispielen demonstriert. Die Bibliothek wirkte sehr stabil. Der Umfang der \acs{API} ist für eine Version im Alpha-Stadium beachtlich und kann bereits jetzt produktiv eingesetzt werden. Es ist hervorzuheben, dass - ausgenommen Thread-basierter Konstrukte - \textit{core.async} kompatibel zu ClojureScript ist und der Code demnach zu JavaScript kompiliert werden kann. Dies erleichtert die Modellierung von Quasi-Parallelen Prozessen (single threaded) in JavaScript erheblich und schafft neue Möglichkeiten.\\
+Dieses Projekt hat uns tiefe Einblicke in diverse hochinteressante Programmierparadigmen zur Modellierung von Nebenläufigkeit und Parallelität gewährt und uns persönlich weiter gebracht.
 
