@@ -1,0 +1,173 @@
+% $ biblatex auxiliary file $
+% $ biblatex version 1.7 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated as
+% required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+\entry{RENZSTATE}{misc}{}
+  \name{author}{1}{}{%
+    {{}%
+     {{Burkhardt Renz}}{B.}%
+     {}{}%
+     {}{}%
+     {}{}}%
+  }
+  \strng{namehash}{B1}
+  \strng{fullhash}{B1}
+  \field{sortinit}{B}
+  \field{note}{Version WS 2013/2014
+  \url{http://homepages.thm.de/~hg11260/mat/clj-state-bh.pdf} zuletzt besucht
+  am 31.01.2014}
+  \field{title}{Programmieren in Clojure - Identität, Zustand und
+  Synchronisationskontrolle}
+  \field{year}{2013}
+\endentry
+
+\entry{CSP}{article}{}
+  \name{author}{1}{}{%
+    {{}%
+     {{C.A.R. Hoare}}{C.}%
+     {}{}%
+     {}{}%
+     {}{}}%
+  }
+  \strng{namehash}{C1}
+  \strng{fullhash}{C1}
+  \field{sortinit}{C}
+  \field{note}{\url{http://www.cs.ucf.edu/courses/cop4020/sum2009/CSP-hoare.pdf}
+  zuletzt besucht am 25.01.2014}
+  \field{number}{8}
+  \field{title}{Communication Sequential Processes}
+  \field{volume}{21}
+  \field{journaltitle}{Communications of the ACM}
+  \field{year}{1978}
+\endentry
+
+\entry{CSPBOOK}{book}{}
+  \name{author}{1}{}{%
+    {{}%
+     {{C.A.R. Hoare}}{C.}%
+     {}{}%
+     {}{}%
+     {}{}}%
+  }
+  \strng{namehash}{C1}
+  \strng{fullhash}{C1}
+  \field{sortinit}{C}
+  \field{note}{Electronic version \url{http://www.usingcsp.com/cspbook.pdf}
+  zuletzt besucht am 27.01.2014}
+  \field{title}{Communication Sequential Processes}
+  \field{month}{06}
+  \field{year}{2004}
+\endentry
+
+\entry{ACTORSNEW}{misc}{}
+  \name{author}{1}{}{%
+    {{}%
+     {{Carl Hewitt}}{C.}%
+     {}{}%
+     {}{}%
+     {}{}}%
+  }
+  \strng{namehash}{C2}
+  \strng{fullhash}{C2}
+  \field{sortinit}{C}
+  \field{note}{Paper
+  \url{https://docs.google.com/file/d/0Bykigp0x1j92M0p6b0ZWWE9SS3Frb3loV3NKX2sxdw/edit}
+  zuletzt besucht am 07.03.2014}
+  \field{title}{Actor Model of Computation: Scalable Robust Information
+  Systems}
+  \field{year}{2011}
+\endentry
+
+\entry{ACTORS}{article}{}
+  \name{author}{3}{}{%
+    {{}%
+     {{Carl Hewitt}}{C.}%
+     {}{}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {{Peter Bishop}}{P.}%
+     {}{}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {{Richard Steiger}}{R.}%
+     {}{}%
+     {}{}%
+     {}{}}%
+  }
+  \strng{namehash}{C+1}
+  \strng{fullhash}{CPR1}
+  \field{sortinit}{C}
+  \field{note}{\url{http://worrydream.com/refs/Hewitt-ActorModel.pdf} zuletzt
+  besucht am 06.03.2014}
+  \field{title}{A Universal Modular ACTOR Formalism for Artificial
+  Intelligence}
+  \field{journaltitle}{Proceeding IJCAI'73 Proceedings of the 3rd international
+  joint conference on Artificial intelligence}
+  \field{year}{1973}
+\endentry
+
+\entry{CHVIDEO}{misc}{}
+  \name{author}{3}{}{%
+    {{}%
+     {{Carl Hewitt}}{C.}%
+     {}{}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {{Clemens Szyperski}}{C.}%
+     {}{}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {{Erik Mejier}}{E.}%
+     {}{}%
+     {}{}%
+     {}{}}%
+  }
+  \strng{namehash}{C+1}
+  \strng{fullhash}{CCE1}
+  \field{sortinit}{C}
+  \field{note}{Video
+  \url{http://letitcrash.com/post/20964174345/carl-hewitt-explains-the-essence-of-the-actor}
+  zuletzt besucht am 05.03.2014}
+  \field{title}{Carl Hewitt explains the essence of the Actor Model of
+  computation}
+\endentry
+
+\entry{CLJS}{misc}{}
+  \name{author}{1}{}{%
+    {{}%
+     {{Rich Hickey}}{R.}%
+     {}{}%
+     {}{}%
+     {}{}}%
+  }
+  \strng{namehash}{R1}
+  \strng{fullhash}{R1}
+  \field{sortinit}{R}
+  \field{note}{\url{http://clojure.org/clojurescript} zuletzt besucht am
+  16.03.2014}
+  \field{title}{ClojureScript}
+  \field{year}{2012}
+\endentry
+
+\lossort
+\endlossort
+
+\endinput
