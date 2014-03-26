@@ -7,9 +7,9 @@ In den beiden ersten Laufzeitumgebungen können Threads zur asynchronen und glei
 Das folgende Beispiel, sowie alle restlichen Erläuterungen und Beispiele beziehen sich auf Clojure in Verwendung mit einer \ac{JVM}.
 
 \subsection*{Beispiel anhand der Funktion \textit{future}}
-Eine Methode eine Aufgabe auszulagern, die dann asynchron und concurrent abgearbeitet wird, funktioniert über die \textit{future}-Funktion (siehe Listing \ref{lst:clojure_future}). Die Funktion übergibt den übergebenen Body an einen Thread in einem \textit{ExecutionService} und gibt ein Future-Objekt an den Hauptthread zurück.
+Eine Methode eine Aufgabe auszulagern, die dann asynchron und concurrent abgearbeitet wird, funktioniert über die \textit{future}-Funktion (siehe Listing \ref{lst:clojure_future}). Die Funktion übergibt den übergebenen Body an einen Thread in einem \textit{ExecutionService} und gibt ein Future-Objekt an den Main-Thread zurück.
 
-Der Hauptthread kann die Ausführung fortsetzen und weitere Aufgaben erledigen. Im Beispiel wird zusätzlich überprüft, ob es sich beim zurückgegebene Objekt um ein Future-Objekt handelt und mit der Funktion  \textit{realized?}, ob bereits ein Ergebnis vorliegt. Wenn die Aufgabe erledigt ist, kann der Hauptthread das Ergebnis der Berechnung über das Future anfragen, indem dieser mit der Funktion \textit{deref} oder dem Makro \textit{@} das Objekt dereferenziert. Falls die Aufgabe noch nicht erledigt ist, blockiert der Hauptthread solange, bis das Ergebnis vorliegt.
+Der Main-Thread kann die Ausführung fortsetzen und weitere Aufgaben erledigen. Im Beispiel wird zusätzlich überprüft, ob es sich beim zurückgegebene Objekt um ein Future-Objekt handelt und mit der Funktion  \textit{realized?}, ob bereits ein Ergebnis vorliegt. Wenn die Aufgabe erledigt ist, kann der Main-Thread das Ergebnis der Berechnung über das Future anfragen, indem dieser mit der Funktion \textit{deref} oder dem Makro \textit{@} das Objekt dereferenziert. Falls die Aufgabe noch nicht erledigt ist, blockiert der Main-Thread solange, bis das Ergebnis vorliegt.
 
 \begin{lstlisting}[language=Clojure,caption=Das asynchrone Ausführen von Befehlen mit der Funktion \textit{future},label=lst:clojure_future]
 (println (-> (Thread/currentThread) (.getName)))
