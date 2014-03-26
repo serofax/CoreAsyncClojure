@@ -1,5 +1,5 @@
 \section{\acs{API} Code-Beispiele}
-Dieses Kapitel demonstriert die Basis-Funktionalität des Frameworks anhand von Code-Beispielen. Zwecks Vereinfachung der Beispiele wird eingangs die Funktion \textit{read-chan} aus Listing \ref{lst:readchan}\  definiert, die eine einheitliche Ausgabe der Werte auf dem ihr übergebenen Channel realisiert. Diese Funktion entnimmt mit \textit{loop} und \textit{recur} solange alle Werte aus einem Channel, bis dieser geschlossen wird. Das ein Channel geschlossen ist, ist durch das Entnehmen des Wertes \textit{nil} realisierbar.
+Dieses Kapitel demonstriert die Basis-Funktionalität des Frameworks anhand von Code-Beispielen. Zwecks Vereinfachung der Beispiele wird eingangs die Funktion \textit{read-chan} aus Listing \ref{lst:readchan}\  definiert, die eine einheitliche Ausgabe der Werte auf dem ihr übergebenen Channel realisiert. Diese Funktion entnimmt mit \textit{loop} und \textit{recur} solange alle Werte aus einem Channel, bis dieser geschlossen wird. Das ein Channel geschlossen ist, wird durch das Entnehmen des Wertes \textit{nil} festgestellt.
 \begin{lstlisting}[language=Clojure,caption=\textit{read-chan} Hilfsfunktion,label=lst:readchan]
 (defn read-chan
   ([c] (read-chan "" c))
