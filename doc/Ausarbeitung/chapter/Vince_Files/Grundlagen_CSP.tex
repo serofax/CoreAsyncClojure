@@ -7,7 +7,7 @@ Die in den folgenden Unterkapiteln verwendeten Symbole werden von Hoare in seine
 
 \subsection[Operatoren und Konstrukte in \acs{CSP}]{Operatoren und Konstrukte in \acs{CSP}\footcite[Siehe][Kap. 1.1]{CSPBOOK}}
 
-Hoare definiert in seinem Buch zu \ac{CSP} sehr viele Operatoren und Konstrukte, wovon die essentiellen  erläutert werden. Als Beispiel, wird das von Hoare in seinem Buch\footcite{CSPBOOK} verwendete Beispiel eines Schokoladenautomaten gezeigt, jedoch werden die Begriffe in die deutsche Sprache übersetzt.
+Hoare definiert in seinem Buch zu \ac{CSP} einige Operatoren und Konstrukte, wovon die essentiellen erläutert werden. Als Beispiel, wird das von Hoare in seinem Buch\footcite{CSPBOOK} verwendete Beispiel eines Schokoladenautomaten gezeigt, jedoch werden die Begriffe in die deutsche Sprache übersetzt.
 
 \subsubsection{Events}
 Events sind Aktionen, die jederzeit auftreten können. Dabei wird nicht zwischen eingehenden und ausgehenden Events unterschieden, diese Semantik ergibt sich durch den Kontext, der Verknüpfung der Prozesse. In Hoares Notation werden Events in Kleinbuchstaben geschrieben.
@@ -20,7 +20,7 @@ Das Einwerfen einer Münze in den Automaten.
 Das Entnehmen der Schokolade aus dem Auswurf des Automaten.
 \end{description}
 
-Um den Bezug zu \CA\ herzustellen, werden die Events um Channels erweitern, die Hoare erst in einem späteren Kapitel\footcite[Kap. 4.2]{CSPBOOK} im Buch definiert.
+Um den Bezug zu \CA\ herzustellen, werden die Events um Channels erweitert, die Hoare in einem späteren Kapitel\footcite[Kap. 4.2]{CSPBOOK} im Buch definiert.
 Wenn der Automat mit Channels definiert wird, besitzt dieser nun den Channel Münzeinwurf (\textit{in}) und den Channel Auswurf (\textit{out}).
 
 Aus der Sicht des Automaten sehen die Events nun folgendermaßen aus:
@@ -32,33 +32,32 @@ Das Entnehmen einer Münze aus dem Münzeinwurf.
 Das Hineinlegen einer Schokolade in den Auswurf.
 \end{description}
 
-In nicht allen Fällen ist genau bekannt, um welches Event es sich auf dem Channel handelt. Damit diese auch verarbeitet werden können, existieren die Operatoren \textit{?} und \textit{!}, mit denen Events in Variablen gespeichert werden können (\textit{?}-Operator) oder Event aus Variablen auf einen Channel geschrieben werden können (\textit{!}-Operator). Weil das Beispiel eines Schokoladenautomaten ungeeignet ist, wird ein neues Beispiel konstruiert. 
+In nicht allen Fällen ist genau bekannt, um welches Event es sich auf dem Channel handelt. Damit eine Verbeitung dieser möglich ist, existieren die Operatoren \textit{?} und \textit{!}, mit denen Events in Variablen gespeichert werden (\textit{?}-Operator) oder Event aus Variablen auf einen Channel geschrieben werden können (\textit{!}-Operator). Da das Beispiel eines Schokoladenautomaten ungeeignet ist, wird ein neues Beispiel konstruiert. 
 
-Bei diesem Beispiel handelt es sich um einen Automaten (\textit{COPY}), der aus einem Channel \textit{in} Events liest und den Wert in einen Channel \textit{out} schreibt. Dieser Automat hat die folgenden Events:
+Hier handelt es sich um einen Automaten (\textit{COPY}), der aus einem Channel \textit{in} Events liest und den Wert in einen weiteren Channel \textit{out} schreibt. Dieser Automat hat die folgenden Events:
 
 \begin{description}
 \item[in?x]\hfill \\
 Das Entnehmen eines Eventes aus dem \textit{in}-Channel und das Speichern in der Variable \textit{x}.
 \item[out!x]\hfill \\
-Das Hineinlegen von dem Wert, der in der Variable \textit{x} gespeichert ist, auf den \textit{out}-Channel.
+Das Hineinlegen des Wertes der Variable \textit{x} auf den \textit{out}-Channel.
 \end{description}
 
 Alle nachfolgenden Konstrukte werden mit Hilfe von Channels erklärt.
 
 \subsubsection{Prozesse}
-Ein Prozess wird durch eine Kombination aus verschiedenen Events, die sequentiell hintereinander auftreten können definiert. In dem ersten Beispiel eines Schokoladenautomaten existiert der Prozess, der den  Schokoladenautomaten (\textit{SA}) definiert. Der Prozess \textit{SA} ist durch die Großbuchstaben als solches erkenntlich, wie es die Notation vorsieht. Auf ein Event muss stets ein Event oder ein Prozess folgen. Ein terminierbarer Automat kann dementsprechend nicht nach einem Event enden, sondern muss in einem anderen Prozess enden. Dafür wird der Prozess \textit{STOP} definiert, der auf die eigentlichen Ausführung des Prozesses folgt und den nicht mehr funktionsfähigen Schokoladenautomaten definiert.
+Ein Prozess wird durch eine Kombination aus verschiedenen Events, die sequentiell auftreten können definiert. In dem ersten Beispiel eines Schokoladenautomaten existiert der Prozess, der den  Schokoladenautomaten (\textit{SA}) definiert. Der Prozess \textit{SA} ist durch die Großbuchstaben als solches erkenntlich, wie es die Notation vorsieht. Auf ein Event muss stets ein Event oder ein Prozess folgen. Ein terminierbarer Automat kann dementsprechend nicht nach einem Event enden, sondern muss in einem anderen Prozess enden. Hierzu wird der Prozess \textit{STOP} definiert, der auf die eigentliche Ausführung des Prozesses folgt und den nicht mehr funktionsfähigen Schokoladenautomaten definiert.
 
 \subsubsection{Verkettung}
 Um die sequentielle Abfolge von Events, Prozessen und anderen Konstrukten darzustellen, definiert Hoare den 
-$ \rightarrow $-Operator. Der Schokoladenautomat, der eine Münze annimmt und eine Schokolade auswirft und danach kaputt geht, sieht unter Verwendung des Operators wie folgt aus:
+$ \rightarrow $-Operator. Der Schokoladenautomat, der eine Münze annimmt, eine Schokolade auswirft und danach kaputt geht, sieht unter Verwendung des Operators wie folgt aus:
 \[(\text{in.münze} \rightarrow (out.schokolade \rightarrow STOP))\]
 
-Alternativ kann der Prozess auch benannt und die Klammern können entfernt werden, wodurch die Ausführung wie folgt aussieht: 
+Alternativ kann der Prozess auch benannt und die Klammern können entfernt werden, wodurch die Ausführung nun dementsprechend aussieht: 
 \[SA = (\text{in.münze} \rightarrow \text{out.schokolade} \rightarrow STOP)\]
 
 \subsubsection{Rekursion}
-Einfache Verkettung ermöglicht bereits zu diesem Zeitpunk die Modellierung von komplexen Prozessen. Allerdings existieren in Prozessen üblicherweise redundante Abläufe, die nicht modelliert werden können oder nicht vom Entwickler zur Modellierung vorgesehen sind. Um nicht den gesamten Ablauf einen Prozesses modellieren zu müssen, sieht die Notation Rekursion vor. 
-Im Folgenden wird der nicht terminierende Automat \textit{SA} unter Anwendung der neuen Operatoren definiert:
+Einfache Verkettung ermöglicht bereits zu diesem Zeitpunkt die Modellierung von komplexen Prozessen. Allerdings existieren in Prozessen üblicherweise redundante Abläufe, die nicht modelliert werden können oder nicht vom Entwickler zur Modellierung vorgesehen sind. Um nicht den gesamten Ablauf einen Prozesses modellieren zu müssen, sieht die Notation Rekursion vor. Im Folgenden wird der nicht terminierende Automat \textit{SA} unter Anwendung der neuen Operatoren definiert:
 
 \[SA = (\text{in.münze} \rightarrow \text{out.schokolade} \rightarrow SA)\]
 
@@ -67,7 +66,7 @@ Und das Beispiel des kopierenden Prozesses (\textit{COPY}) sieht folgendermaßen
 \[COPY = (\text{in?x} \rightarrow \text{out!x} \rightarrow COPY)\]
 
 \subsubsection{Parallelität}
-Die zu diesem Zeitpunkt vorgestellten Notation ermöglicht ausschließlich, die gleichzeitige Ausführung eines Prozesses. Eine sequentielle Durchführung aller Prozesse ist zwar möglich, verkompliziert die einzelnen Prozesse, da ein Scheduling definiert werden muss. Die Notation sieht aber vor, dass mehrere Prozesse parallel ausgeführt werden können. Bei der gleichzeitigen Ausführung von Prozessen werden Events, die in beiden Alphabeten vorkommen, synchron ausgeführt und Events, die nur in einem Prozess vorkommen vom anderen Prozess ignoriert. Durch die synchrone Ausführung von zwei gleichen Events ist die Kommunikation zwischen zwei Prozessen möglich zu modellieren. Der Operator, der Prozesse parallel ausführt ist der \textit{||}-Operator. 
+Die zu diesem Zeitpunkt vorgestellten Notation ermöglicht ausschließlich die gleichzeitige Ausführung eines Prozesses. Eine sequentielle Durchführung aller Prozesse ist zwar möglich, verkompliziert die einzelnen Prozesse, da ein Scheduling definiert werden muss. Gleichwohl sieht die Notation die parallele Ausführung mehrerer Prozesse vor. Bei der gleichzeitigen Ausführung von Prozessen werden Events, die in beiden Alphabeten vorkommen, synchron ausgeführt und Events, die nur in einem Prozess vorkommen vom anderen Prozess ignoriert. Durch die synchrone Ausführung von zwei gleichen Events ist es möglich die Kommunikation zwischen zwei Prozessen zu modellieren. Der Operator, der Prozesse parallel ausführt ist der \textit{||}-Operator. 
 
 Zur Verdeutlichung werden die folgenden zwei Prozesse definiert:
 
@@ -77,8 +76,7 @@ $student:KUNDE = \mu X \bullet (\text{geldzählen} \rightarrow \text{mensa.in.m�
 $ (mensa:SA) || (student:KUNDE) $
 \end{addmargin}
 
-Der erste Prozess ist der bereits bekannte Schokoladenautomat. Hierbei handelt es sich um eine Instanz mit dem Namen \textit{mensa} und dem Prozesstyp \textit{SA}. $\mu X$ definiert eine Funktion mit dem Bezeichner \textit{X}, die dem Prozess \textit{SA} zugewiesen wird. Dadurch kann innerhalb der Funktion der Name \textit{X} verwendet werden, unabhängig vom Namen der Instanz.
-Der zweite Prozess ist ein Kunde mit dem Namen \textit{student}, der den Schokoladenautomat bedient. Er benutzt die Channels Münzeinwurf (\textit{in}) und Ausgabe (\textit{out}) des Schokoladenautomaten und zählt am Anfang sein Geld. Damit beide Prozesse nun parallel auszuführen werden, wird der \textit{||}-Operator verwendet.
+Der erste Prozess ist der bereits bekannte Schokoladenautomat. Hierbei handelt es sich um eine Instanz mit dem Namen \textit{mensa} und dem Prozesstyp \textit{SA}. $\mu X$ definiert eine Funktion mit dem Bezeichner \textit{X}, die dem Prozess \textit{SA} zugewiesen wird. Dadurch kann innerhalb der Funktion der Name \textit{X}, unabhängig vom Namen der Instanz,  verwendet werden. Der zweite Prozess ist ein Kunde mit dem Namen \textit{student}, der den Schokoladenautomat bedient. Er benutzt die Channels Münzeinwurf (\textit{in}) und Ausgabe (\textit{out}) des Schokoladenautomaten und zu Beginn sein Geld. Damit beide Prozesse nun parallel auszuführen werden, wird der \textit{||}-Operator verwendet.
 
 Die Aktion \textit{in.münze} des Mensa-Prozesses und die Aktion \textit{mensa.in.münze} des Studenten-Prozesses laufen simultan ab.\footcite[vgl][Seite 117]{CSPBOOK} Der Prozess blockiert, wenn der andere Prozess nicht bereit ist. Eine Art von Puffer der die Blockierung verhindert, muss durch einen anderen Prozess modelliert werden.\footcite[vgl.][Seite 133]{CSPBOOK}.
 
