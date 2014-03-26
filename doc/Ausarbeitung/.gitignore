@@ -1,7 +1,7 @@
 # Tex helper files
 *.aux
 *.toc
-*.pdf
+CoreAsync.pdf
 *.out
 *.lot
 *.lol

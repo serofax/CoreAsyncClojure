@@ -7,7 +7,7 @@ Die in den folgenden Unterkapiteln verwendeten Symbole werden von Hoare in seine
 
 \subsection[Operatoren und Konstrukte in \acs{CSP}]{Operatoren und Konstrukte in \acs{CSP}\footcite[Siehe][Kap. 1.1]{CSPBOOK}}
 
-Hoare definiert in seinem Buch zu \ac{CSP} einige Operatoren und Konstrukte, wovon die essentiellen erläutert werden. Als Beispiel, wird das von Hoare in seinem Buch\footcite{CSPBOOK} verwendete Beispiel eines Schokoladenautomaten gezeigt, jedoch werden die Begriffe in die deutsche Sprache übersetzt.
+Hoare definiert in seinem Buch zu \ac{CSP} einige Operatoren und Konstrukte, wovon die Essentiellen erläutert werden. Als Beispiel, wird das von Hoare in seinem Buch\footcite{CSPBOOK} verwendete Beispiel eines Schokoladenautomaten gezeigt, jedoch werden die Begriffe in die deutsche Sprache übersetzt.
 
 \subsubsection{Events}
 Events sind Aktionen, die jederzeit auftreten können. Dabei wird nicht zwischen eingehenden und ausgehenden Events unterschieden, diese Semantik ergibt sich durch den Kontext, der Verknüpfung der Prozesse. In Hoares Notation werden Events in Kleinbuchstaben geschrieben.
@@ -76,9 +76,9 @@ $student:KUNDE = \mu X \bullet (\text{geldzählen} \rightarrow \text{mensa.in.m�
 $ (mensa:SA) || (student:KUNDE) $
 \end{addmargin}
 
-Der erste Prozess ist der bereits bekannte Schokoladenautomat. Hierbei handelt es sich um eine Instanz mit dem Namen \textit{mensa} und dem Prozesstyp \textit{SA}. $\mu X$ definiert eine Funktion mit dem Bezeichner \textit{X}, die dem Prozess \textit{SA} zugewiesen wird. Dadurch kann innerhalb der Funktion der Name \textit{X}, unabhängig vom Namen der Instanz,  verwendet werden. Der zweite Prozess ist ein Kunde mit dem Namen \textit{student}, der den Schokoladenautomat bedient. Er benutzt die Channels Münzeinwurf (\textit{in}) und Ausgabe (\textit{out}) des Schokoladenautomaten und zu Beginn sein Geld. Damit beide Prozesse nun parallel auszuführen werden, wird der \textit{||}-Operator verwendet.
+Der erste Prozess ist der bereits bekannte Schokoladenautomat. Hierbei handelt es sich um eine Instanz mit dem Namen \textit{mensa} und dem Prozesstyp \textit{SA}. $\mu X$ definiert eine Funktion mit dem Bezeichner \textit{X}, die dem Prozess \textit{SA} zugewiesen wird. Dadurch kann innerhalb der Funktion der Name \textit{X}, unabhängig vom Namen der Instanz,  verwendet werden. Der zweite Prozess ist ein Kunde mit dem Namen \textit{student}, der den Schokoladenautomat bedient. Er benutzt die Channels Münzeinwurf (\textit{in}) und Ausgabe (\textit{out}) des Schokoladenautomaten und zählt zu Beginn sein Geld. Damit beide Prozesse nun parallel auszuführen werden, wird der \textit{||}-Operator verwendet.
 
-Die Aktion \textit{in.münze} des Mensa-Prozesses und die Aktion \textit{mensa.in.münze} des Studenten-Prozesses laufen simultan ab.\footcite[vgl][Seite 117]{CSPBOOK} Der Prozess blockiert, wenn der andere Prozess nicht bereit ist. Eine Art von Puffer der die Blockierung verhindert, muss durch einen anderen Prozess modelliert werden.\footcite[vgl.][Seite 133]{CSPBOOK}.
+Die Aktion \textit{in.münze} des Mensa-Prozesses und die Aktion \textit{mensa.in.münze} des Studenten-Prozesses laufen simultan ab.\footcite[vgl][Seite 117]{CSPBOOK} Der Prozess blockiert, wenn der andere Prozess nicht bereit ist. Eine Art von Puffer der die Blockierung verhindern würde, müsste durch einen anderen Prozess modelliert werden.\footcite[vgl.][Seite 133]{CSPBOOK}.
 
 \subsubsection{Zusätzliche Konstrukte}
 Die oben vorgestellten Konstrukte reichen aus, um einen einfachen Automaten zu definieren, der immer den gleichen Ablauf hat. Für komplexere Algorithmen sind Verzweigungen von Nöten, um alternative Abläufe modellieren zu können. Die Notation sieht für diesen Fall den \textit{|}-Operator vor, der zwischen zwei Abläufen unterscheiden kann.
