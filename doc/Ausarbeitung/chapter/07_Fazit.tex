@@ -1,32 +1,10 @@
 \chapter{Zusammenfassung und Fazit}
 
-Am Anfang dieser Ausarbeitung wurde die beiden wichtigen Themenbereiche, was die asynchrone Programmierung ist und warum ein nicht blockierendes \acs{I/O}-Modell dafür benötigt wird, dargelegt.
-Diese beiden Themen wurden mittels JavaScript- und Clojure-Code veranschaulich dargestellt. Zudem wurde das Programmierparadigma \acf{CPS}, das häufig in JavaScript angewendet wird, erläutert.
-
-Die Bibliothek \textit{core.async} implementiert das Channel- und Prozess-Prinzip aus Tony Hoare's Prozess-Algebra \acf{CSP} zur Modellierung nebenläufiger Prozesse. Es wurde gezeigt, dass \acs{CSP} eine sinnvolle Methode ist, um effizient und unter Ausschluss von jeglichen Race-Conditions, nebenläufige Modelle zu konstruieren, die von modernen Multi-Core-Prozessoren parallel ausgeführt werden können.
-
-Zur Darstellung einiger Vor- und Nachteile von \acs{CSP}, wurde ein Vergleich zwischen diesem und dem Aktorenmodell angestellt. Das Aktorenmodell ist wie \acs{CSP} ein Prinzip zur Modellierung von Nebenläufigkeit. Keines der Modelle kann gegenüber dem Anderen präferiert werden. Der Entwickler muss nach den bestehenden Anforderungen entscheiden, welches Modell den fachlichen Anforderungen besser entspricht, so auch beim Einsatz von \textit{core.async}. Jedoch sollten auch die Unterschiede der Implementierungen in Betracht gezogen werden, die eventuelle Nachteile des theoretischen Modells aufwiegen.
-
-Das darauffolgende Kapitel, befasste sich mit Darstellung der Basis-Funktionalität der \acs{API} von \textit{core.async}, die mit Code-Beispielen demonstriert wurde. Die Bibliothek wirkt sehr stabil. Der Umfang der \acs{API} ist für eine Version im Alpha-Stadium beachtlich und kann bereits jetzt produktiv in kleineren Projekten eingesetzt werden. Es ist hervorzuheben, dass - ausgenommen Thread-basierter Konstrukte - \textit{core.async} kompatibel zu ClojureScript ist und der Clojure-Code demnach zu JavaScript kompiliert werden kann. Dies erleichtert die Modellierung von Quasi-Parallelen Prozessen (single threaded) in JavaScript erheblich und schafft neue Möglichkeiten.
-
+Zu Beginn wurde erklärt, was asynchrone Programmierung bedeutet und weshalb ein nicht blockierendes \acs{I/O}-Modell hierzu benötigt wird. Diese beiden Begriffe wurden mittels JavaScript- und Clojure-Code anschaulich dargestellt. Zudem wurde das Programmierparadigma \acf{CPS}, das häufig in JavaScript zum Einsatz kommt, erläutert.\\
+Zur Einführung in die Design Prinzipien von \textit{core.async} wurde das Channel- und Prozess-Prinzip aus Tony Hoare's Prozess-Algebra \acf{CSP} zur Modellierung nebenläufiger Prozesse erklärt. Es wurde gezeigt, dass \acs{CSP} eine sinnvolle Methode ist, um effizient, unter Ausschluss von  Race-Conditions, nebenläufige Modelle zu konstruieren, die von modernen Multi-Core-Prozessoren parallel ausgeführt werden können.\\
+Zur Darstellung der Vor- und Nachteile von \acs{CSP}, wurde ein Vergleich zwischen diesem und dem Aktorenmodell angestellt. Das Aktorenmodell ist wie \acs{CSP} ein Prinzip zur Modellierung von Nebenläufigkeit. Es wurde festgestellt, dass keines der Modelle gegenüber dem Anderen präferiert werden kann. Der Entwickler muss nach den bestehenden Anforderungen entscheiden, welches Modell den fachlichen Anforderungen besser entspricht, so auch beim Einsatz von \textit{core.async}. Jedoch sollten auch die Unterschiede der Implementierungen in Betracht gezogen werden, die eventuelle Nachteile des theoretischen Modells aufwiegen.\\
+Das darauffolgende Kapitel dieser Ausarbeitung, befassten sich mit der Darstellung der Basis-Funktionalität der \acs{API} von \textit{core.async}, die mit Code-Beispielen demonstriert wurde. Die Bibliothek wirkt sehr stabil. Der Umfang der \acs{API} ist für eine Version im Alpha-Stadium beachtlich und kann bereits jetzt produktiv in kleineren Projekten eingesetzt werden. Es ist hervorzuheben, dass - ausgenommen Thread-basierter Konstrukte - \textit{core.async} kompatibel zu ClojureScript ist und der Clojure-Code demnach zu JavaScript kompiliert werden kann. Dies erleichtert die Modellierung von Quasi-Parallelen (single threaded) Prozessen in JavaScript erheblich und schafft neue Möglichkeiten.\\
 Dieses Projekt hat uns tiefe Einblicke in diverse hochinteressante Programmierparadigmen zur Modellierung von Nebenläufigkeit und Parallelität gewährt und uns persönlich weiter gebracht.
-
-\comment{Kommentare von Vince}
-
--Ich habe versucht, die einzelnen Teile chronologisch anzuordnen. Dabei habe ich festgestellt, dass wir evt eine andere Reihenfolge zumindest beim Technologieteil machen sollten.
-
-\begin{enumerate}
-\item Was bedeutet asynchrone Programmierung?
-\item Blockierende und nichtblockierende I/O
-\item Continuation Passing Style am Beispiel von JavaScript
-\item Asynchrone Programmierung in Clojure
-\item Communicating Sequential Processes
-\item Vergleich von CSP und dem Actor Model
-\end{enumerate}
-
--Ansonsten finde ich das Fazit schon recht gut. Wir sollten aber ggf. die einzelnen Teile besser miteinander verschmelzen. \\
--
-
 
 
 
