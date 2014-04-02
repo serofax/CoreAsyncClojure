@@ -20,6 +20,7 @@
 
 #_(let [c (chan)]
   (go
+   (println "i am ready")
    (println "out" (<! c)))
   (go
    (println "Wait for it")
@@ -30,7 +31,7 @@
 ;channels2
 
 
-#_(def c (chan))
+#_(def c (chan 3))
 #_(go
  (dotimes [i 5]
    (>! c i)

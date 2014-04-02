@@ -2,9 +2,6 @@
 (require '[clojure.core.async :as async])
 (use '[clojure.core.match :only (match)])
 
-stop
-
-
 (defn sortNode [outChannel]
   (let[newObj ^{:type ::sortNode}{:outChannel outChannel, :inChannelLeft (async/chan 100), :inChannelRight (async/chan 100)}]
     ;(println "new node" (:inChannelLeft newObj) (:inChannelRight newObj) (:outChannel newObj))
@@ -47,12 +44,7 @@ stop
        (>= (count oc) maxChannelsInThisLevel)(notelevel oc (inc level) wantedEndChannels)
        :else (let [newNode (sortNode (get openChannels i))]
                ;(println "i:" i "count oc" (count oc) )
-               (recur (conj oc (:inChannelLeft newNode) (:inChannelRight newNode)) (inc i)))
-       )
-      )
-    )
-   )
-  )
+               (recur (conj oc (:inChannelLeft newNode) (:inChannelRight newNode)) (inc i))))))))
 
 (defn logB [value]
   (/(Math/log value) (Math/log 2)))
@@ -73,8 +65,7 @@ stop
           (async/>!! nextChannel nextElement)
           (async/>!! nextChannel :EOS)
           (async/close! nextChannel))
-        (take (count l) (iterate (fn[_](async/<!! exitChannel)) (async/<!! exitChannel)))))
-  ))
+        (take (count l) (iterate (fn[_](async/<!! exitChannel)) (async/<!! exitChannel)))))))
 
 (quickSortWithNodes [9])
 
