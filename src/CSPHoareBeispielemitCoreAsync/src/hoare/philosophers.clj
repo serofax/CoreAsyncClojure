@@ -24,7 +24,7 @@
 
 
 (defn fork[name]
-  "Construcs a fork with a name and two controllchannels for the right and the left philosoph.
+  "Construcs a fork with a name and two controlchannels for the right and the left philosoph.
   The fork will waiting on both channels and then only on the channel which was faster at the first time.
   After that the fork will waiting on both channels again."
   (let [rightphil (chan), leftphil (chan)]
@@ -37,8 +37,8 @@
 
 (defn room[maxphils philslinks]
   "Contructs a room.
-  A room is a simple semaphore which only let access new philosphers if there is enough space there.
-  Every philosph has one controlchannel which are passed together through the parameter philslinks."
+  A room is a simple semaphore which only let access new philosphers if there is enough space.
+  Every philosoph has one controlchannel which are passed together through the parameter philslinks."
   (go-loop [philsinside #{}]
            (println "In room there are" (count philsinside) "philosophers")
            (let [observed (if (>= (count philsinside) maxphils)
@@ -109,7 +109,7 @@
          (>! (:controlline p) "stop")))
                 cancel))
 
-(>!! cancelchan "stop")
+#_(>!! cancelchan "stop")
 
 
 

@@ -29,7 +29,7 @@
 
 
 (defn squash [source]
-  "Replacs every pair of consecutive asterisks \"**\" by an upward arrow
+  "Replaces every pair of consecutive asterisks \"**\" by an upward arrow
   "^". Assume that the final character input is not an asterisk.
   Closes channel result if channel source is closed."
   (let [result (chan)]

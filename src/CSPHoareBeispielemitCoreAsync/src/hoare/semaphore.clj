@@ -55,8 +55,6 @@
               controlline ([_](println i "- stop received"))
               (timeout 1) ([_](recur))))))
 
-
+;stop it
 #_(doseq [i (range 0 200)]
   (>!! controlline "stop"))
-
-;(vec (take 5 (iterate inc 1)))
