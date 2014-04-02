@@ -1,9 +1,0 @@
-PWD /Users/tobiasschwalm/git/CoreAsyncClojure/doc/Ausarbeitung/chapter
-INPUT /usr/local/texlive/2013/texmf.cnf
-INPUT /usr/local/texlive/2013/texmf-dist/web2c/texmf.cnf
-INPUT /usr/local/texlive/2013/texmf-var/web2c/pdftex/pdflatex.fmt
-INPUT /Users/tobiasschwalm/git/CoreAsyncClojure/doc/Ausarbeitung/chapter/Titlepage.tex
-OUTPUT /Users/tobiasschwalm/git/CoreAsyncClojure/doc/Ausarbeitung/chapter/Titlepage.log
-INPUT /usr/local/texlive/2013/texmf-dist/fonts/map/fontname/texfonts.map
-INPUT /usr/local/texlive/2013/texmf-dist/fonts/map/fontname/texfonts.map
-INPUT /usr/local/texlive/2013/texmf-dist/fonts/tfm/public/cm/cmbx10.tfm

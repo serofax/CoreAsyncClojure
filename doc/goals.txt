@@ -1,5 +1,0 @@
-Vincent: CSP / CPS Vergleich
-Tobi: ClojureScript, Code Beispiele, Google Go
-
-Allgemein: Revision des Dokuments
-
